@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@passageidentity/passage-elements": "^1.14.0",
+    "@passageidentity/passage-node": "^2.6.0",
     "next": "13.5.5",
     "react": "^18",
     "react-dom": "^18"
