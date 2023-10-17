@@ -7,9 +7,14 @@ import PassageLogin from "@/components/login";
 
 type HomeProps = {
   logOut: () => void, 
+  user: number | null
 }
 
-export default function Home({logOut}: HomeProps) {
+export default function Home({ logOut, user }: HomeProps) {
+  useEffect(() => { 
+    if(!user) logOut()
+  }, [logOut, user])
+  
   return (
     <div>
       <PassageLogin />
