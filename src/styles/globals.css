@@ -17,11 +17,30 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
+    background-image: url('../images/dark-starry-bg.png')
+}
+
+.celestial-cursive {
+  font-family:   'Kaushan Script', cursive;
+}
+
+.thin-regular {
+  font-family: 'Kumbh Sans', sans-serif;
+  font-weight: 200;
+}
+
+.thick-regular {
+  font-family: 'Kumbh Sans', sans-serif;
+  font-weight: 400;
+}
+
+button {
+  cursor: pointer;
 }
