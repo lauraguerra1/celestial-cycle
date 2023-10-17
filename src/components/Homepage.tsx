@@ -21,7 +21,7 @@ const Homepage = ({ user }: HomepageProps) => {
         <h2 className='text-center text-lg'>{getTodaysDate()}</h2>
         <div className='flex justify-center items-center flex-col'>
           <Image width={250} height={100} alt="Logo" src={`/images/${user.data.sign}.png`} />
-          <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg'>
+          <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>
           </div>
         </div>
