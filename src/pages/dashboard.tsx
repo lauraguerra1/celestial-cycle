@@ -3,6 +3,7 @@ import Router from "next/router";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
+import React from "react";
 
 type DashboardProps = {
   isAuthorized: boolean;
