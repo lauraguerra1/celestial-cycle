@@ -33,12 +33,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Cypress tests
-        uses: ./
+        uses: cypress-io/github-action@v2
         with:
-          working-directory: examples/config
           build: npm run build
           start: npm run dev
           wait-on: 'http://localhost:3000'
-          config: baseUrl=http://localhost:3000
+          config-file: cypress/support/cypress.config.ts
           spec: |
             cypress/e2e/*.cy.js
