@@ -1,0 +1,42 @@
+name: CelestialCyclePipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs: 
+  lintTest: 
+    name: Lint
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Clone Repository 
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies"
+          npm install
+      - name: Run Linting
+        run: |
+          echo "Running Linter"
+          npm run lint
+        env: 
+          CI: true
+  cypressTest: 
+    name: Cypress Test
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Start Development Server 
+        run: |
+          echo "Starting development server"
+          npm run dev
+      - name: Wait for Next.js app to start
+        run: |
+          npx wait-on http://localhost:3000
+      - name: Run Cypress
+        run: | 
+          echo "Starting cypress"
+          npm run cypress
