@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../images/logo.PNG'
 import Image from 'next/image';
 import { User } from '@/types/types';
+import { getTodaysDate } from '@/utils';
+import zodiac from '../images/pisces.png';
 
 interface HomepageProps {
   user: User
@@ -9,24 +11,14 @@ interface HomepageProps {
 
 const Homepage = ({user}: HomepageProps) => {
 
-  const currentDate = new Date();
-
-  const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-
-  const year = currentDate.getFullYear();
-  const month = months[currentDate.getMonth()];
-  const day = currentDate.getDate(); 
-
   return (
-    <div className='mt-5'>
+    <div className='mt-10'>
         <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>
-      <h2 className='text-center text-lg'>{`${month} ${day} ${year}`}</h2>
-      <div className='flex justify-center items-center'>
-        <div className='w-2/3 h-40 border border-white border-1 overflow-scroll'>
+      <h2 className='text-center text-lg'>{getTodaysDate()}</h2>
+      <div className='flex justify-center items-center flex-col'>
+        <Image width={250} height={100} alt="Logo" src={zodiac} />
+        <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg'>
           <p>Spend time with the lover to share emotions and passion. Stay away from confrontations at the workplace and ensure you accomplish all assigned tasks. No major illness will disturb you today. You will also be good in terms of wealth.
 
             Pisces Love Horoscope Today
