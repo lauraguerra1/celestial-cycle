@@ -15,10 +15,8 @@ export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
   useEffect(() => {
     if (isAuthorized) {
       Router.push("/dashboard"); 
-    } else {
-      logOut()
-    }
-  },[logOut]);
+    } 
+  },[]);
 
   return (
     <div>
