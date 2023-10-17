@@ -1,13 +1,26 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
+import { Head } from 'next/document';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const [user, setUser] = useState<number | null>(null)
+  const router = useRouter();
+
+  const logIn = (id: number) => {
+    setUser(id);
+    router.push('./');
+  }
+
+  const logOut = () => {
+    setUser(null);
+    router.push('/login');
+  }
+
   return (
     <>
-      <header>
-       <h1>Celestial Cycle</h1> 
-      </header>
-      <Component {...pageProps} />
+      <Component {...pageProps} logIn={logIn} user={user} logOut={logOut} />
     </>
   )
 }
