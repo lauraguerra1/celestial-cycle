@@ -1,25 +1,29 @@
+import React from "react";
 import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { useEffect } from "react";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
 
-export default function Home({
-  isAuthorized,
-  userID,
-}: {
+type HomeProps = {
+  logOut: () => void, 
   isAuthorized: boolean;
   userID: any;
-}) {
+}
+
+export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
   useEffect(() => {
     if (isAuthorized) {
-      Router.push("/dashboard");
+      Router.push("/dashboard"); 
+    } else {
+      logOut()
     }
-  });
+  },[logOut]);
 
   return (
     <div>
       <PassageLogin />
+      <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
     </div>
   );
 }
