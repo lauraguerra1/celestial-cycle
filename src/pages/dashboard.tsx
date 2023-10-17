@@ -60,7 +60,7 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        name: data?.[0].name as string,
+        // name: data?.[0].name as string,
       },
     };
   } else {

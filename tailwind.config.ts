@@ -12,16 +12,14 @@ const config: Config = {
         '45': '15rem'
       },
       colors: {
-<<<<<<< HEAD
         'deepblue': '#1b263b',
         'lightgray': '#7D8897',
-        'darkgray': '#5B6E8781'
+        'darkgray': '#5B6E8781',
+        'mellow-yellow': '#FFCB05'
       },
       spacing: {
         '33': '5px' 
-=======
-        'mellow-yellow': '#FFCB05'
->>>>>>> main
+       
       }
     },
   },
