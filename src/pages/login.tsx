@@ -1,4 +1,4 @@
-import profilePicture from '../images/demo-user.png';
+import profilePicture from '../../public/images/demo-user.png';
 import Image from 'next/image';
 
 type LoginProps = {

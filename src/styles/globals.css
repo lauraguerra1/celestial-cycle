@@ -24,7 +24,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb)); */
-    background-image: url('../images/dark-starry-bg.png')
+    background-image: url('../../public/images/dark-starry-bg.png')
 }
 
 .celestial-cursive {
@@ -43,4 +43,8 @@ body {
 
 button {
   cursor: pointer;
+}
+
+.light-opacity-bg {
+  --tw-bg-opacity: 0.06
 }

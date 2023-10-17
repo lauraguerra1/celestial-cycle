@@ -15,6 +15,9 @@ const config: Config = {
       },
       colors: {
         'mellow-yellow': '#FFCB05'
+      },
+      maxWidth: {
+        '100vw': '100vw'
       }
     },
   },
