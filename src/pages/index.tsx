@@ -10,14 +10,16 @@ import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
+import DemoPage from "@/components/DemoPage"
 
 type HomeProps = {
+  logIn: (id: number) => void
   logOut: () => void, 
   isAuthorized: boolean;
   userID: any;
 }
 
-export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
+export default function Home({ isAuthorized, userID, logOut, logIn}: HomeProps) {
   useEffect(() => {
     if (isAuthorized) {
       Router.push("/dashboard"); 
@@ -25,10 +27,7 @@ export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
   },[]);
 
   return (
-    <div>
-      <PassageLogin />
-      <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
-    </div>
+    <DemoPage logIn={logIn} />
   );
 
 }

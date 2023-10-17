@@ -14,9 +14,10 @@ import { GetServerSideProps } from "next";
 type DashboardProps = {
   isAuthorized: boolean;
   name?: string;
+  logOut: () => void
 };
 
-export default function Dashboard({ isAuthorized, name }: DashboardProps) {
+export default function Dashboard({ isAuthorized, name, logOut}: DashboardProps) {
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -40,7 +41,7 @@ export default function Dashboard({ isAuthorized, name }: DashboardProps) {
           </div>
         </div>
       </div>
-      <Navbar />
+      <Navbar logOut={logOut} />
     </div>
   )
 }
@@ -70,4 +71,7 @@ export const getServerSideProps = (async (context) => {
       },
     };
   }
-}) satisfies GetServerSideProps<DashboardProps>;
+}) satisfies GetServerSideProps<{
+  isAuthorized: boolean;
+  name?: string;
+}>;
