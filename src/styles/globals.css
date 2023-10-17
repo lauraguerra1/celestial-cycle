@@ -41,5 +41,33 @@ h1 {
 
 button {
   cursor: pointer;
+}
 
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+.fade-in-out-continuous {
+  animation: fadeInOut 3s ease-in infinite;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0
+  }
+  50% {
+    opacity: 100%
+  }
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0
+  }
+  100% {
+    opacity: 100%
+  }
 }

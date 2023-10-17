@@ -29,7 +29,7 @@ export default function Dashboard({ isAuthorized, name, logOut}: DashboardProps)
   const [userInsights, setUserInsights] = useState(insights)
   
   return (
-    <div className='relative h-full flex flex-col'>
+    <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>

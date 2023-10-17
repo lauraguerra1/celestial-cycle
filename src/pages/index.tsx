@@ -1,16 +1,13 @@
 
 // import Homepage from "@/components/Homepage"
 import { useEffect, useState } from "react"
-import { insights, userData } from '../mockdata'
-import { User } from "@/types/types"
-import { getZodiacSign } from "@/utils"
 import Image from 'next/image'
 import React from "react";
-import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
-import DemoPage from "@/components/DemoPage"
+import DemoPage from "@/components/DemoPage";
+import HomeLoading from "@/components/HomeLoading"
 
 type HomeProps = {
   logIn: (id: number) => void
@@ -19,15 +16,22 @@ type HomeProps = {
   userID: any;
 }
 
-export default function Home({ isAuthorized, userID, logOut, logIn}: HomeProps) {
+export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps) {
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
+    setTimeout(() => { 
+      setLoading(false)
+    }, 3000)
+
     if (isAuthorized) {
       Router.push("/dashboard"); 
     } 
-  },[]);
+ 
+  },[loading]);
 
   return (
-    <DemoPage logIn={logIn} />
+    loading ? <HomeLoading /> : <DemoPage logIn={logIn} />
   );
 
 }
