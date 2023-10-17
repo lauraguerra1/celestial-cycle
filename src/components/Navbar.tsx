@@ -9,20 +9,20 @@ const Navbar = () => {
         <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
             <div className='flex w-full h-20 icon-container items-center'>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-                    <div className='rounded-xl bg-darkgray w-10 p-3'>
-                        <Image width={45} height={45} alt='user logo' src={calendar} className='mt-2' />
+                    <div className='rounded-xl bg-darkgray w-10 p-33'>
+                        <Image width={45} height={45} alt='user logo' src={calendar} />
                     </div>
                     <p>Calendar</p>
                 </div>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-                    <div className='rounded-xl bg-darkgray w-10 p-3'>
-                        <Image width={45} height={45} alt='user logo' src={home} className='mt-2' />
+                    <div className='rounded-xl bg-darkgray w-10 p-33'>
+                        <Image width={45} height={45} alt='user logo' src={home} />
                     </div>
                     <p>Home</p>
                 </div>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-                    <div className='rounded-xl bg-darkgray w-10 p-3'>
-                        <Image width={45} height={45} alt='user logo' src={user} className='' />
+                    <div className='rounded-xl bg-darkgray w-10 p-33'>
+                        <Image width={45} height={45} alt='user logo' src={user} />
                     </div>
                     <p>Logout</p>
                 </div>
