@@ -13,7 +13,11 @@ const config: Config = {
       },
       colors: {
         'deepblue': '#1b263b',
-        'lightgray': '#7D8897'
+        'lightgray': '#7D8897',
+        'darkgray': '#5B6E8781'
+      },
+      spacing: {
+        '3': '3px' 
       }
     },
   },
