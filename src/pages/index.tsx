@@ -12,7 +12,7 @@ type HomeProps = {
 export default function Home({logOut, user}: HomeProps) {
   useEffect(() => { 
     if(!user) logOut()
-  }, [])
+  }, [logOut, user])
   return (
     <main>
       <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
