@@ -17,7 +17,7 @@ const config: Config = {
         'darkgray': '#5B6E8781'
       },
       spacing: {
-        '33': '3px' 
+        '33': '5px' 
       }
     },
   },
