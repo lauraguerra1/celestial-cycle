@@ -1,7 +1,7 @@
 import React from 'react'
-import home from '../images/house.png'
-import calendar from '../images/calendar.png'
-import user from '../images/user.png'
+import home from '../../public/images/house.png'
+import calendar from '../../public/images/calendar.png'
+import user from '../../public/images/user.png'
 import Image from 'next/image'
 
 const Navbar = () => {

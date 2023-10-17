@@ -7,7 +7,7 @@
 
 body {
   color: white;
-  background: #1b263b url('../images/stars.PNG') repeat;
+  background: #1b263b url('../../public/images/stars.PNG') repeat;
   font-family: 'Kumbh Sans', sans-serif;
 }
 
