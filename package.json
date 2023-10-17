@@ -10,6 +10,7 @@
     "cypress": "cypress open --config-file cypress/support/cypress.config.ts"
   },
   "dependencies": {
+    "@passageidentity/passage-elements": "^1.14.0",
     "next": "13.5.5",
     "react": "^18",
     "react-dom": "^18"
