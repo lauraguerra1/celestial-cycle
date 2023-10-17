@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress": "cypress open --config-file cypress/support/cypress.config.ts"
   },
   "dependencies": {
     "@passageidentity/passage-elements": "^1.14.0",
@@ -19,10 +20,11 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "cypress": "^13.3.1",
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
     "postcss": "^8",
     "tailwindcss": "^3",
-    "typescript": "^5"
+    "typescript": "^5.2.2"
   }
 }
