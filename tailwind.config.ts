@@ -10,6 +10,10 @@ const config: Config = {
     extend: {
       height: {
         '45': '15rem'
+      },
+      colors: {
+        'deepblue': '#1b263b',
+        'lightgray': '#7D8897'
       }
     },
   },
