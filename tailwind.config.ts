@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        '45': '15rem'
+        '45': '15rem',
+        '90vh': '90vh'
       },
       colors: {
         'deepblue': '#1b263b',

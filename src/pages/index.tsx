@@ -1,28 +1,36 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import Image from 'next/image'
+
 import React from "react";
-import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
+import DemoPage from "@/components/DemoPage";
+import HomeLoading from "@/components/HomeLoading"
 
 type HomeProps = {
+  logIn: (id: number) => void
   logOut: () => void, 
   isAuthorized: boolean;
   userID: any;
 }
 
-export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
+export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps) {
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
+    setTimeout(() => { 
+      setLoading(false)
+    }, 1500)
+
     if (isAuthorized) {
       Router.push("/dashboard"); 
     } 
-  },[]);
+ 
+  },[loading]);
 
   return (
-    <div>
-      <PassageLogin />
-      <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
-    </div>
+    loading ? <HomeLoading /> : <DemoPage logIn={logIn} />
   );
 
 }
