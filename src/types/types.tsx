@@ -1,10 +1,11 @@
-export interface User {
-    data: {
-        name: string,
-        birthday: string,
-        userID: number,
-        sign: string
-    }
+export interface UserData {
+    id: number,
+    created_at: string,
+    name: string,
+    email: string,
+    birth_date: string,
+    passage_user_id: string,
+    zodiac_sign: string
 }
 
 export interface Insights {
