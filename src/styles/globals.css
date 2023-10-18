@@ -6,16 +6,6 @@
 @import "tailwindcss/utilities";
 
 body {
-<<<<<<< HEAD
-  /* color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb)); */
-    background-image: url('../../public/images/dark-starry-bg.png')
-=======
   color: white;
   background: #1b263b url('../../public/images/stars.PNG') repeat;
   font-family: 'Kumbh Sans', sans-serif;
@@ -33,7 +23,6 @@ h1 {
 
 .icon {
   width: 3rem;
->>>>>>> main
 }
 
 .celestial-cursive {
@@ -52,12 +41,27 @@ h1 {
 
 button {
   cursor: pointer;
-<<<<<<< HEAD
 }
 
 .light-opacity-bg {
   --tw-bg-opacity: 0.06
-=======
+}
 
->>>>>>> main
+
+
+@media (hover: none) {
+  .scroll-area-no-track::-webkit-scrollbar {
+    width: 1px
+  }
+}
+
+@media (hover: hover) {
+  .scroll-area-no-track::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scroll-area-no-track::-webkit-scrollbar-thumb {
+    background: #83817cdf;
+    border-radius: 25px;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
+import Logo from '@/components/Logo';
 import { User } from '@/types/types';
 import { getTodaysDate } from '@/utils';
 import zodiac from '../images/pisces.png';
@@ -30,7 +30,7 @@ export default function Dashboard({ isAuthorized, name }: DashboardProps) {
   return (
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>
-        <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
+        <Logo />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>
         <h2 className='text-center text-lg'>{getTodaysDate()}</h2>
         <div className='flex justify-center items-center flex-col'>

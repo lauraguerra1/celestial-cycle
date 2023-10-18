@@ -1,3 +1,13 @@
+export type Indexable = {
+    [key: string]: any
+}
+
+export type selectionType = Indexable & {
+    FLOW: null | string,
+    MOOD: null | string,
+    CRAVINGS: null | string
+}
+
 export interface User {
     data: {
         name: string,

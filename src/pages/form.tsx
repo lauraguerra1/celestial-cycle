@@ -1,25 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import styles from '../styles/Form.module.css'
-// import nicotine from '../../public/FormIcons'
-import nicotine from '../../public/images/FormIcons/Nicotine.png'
+import styles from '../styles/Form.module.css';
+import Logo from '@/components/Logo';
+import { selectionType } from '@/types/types';
+import { formSections } from '@/utils';
 
-type FormProps = {
-  logOut: () => void, 
-  user: number | null
-}
 
-const Form = ({ logOut, user }: FormProps) => { 
-
-  
-  type Indexable = {[key:string]: any}
-  type selectionType = Indexable & { FLOW: null | string, MOOD: null | string, CRAVINGS: null | string}
+const Form = () => { 
+  const [symtpoms, setSymptoms] = useState('')
   const [selections, setSelections] = useState<selectionType>({FLOW: null, MOOD: null, CRAVINGS: null})
-  const formSections = [
-    { title: 'FLOW', options: ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'] },
-    { title: 'MOOD', options: ['Happy', 'Relaxed', 'Grateful', 'Confident', 'Fatigued', 'Angry', 'Anxious', 'Depressed', 'Annoyed'] },
-    { title: 'CRAVINGS', options: ['Sweet', 'Salty', 'Sour', 'Chocolate', 'Dairy', 'Fried', 'Fats', 'Carbs', 'Protein', 'Alcohol', 'Nicotine'] }
-  ]
+
   const updateSelections = (title: string, option: string) => {
     const newOption = selections[title] === option ? null : option  
     setSelections(prev => ({...prev, [title]: newOption}))
@@ -39,20 +29,27 @@ const Form = ({ logOut, user }: FormProps) => {
     })
 
     return (
-      <div key={section.title}>
-        <h3 className='text-white'>{section.title}</h3>
-        <div className='flex max-w-100vw overflow-x-auto justify-between'>
-          {allOptions}
+      <div className='my-4' key={section.title}>
+          <h3 className='ml-2 text-white thick-regular'>{section.title}</h3>
+          <div className='flex max-w-100vw overflow-x-auto justify-between scroll-area-no-track'>
+            {allOptions}
+          </div>
         </div>
-      </div>
     )
   })
   
   return (
-      <div className='rounded-bl' style={{background: 'rgba(37, 54, 86, 0.73)'}}>
+    <>
+      <Logo />
+      <div className='grid rounded-bl' style={{background: 'rgba(37, 54, 86, 0.73)'}}>
         {formEls}
-        <input type='textarea' placeholder='Enter notes about your symtpoms here...'/> 
+        <input
+          type="textarea"
+          className="mt-2 mb-4 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 justify-self-center rounded-xl"
+          placeholder="Enter notes about any symptoms here..."
+        />
       </div>
+    </>
   )
 }
 

@@ -17,14 +17,12 @@ const config: Config = {
         'darkgray': '#5B6E8781',
         'mellow-yellow': '#FFCB05'
       },
-<<<<<<< HEAD
       maxWidth: {
-        '100vw': '100vw'
-=======
+        '100vw': '100vw',
+        '90vw': '90vw',
+      },
       spacing: {
         '33': '5px' 
-       
->>>>>>> main
       }
     },
   },
