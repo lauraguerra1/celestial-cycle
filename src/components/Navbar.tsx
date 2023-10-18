@@ -9,12 +9,6 @@ import { useEffect } from 'react'
 
 const Navbar = ({ logOut }: { logOut: () => void }) => {
     const router = useRouter();
-    const getLocation = () => {
-        console.log('current', router.asPath)
-    }
-    useEffect(() => { 
-        getLocation()
-    }, [])
 
     return (
         <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
