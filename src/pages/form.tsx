@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css'
 // import nicotine from '../../public/FormIcons'

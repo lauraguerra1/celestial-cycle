@@ -1,22 +1,12 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+@tailwind utilities; */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 body {
+<<<<<<< HEAD
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -25,6 +15,25 @@ body {
     )
     rgb(var(--background-start-rgb)); */
     background-image: url('../../public/images/dark-starry-bg.png')
+=======
+  color: white;
+  background: #1b263b url('../../public/images/stars.PNG') repeat;
+  font-family: 'Kumbh Sans', sans-serif;
+}
+
+h1 {
+  font-family: 'Kaushan Script', cursive;
+}
+
+.icon-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon {
+  width: 3rem;
+>>>>>>> main
 }
 
 .celestial-cursive {
@@ -43,8 +52,12 @@ body {
 
 button {
   cursor: pointer;
+<<<<<<< HEAD
 }
 
 .light-opacity-bg {
   --tw-bg-opacity: 0.06
+=======
+
+>>>>>>> main
 }
