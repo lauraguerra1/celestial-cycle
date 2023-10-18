@@ -49,6 +49,9 @@ const Form = () => {
           placeholder="Enter notes about any symptoms here..."
         />
       </div>
+      <button onClick={() => { 
+        fetch('/api/hello').then(res => res.json()).then(data => console.log(data))
+      }}>GET DATA</button>
     </>
   )
 }
