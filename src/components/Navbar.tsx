@@ -3,15 +3,24 @@ import home from '../../public/images/house.png'
 import calendar from '../../public/images/calendar.png'
 import user from '../../public/images/user.png'
 import Image from 'next/image'
-import Link from 'next/link'
+import Link from 'next/link';
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-const Navbar = ({logOut}: {logOut: () => void}) => {
+const Navbar = ({ logOut }: { logOut: () => void }) => {
+    const router = useRouter();
+    const getLocation = () => {
+        console.log('current', router.asPath)
+    }
+    useEffect(() => { 
+        getLocation()
+    }, [])
 
     return (
         <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
             <div className='flex w-full h-20 icon-container items-center'>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-                    <Link href='/calendar'>
+                    <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/calendar`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
                         <Image width={45} height={45} alt='user logo' src={calendar} />
                     </div>
@@ -19,7 +28,7 @@ const Navbar = ({logOut}: {logOut: () => void}) => {
                     </Link>
                 </div>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'> 
-                    <Link href='/'>
+                    <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/dashboard`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
                         <Image width={45} height={45} alt='user logo' src={home} />
                     </div>

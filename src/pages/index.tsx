@@ -1,7 +1,6 @@
-
-// import Homepage from "@/components/Homepage"
 import { useEffect, useState } from "react"
 import Image from 'next/image'
+
 import React from "react";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
@@ -22,7 +21,7 @@ export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps)
   useEffect(() => {
     setTimeout(() => { 
       setLoading(false)
-    }, 3000)
+    }, 1500)
 
     if (isAuthorized) {
       Router.push("/dashboard"); 

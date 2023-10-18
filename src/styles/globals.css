@@ -26,7 +26,7 @@ h1 {
 }
 
 .celestial-cursive {
-  font-family:   'Kaushan Script', cursive;
+  font-family: 'Kaushan Script', cursive;
 }
 
 .thin-regular {
@@ -44,11 +44,11 @@ button {
 }
 
 .fade-in {
-  animation: fadeIn 1s ease-in;
+  animation: fadeIn 0.5s ease-in;
 }
 
 .fade-in-out-continuous {
-  animation: fadeInOut 3s ease-in infinite;
+  animation: fadeInOut 1.5s ease-in infinite;
 }
 
 @keyframes fadeInOut {
@@ -70,4 +70,40 @@ button {
   100% {
     opacity: 100%
   }
+}
+
+.background-text {
+  background-color: #253656bd;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.react-calendar__navigation {
+  display: flex
+}
+
+.react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
+  background-color: #778da961 !important;
+  border-radius: 10px;
+  
+}
+
+.react-calendar {
+  background: #1b263b !important;
+  border: none !important;
+}
+
+.react-calendar__tile--now {
+  background: #778DA9 !important;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--active {
+  background: #778da961 !important;
+  border-radius: 50%;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: white !important;
 }
