@@ -1,9 +1,12 @@
+import { Metadata, WebAuthnType } from "@passageidentity/passage-node"
+import PassageDevice from "@passageidentity/passage-node"
+
 export interface User {
     data: {
         name: string,
-        birthday: string,
+        birth_date: string,
         userID: number,
-        sign: string
+        zodiac_sign: string
     }
 }
 

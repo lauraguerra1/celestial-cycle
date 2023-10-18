@@ -27,7 +27,7 @@ export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
   return (
     <div>
       <PassageLogin />
-      <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
+      <button className='bg-white text-black opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
     </div>
   );
 
