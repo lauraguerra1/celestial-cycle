@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
-import { UserData, DashboardProps } from '@/types/types';
+import { UserData, ComponentProps } from '@/types/types';
 import { getTodaysDate } from '@/utils';
 import Navbar from '../components/Navbar';
 import { insights } from '@/mockdata';
@@ -11,8 +11,8 @@ import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import Logo from '@/components/logo';
 
-export default function Dashboard({ isAuthorized, data }: DashboardProps) {
-  const [user, setUser] = useState<UserData>(data[0])
+export default function Dashboard({ isAuthorized, data }: ComponentProps) {
+  const [user, setUser] = useState<UserData | null>(null)
   const [userInsights, setUserInsights] = useState(insights)
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function Dashboard({ isAuthorized, data }: DashboardProps) {
       Router.push("/");
     }      
   
-    setUser(data[0])
+    if (data) setUser(data[0])
     //api call needs to be made to get horoscope
   }, [isAuthorized]);
   
@@ -64,7 +64,8 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: false,
+        data: null
       },
     };
   }
-}) satisfies GetServerSideProps<DashboardProps>;
+}) satisfies GetServerSideProps<ComponentProps>;

@@ -17,8 +17,8 @@ export interface Insights {
     }
 }
 
-export type DashboardProps = {
+export type ComponentProps = {
     isAuthorized: boolean;
-    data: any[]
+    data: UserData[] | null | undefined
 };
   

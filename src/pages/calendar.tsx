@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
-import { DashboardProps } from '@/types/types';
+import { ComponentProps } from '@/types/types';
 import Router from "next/router";
 import Navbar from '@/components/Navbar';
 import Logo from '@/components/logo';
@@ -15,7 +15,7 @@ import Link from 'next/link';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export default function CalendarPage({ isAuthorized, data }: DashboardProps) {
+export default function CalendarPage({ isAuthorized, data }: ComponentProps) {
   const [value, onChange] = useState<Value>(new Date());
 
   useEffect(() => {
@@ -73,8 +73,9 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: false,
+        data: null
       },
     };
   }
-}) satisfies GetServerSideProps<DashboardProps>;
+}) satisfies GetServerSideProps<ComponentProps>;
 
