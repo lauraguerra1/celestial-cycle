@@ -1,7 +1,8 @@
-// const cheerio = require("cheerio");
 import cheerio from "cheerio";
+import { getSupabase } from "./supabase";
+import { getTodaysDate } from "@/utils";
 
-export default async function getHoroscope(sign: string) {
+async function getHoroscope(sign: string) {
   const signNumber = getSignNumber(sign);
   const hURL = `https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign=${signNumber}`;
 
@@ -37,4 +38,45 @@ function getSignNumber(sign: string) {
   if (sign === "Capricorn") return 10;
   if (sign === "Aquarius") return 11;
   if (sign === "Pisces") return 12;
+}
+
+export default async function processDailyHoroscopes(date = new Date()) {
+  const supabase = getSupabase();
+  const formattedDate = getTodaysDate(date);
+  const checkExisting = await supabase
+    .from("horoscopes")
+    .select()
+    .eq("date", formattedDate);
+
+  if (checkExisting?.data?.length) {
+    return;
+  }
+
+  const zodiacSigns = [
+    "Capricorn",
+    "Aquarius",
+    "Pisces",
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+  ];
+
+  const horoscopes = await Promise.all(
+    zodiacSigns.map(async (sign) => {
+      const horoscope = await getHoroscope(sign);
+      return {
+        zodiac_sign: sign,
+        date: formattedDate,
+        description: horoscope,
+      };
+    })
+  );
+
+  return await supabase.from("horoscopes").insert(horoscopes);
 }
