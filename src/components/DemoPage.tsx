@@ -2,6 +2,7 @@ import profilePicture from '../images/demo-user.png';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 
 type DemoPageProps = {
   logIn: (id: number) => void
@@ -13,7 +14,7 @@ const DemoPage = ({ logIn }: DemoPageProps) => {
   return (
     <section className='mt-10 flex flex-col items-center fade-in'>
       <h1 className='text-4xl mt-10 celestial-cursive text-mellow-yellow text-center'>Celestial Cycle</h1>
-      <button className="mt-10 relative group" onClick={() => logIn(1)}>
+      <button className="mt-10 relative group" onClick={() => Router.push('/demo/dashboard')}>
         <div className="w-60 h-60 relative overflow-hidden">
           <Image className='h-full w-full object-cover rounded-full' src={profilePicture} alt='drawing of woman with tattoo of lotus flower on her back' />
           <p className="text-black flex items-center text-2xl celestial-cursive h-10 absolute top-1/2 bottom-1/2 w-40 left-10 bg-opacity-75 rounded-full bg-white px-4 py-2 text-center">Click to demo</p>
