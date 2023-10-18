@@ -15,7 +15,7 @@ export default function Home({ isAuthorized }: HomeProps) {
     if (isAuthorized) {
       Router.push("/dashboard"); 
     } 
-  },[]);
+  }, []);
 
   return (
     <div>
