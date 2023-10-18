@@ -28,13 +28,12 @@ export const getZodiacSign = (birthday: string | number | boolean | undefined) =
     }
 }
 
-export const getTodaysDate = () => {
-    const currentDate = new Date();
-
-    const months = [
+export const getTodaysDate = (currentDate: any)  => {
+  const months = [
       "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
 
+    if(currentDate)
     return `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`
   }

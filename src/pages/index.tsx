@@ -1,28 +1,33 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import React from "react";
-import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
 import { GetServerSideProps } from "next";
+import DemoPage from "@/components/DemoPage";
+import HomeLoading from "@/components/HomeLoading"
 
-type HomeProps = { 
+type HomeProps = {
+  logIn: (id: number) => void
   isAuthorized: boolean;
-  userID: any;
 }
 
-export default function Home({ isAuthorized }: HomeProps) {
+export default function Home({ isAuthorized, logIn }: HomeProps) {
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
+    setTimeout(() => { 
+      setLoading(false)
+    }, 1500)
+
     if (isAuthorized) {
       Router.push("/dashboard"); 
     } 
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[loading]);
 
   return (
-    <div>
-      <PassageLogin />
-    </div>
+    loading ? <HomeLoading /> : <DemoPage logIn={logIn} />
   );
-
 }
 
 export const getServerSideProps = (async (context) => {

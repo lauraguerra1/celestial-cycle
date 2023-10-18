@@ -1,0 +1,43 @@
+name: CelestialCyclePipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs: 
+  lintTest: 
+    name: Lint
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Clone Repository 
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          echo "Installing dependencies"
+          npm install
+      - name: Run Linting
+        run: |
+          echo "Running Linter"
+          npm run lint
+        env: 
+          CI: true
+  cypressTest: 
+    name: Cypress Test
+    runs-on: ubuntu-latest
+     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress tests
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm run dev
+          wait-on: 'http://localhost:3000'
+          config-file: cypress/support/cypress.config.ts
+          spec: |
+            cypress/e2e/*.cy.js

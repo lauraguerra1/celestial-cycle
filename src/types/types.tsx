@@ -1,13 +1,11 @@
-import { Metadata, WebAuthnType } from "@passageidentity/passage-node"
-import PassageDevice from "@passageidentity/passage-node"
-
-export interface User {
-    data: {
-        name: string,
-        birth_date: string,
-        userID: number,
-        zodiac_sign: string
-    }
+export interface UserData {
+    id: number,
+    created_at: string,
+    name: string,
+    email: string,
+    birth_date: string,
+    passage_user_id: string,
+    zodiac_sign: string
 }
 
 export interface Insights {
@@ -18,3 +16,14 @@ export interface Insights {
         exercise: string
     }
 }
+
+export type AuthProps = {
+    isAuthorized: boolean;
+    // data: UserData[] | null | undefined
+    userID: string | number;
+};
+
+// export type ComponentProps = AuthProps & {
+//     logOut: () => void
+// }
+  
