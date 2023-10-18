@@ -42,8 +42,8 @@ export default function CalendarPage({ isAuthorized, data }: ComponentProps) {
           <p className='text-lg'>Quarter Moon 🌖</p>
         </div>
         <div className='flex flex-col items-center mt-10'>
-          <Link href='/insights'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today's Insights</button></Link>
-          <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today's Data</button>
+          <Link href='/insights'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
+          <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
         </div>
       </div>
       <Navbar />
