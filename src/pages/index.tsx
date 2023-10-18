@@ -1,21 +1,51 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import { useEffect } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+// import Homepage from "@/components/Homepage"
+import { useEffect, useState } from "react"
+import { insights, userData } from '../mockdata'
+import { User } from "@/types/types"
+import { getZodiacSign } from "@/utils"
+import Image from 'next/image'
+import React from "react";
+import PassageLogin from "@/components/login";
+import { getAuthenticatedUserFromSession } from "@/utils/passage";
+import Router from "next/router";
+import { GetServerSideProps } from "next";
 
 type HomeProps = {
   logOut: () => void, 
-  user: number | null
+  isAuthorized: boolean;
+  userID: any;
 }
 
-export default function Home({logOut, user}: HomeProps) {
-  useEffect(() => { 
-    if(!user) logOut()
-  }, [logOut, user])
+export default function Home({ isAuthorized, userID, logOut,}: HomeProps) {
+  useEffect(() => {
+    if (isAuthorized) {
+      Router.push("/dashboard"); 
+    } 
+  },[]);
+
   return (
-    <main>
+    <div>
+      <PassageLogin />
       <button className='bg-white opacity-90 py-2 px-10 m-10 rounded-md'onClick={logOut}>LOG OUT</button>
-    </main>
-  )
+    </div>
+  );
+
 }
+
+export const getServerSideProps = (async (context) => {
+  const loginProps = await getAuthenticatedUserFromSession(
+    context.req,
+    context.res
+  );
+  //  db queries, etc
+  return {
+    props: {
+      isAuthorized: loginProps?.isAuthorized ?? false,
+      userID: loginProps?.userID ?? "",
+    },
+  };
+}) satisfies GetServerSideProps<{
+  isAuthorized: boolean;
+  userID: any;
+}>;
