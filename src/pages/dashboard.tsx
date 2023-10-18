@@ -79,6 +79,7 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
+    // insert user data from passage into supabase table
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
