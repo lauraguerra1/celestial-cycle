@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { AuthProps, ComponentProps } from '@/types/types';
+import { AuthProps } from '@/types/types';
 import Router from "next/router";
 import Navbar from '@/components/Navbar';
 import Logo from '@/components/logo';
@@ -12,20 +12,14 @@ import Link from 'next/link';
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export default function CalendarPage({ isAuthorized, data, logOut }: ComponentProps) {
+export default function CalendarPage({ isAuthorized }: AuthProps) {
   const [value, onChange] = useState<Value>(new Date());
 
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/"); 
     }
-
-    console.log(data)
-  },[]);
-
-  useEffect(() => {
-    console.log('date', getTodaysDate(value))
-  },[value])
+  },[isAuthorized]);
 
   return (
     <div className='mt-10 h-full fade-in'>
@@ -43,7 +37,7 @@ export default function CalendarPage({ isAuthorized, data, logOut }: ComponentPr
           <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
         </div>
       </div>
-      <Navbar logOut={logOut}/>
+      <Navbar/>
     </div>
   )
 }

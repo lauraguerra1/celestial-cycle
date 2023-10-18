@@ -1,11 +1,11 @@
 import CalendarPage from "@/components/Calendar";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "@/utils/supabase";
-import { AuthProps, ComponentProps } from "@/types/types";
+import { AuthProps } from "@/types/types";
 import { GetServerSideProps } from "next";
 
-export default function calendar({isAuthorized, logOut, data}: ComponentProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} logOut={logOut} data={data} />)
+export default function calendar({isAuthorized}: AuthProps) {
+  return (<CalendarPage isAuthorized={isAuthorized} userID={""} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -23,16 +23,15 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        data: data,
+        userID: loginProps.userID
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
-        data: null
+        userID: ''
       },
     };
   }
 }) satisfies GetServerSideProps<AuthProps>;
-

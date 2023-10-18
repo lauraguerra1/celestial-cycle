@@ -7,11 +7,10 @@ import DemoPage from "@/components/DemoPage";
 import HomeLoading from "@/components/HomeLoading"
 
 type HomeProps = {
-  logIn: (id: number) => void
   isAuthorized: boolean;
 }
 
-export default function Home({ isAuthorized, logIn }: HomeProps) {
+export default function Home({ isAuthorized }: HomeProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export default function Home({ isAuthorized, logIn }: HomeProps) {
   },[loading]);
 
   return (
-    loading ? <HomeLoading /> : <DemoPage logIn={logIn} />
+    loading ? <HomeLoading /> : <DemoPage />
   );
 }
 
