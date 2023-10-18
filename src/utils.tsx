@@ -13,9 +13,10 @@ const zodiacSigns = [
     { sign: "Sagittarius", start: 1122, end: 1221 }
   ];
 
-export const getZodiacSign = (birthday: string) => {
-    const month = birthday.split('/')[0]
-    const day = birthday.split('/')[1]
+export const getZodiacSign = (birthday: string | number | boolean | undefined) => {
+    const birthdayString = birthday?.toString();
+    const month = birthdayString?.split('-')[1];
+    const day = birthdayString?.split('-')[2];
     const date = parseInt(`${month}${day}`)
 
     const mySign = zodiacSigns.filter(sign => date >= sign.start && date <= sign.end)
@@ -35,5 +36,5 @@ export const getTodaysDate = () => {
       "July", "August", "September", "October", "November", "December"
     ];
 
-    return `${months[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`
+    return `${months[currentDate.getMonth()]} ${currentDate.getDate()}, ${currentDate.getFullYear()}`
   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
-import { getTodaysDate } from '@/utils';
+import { getTodaysDate, getZodiacSign } from '@/utils';
 import Navbar from '../components/Navbar';
 import { insights, userData } from '@/mockdata';
 import Router from "next/router";
@@ -40,7 +40,7 @@ export default function Dashboard({ isAuthorized }: DashboardProps) {
     } else {
       getCurrentUser()
         .then((data) => {
-          setUser(data);
+          setUser(data)
         })
         .catch((error) => {
           console.error('Error fetching user:', error);
@@ -55,9 +55,9 @@ export default function Dashboard({ isAuthorized }: DashboardProps) {
       <div className='mt-10 h-full'>
         <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.user_metadata?.name : <p>Loading</p>}</h1>
-        <h2 className='text-center text-lg'>{getTodaysDate()}</h2>
+        <h2 className='text-center text-lg'>{getTodaysDate()} birth: {user ? user.user_metadata?.birthday : ''}</h2>
         <div className='flex justify-center items-center flex-col'>
-          <Image width={250} height={100} alt="Logo" src={`/images/Pisces.png`} />
+          <Image width={250} height={100} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : ''}.png`} />
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>
           </div>
