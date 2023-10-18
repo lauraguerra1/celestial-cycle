@@ -16,7 +16,7 @@ const Form = ({ logOut, user }: FormProps) => {
   type selectionType = Indexable & { FLOW: null | string, MOOD: null | string, CRAVINGS: null | string}
   const [selections, setSelections] = useState<selectionType>({FLOW: null, MOOD: null, CRAVINGS: null})
   const formSections = [
-    { title: 'FLOW', options: ['No Flow', 'Spotting', 'Light', 'Medium', 'Super'] },
+    { title: 'FLOW', options: ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'] },
     { title: 'MOOD', options: ['Happy', 'Relaxed', 'Grateful', 'Confident', 'Fatigued', 'Angry', 'Anxious', 'Depressed', 'Annoyed'] },
     { title: 'CRAVINGS', options: ['Sweet', 'Salty', 'Sour', 'Chocolate', 'Dairy', 'Fried', 'Fats', 'Carbs', 'Protein', 'Alcohol', 'Nicotine'] }
   ]
