@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
-import { User } from '@/types/types';
+import { UserData, ComponentProps } from '@/types/types';
 import { getTodaysDate } from '@/utils';
-import zodiac from '../images/pisces.png';
 import Navbar from '../components/Navbar';
-import { insights, userData } from '@/mockdata';
+import { insights } from '@/mockdata';
 import Router from "next/router";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
+import Logo from '@/components/logo';
 
-type DashboardProps = {
-  isAuthorized: boolean;
-  name?: string;
-};
-
-export default function Dashboard({ isAuthorized, name }: DashboardProps) {
+export default function Dashboard({ isAuthorized, data }: ComponentProps) {
+  const [user, setUser] = useState<UserData | null>(null)
+  const [userInsights, setUserInsights] = useState(insights)
 
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
-    }
-  }, [isAuthorized]);
+    }      
   
-  const [user, setUser] = useState<User>(userData)
-  const [userInsights, setUserInsights] = useState(insights)
+    if (data) setUser(data[0])
+    //api call needs to be made to get horoscope
+  }, [isAuthorized]);
   
   return (
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>
-        <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
+        <Logo />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>
-        <h2 className='text-center text-lg'>{getTodaysDate()}</h2>
+        <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
-          <Image width={250} height={100} alt="Logo" src={`/images/${user.data.sign}.png`} />
+          <Image width={250} height={100} alt="Logo" src={`/images/${user?.zodiac_sign}.png`} />
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>
           </div>
@@ -60,14 +57,15 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        // name: data?.[0].name as string,
+        data: data,
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
+        data: null
       },
     };
   }
-}) satisfies GetServerSideProps<DashboardProps>;
+}) satisfies GetServerSideProps<ComponentProps>;

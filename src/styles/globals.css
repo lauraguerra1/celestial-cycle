@@ -26,7 +26,7 @@ h1 {
 }
 
 .celestial-cursive {
-  font-family:   'Kaushan Script', cursive;
+  font-family: 'Kaushan Script', cursive;
 }
 
 .thin-regular {
@@ -41,5 +41,40 @@ h1 {
 
 button {
   cursor: pointer;
+}
 
+.background-text {
+  background-color: #253656bd;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.react-calendar__navigation {
+  display: flex
+}
+
+.react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
+  background-color: #778da961 !important;
+  border-radius: 10px;
+  
+}
+
+.react-calendar {
+  background: #1b263b !important;
+  border: none !important;
+}
+
+.react-calendar__tile--now {
+  background: #778DA9 !important;
+  border-radius: 50%;
+}
+
+.react-calendar__tile--active {
+  background: #778da961 !important;
+  border-radius: 50%;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  color: white !important;
 }
