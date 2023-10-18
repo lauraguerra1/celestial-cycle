@@ -66,8 +66,9 @@ export default function Dashboard({ isAuthorized, userID }: DashboardProps) {
   };
 
   // right now this is not the best way to updateUser as it sends the request twice for some reason
+  // diff if statement maybe? 
   useEffect(() => {
-    if (user) {
+    if (user !== undefined) {
       updateUser(user)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
