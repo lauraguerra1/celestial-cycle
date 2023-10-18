@@ -41,11 +41,11 @@ export default function Dashboard({ isAuthorized, name, logOut}: DashboardProps)
 }
 
 export const getServerSideProps = (async (context) => {
-  const supabase = getSupabase('SBWPyHvkNCTp1kgYtV9XvOvL');
+  const supabase = getSupabase('ABrrCENR3M0I6XZ7NLA7gNCY');
   const { data } = await supabase
     .from("users")
     .select()
-    .eq("passage_user_id", 'SBWPyHvkNCTp1kgYtV9XvOvL');
+    .eq("passage_user_id", 'ABrrCENR3M0I6XZ7NLA7gNCY');
   console.log(data);
   return {
     props: {
