@@ -1,10 +1,4 @@
-
-// import Homepage from "@/components/Homepage"
-import { useEffect, useState } from "react"
-import { insights, userData } from '../mockdata'
-import { User } from "@/types/types"
-import { getZodiacSign } from "@/utils"
-import Image from 'next/image'
+import { useEffect } from "react"
 import React from "react";
 import PassageLogin from "@/components/login";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";

@@ -16,3 +16,9 @@ export interface Insights {
         exercise: string
     }
 }
+
+export type DashboardProps = {
+    isAuthorized: boolean;
+    data: any[]
+};
+  

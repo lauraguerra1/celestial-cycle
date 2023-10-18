@@ -19,7 +19,6 @@ const config: Config = {
       },
       spacing: {
         '33': '5px' 
-       
       }
     },
   },
