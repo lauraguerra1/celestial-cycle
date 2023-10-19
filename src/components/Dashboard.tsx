@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
 import { getTodaysDate, getZodiacSign } from '@/utils';
@@ -27,7 +27,6 @@ const getCurrentUser = async () => {
 export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   const [user, setUser] = useState<PassageUserInfo | undefined>(undefined);
   // const [userInsights, setUserInsights] = useState(insights)
-  const hasUpdatedUser = useRef(false);
 
   useEffect(() => {
     if (!isAuthorized) {
