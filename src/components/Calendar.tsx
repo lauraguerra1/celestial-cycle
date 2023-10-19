@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { AuthProps, ComponentProps } from '@/types/types';
 import Router from "next/router";
 import Navbar from '@/components/Navbar';
-import Logo from '@/components/logo';
+import Logo from '@/components/Logo';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import { getTodaysDate } from '@/utils/utils';
@@ -15,17 +15,18 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export default function CalendarPage({ isAuthorized, data, logOut }: ComponentProps) {
   const [value, onChange] = useState<Value>(new Date());
+  const [date, setDate] = useState<string>("")
 
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/"); 
     }
-
-    console.log(data)
   },[]);
 
   useEffect(() => {
-    console.log('date', getTodaysDate(value))
+    const d = value as Date
+    setDate(`${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}`)
+    console.log('date', `${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}` )
   },[value])
 
   return (
@@ -40,7 +41,7 @@ export default function CalendarPage({ isAuthorized, data, logOut }: ComponentPr
           <p className='text-lg'>{getCurrentLunarPhase(value as Date).emoji} {getCurrentLunarPhase(value as Date).description}</p>
         </div>
         <div className='flex flex-col items-center mt-10'>
-          <Link href='/insights'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
+          <Link href={`/insights/${date}`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
           <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
         </div>
       </div>

@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { UserData, ComponentProps } from '@/types/types';
+import { UserData, ComponentProps, Horoscope } from '@/types/types';
 import { getTodaysDate } from '@/utils/utils';
 import Navbar from '../components/Navbar';
 import Router from "next/router";
-import Logo from '@/components/logo';
-
+import Logo from '@/components/Logo';
 
 type DashboardProps = ComponentProps & {
   logOut: () => void
 };
 
-
 export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps) {
   const [user, setUser] = useState<UserData | null>(null)
-  // const [userInsights, setUserInsights] = useState(insights)
+  const [error, setError] = useState<boolean>(false)
+  const [userInsights, setUserInsights] = useState<Horoscope>()
 
   const getHoroscope = (date: string, sign: string) => {
-    console.log('date fe', sign[0].toUpperCase() + sign.substring(1))
     fetch(`/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
       .then((response) => response.json())
       .then(data => {
-        console.log('hello', data)
+        console.log('horoscope', data)
+        setUserInsights(data[0])
         return data;
       })
       .catch(err => {
-        console.log('whoo')
-        // throw new Error(err.statusText);
+        setError(true)
+        console.log('eroor')
+        console.error(err)
       })
-
   };
 
   useEffect(() => {
@@ -37,9 +36,9 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
     }
 
     if (data) setUser(data[0])
-    getHoroscope('10/18/2023', user?.zodiac_sign as string)
-    //api call needs to be made to get horoscope
-  }, [isAuthorized]);
+    if (user) getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
+    
+  }, [isAuthorized, user]);
 
   return (
     <div className='relative h-full flex flex-col fade-in'>
@@ -50,7 +49,7 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
         <div className='flex justify-center items-center flex-col'>
           <Image width={250} height={100} alt="Logo" src={`/images/${user?.zodiac_sign}.png`} />
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
-            {/* <p>{insights.data.horoscope}</p> */}
+            <p>{error ? "Error loading horoscope, please refresh page" : userInsights?.description}</p>
           </div>
         </div>
       </div>

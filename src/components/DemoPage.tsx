@@ -1,8 +1,6 @@
 import profilePicture from '../images/demo-user.png';
 import Image from 'next/image';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
 
 type DemoPageProps = {
   logIn: (id: number) => void
