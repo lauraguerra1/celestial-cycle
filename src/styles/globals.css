@@ -48,24 +48,6 @@ button {
 }
 
 
-
-@media (hover: none) {
-  .scroll-area-no-track::-webkit-scrollbar {
-    width: 1px
-  }
-}
-
-@media (hover: hover) {
-  .scroll-area-no-track::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .scroll-area-no-track::-webkit-scrollbar-thumb {
-    background: #83817cdf;
-    border-radius: 25px;
-  }
-}
-
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { AuthProps, ComponentProps } from '@/types/types';
-import Router from "next/router";
+import Router from 'next/router';
 import Navbar from '@/components/Navbar';
 import Logo from '@/components/logo';
 import { useState } from 'react';
@@ -11,23 +11,31 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+export type Value = ValuePiece | [ValuePiece, ValuePiece];
+export type CalendarProps = ComponentProps & {
+  updateEntryDate: (date: Value) => void 
+}
 
-export default function CalendarPage({ isAuthorized, data, logOut }: ComponentProps) {
+export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const router = useRouter();
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/"); 
+      Router.push('/');
     }
 
-    console.log(data)
-  },[]);
+    console.log(data);
+  }, []);
 
   useEffect(() => {
-    console.log('date', getTodaysDate(value))
-  },[value])
+    console.log('date', getTodaysDate(value));
+  }, [value]);
+
+  const goToEntry = () => {
+    updateEntryDate(value)
+    router.push(`${router.asPath.includes('demo') ? '/demo': ''}/form`)
+  }
 
   return (
     <div className='mt-10 h-full fade-in'>
@@ -41,11 +49,13 @@ export default function CalendarPage({ isAuthorized, data, logOut }: ComponentPr
           <p className='text-lg'>Quarter Moon 🌖</p>
         </div>
         <div className='flex flex-col items-center mt-10'>
-          <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
-          <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
+          <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights`}>
+            <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button>
+          </Link>
+          <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
         </div>
       </div>
-      <Navbar logOut={logOut}/>
+      <Navbar logOut={logOut} />
     </div>
-  )
+  );
 }

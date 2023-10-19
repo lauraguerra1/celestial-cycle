@@ -23,6 +23,9 @@ const config: Config = {
         '100vw': '100vw',
         '90vw': '90vw',
       },
+      maxHeight: { 
+        '80vh': '80vh'
+      }, 
       spacing: {
         '33': '5px' 
       }
