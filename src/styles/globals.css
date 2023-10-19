@@ -112,3 +112,11 @@ button {
 .react-calendar__month-view__days__day--weekend {
   color: white !important;
 }
+
+.form-page {
+  min-height: calc(100vh + 5rem);
+}
+
+.added-height {
+  min-height: calc(auto + 5rem)
+}

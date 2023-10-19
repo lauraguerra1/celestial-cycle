@@ -5,26 +5,62 @@ import Logo from '@/components/logo';
 import { selectionType } from '@/types/types';
 import { formSections } from '@/utils';
 import { useEffect } from 'react';
+import { ComponentProps } from '@/types/types';
 import Navbar from './Navbar';
+import { postEntry } from '@/utils/apiCalls';
+import { useRouter } from 'next/router';
 
-export type FormProps = {
+export type FormProps = ComponentProps & {
   entryDate: Date, 
   updateEntryDate: (date: Date) => void
   logOut: () => void
 }
 
-const Form = ({ entryDate, logOut}: FormProps) => {
+const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
   const [symptoms, setSymptoms] = useState('');
   const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (!isAuthorized) {
+      router.push('/');
+    }
 
+    //need to set the user to data[0] or should this happen only once in dashboard and iether pass around user or use context ?? 
+    // return () => setError(null)
+  }, [isAuthorized]);
+
+  
+  useEffect(() => { 
+    console.log('entrydate', entryDate)
+    console.log('new date', `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth()}-${new Date(entryDate).getDate()}`)
+    console.log('isAuthorized', isAuthorized)
+    console.log('data', data)
+    
+    //need to make api call to get entry for this user and date if there already is one 
+  }, [])
+
+  const postForm = async () => {
+    try {
+      const postedRes = await postEntry(router.asPath.includes('demo'), 'addEntry', {
+        flow: selections.FLOW,
+        craving: selections.CRAVINGS,
+        mood: selections.MOOD,
+        symptom: symptoms,
+        user_id:  data ? data[0].passage_user_id : '',
+        date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`
+      })
+      console.log('postedRes', postedRes)
+    } catch (error) {
+      console.log('error', error)
+      //if(error instanceof Error) setError(error)
+    }
+  }
+  
   const updateSelections = (title: string, option: string) => {
     const newOption = selections[title] === option ? null : option;
     setSelections((prev) => ({ ...prev, [title]: newOption }));
   };
-
-  useEffect(() => { 
-    console.log('entrydate', entryDate)
-  }, [])
 
   const formEls = formSections.map((section) => {
     let allOptions = section.options.map((option) => {
@@ -48,15 +84,17 @@ const Form = ({ entryDate, logOut}: FormProps) => {
 
   return (
     <div className='mt-10 h-full fade-in'>
-      <Logo />
-      <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-      <div className='flex justify-between'>
-        <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
-        <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={() => { console.log(selections, symptoms) }}>SAVE</button>
-      </div>
-      <div className={`${styles['scrolling-form']}` + ' px-2 grid overflow-x-hidden overflow-y-auto max-h-80vh'} style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
-        {formEls}
-        <input type='textarea' className='justify-self-center mt-2 mb-4 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => {setSymptoms(e.target.value)}} />
+      <div className='form-page'>   
+        <Logo />
+        <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
+        <div className='flex justify-between'>
+          <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
+          <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>SAVE</button>
+        </div>
+        <div className='px-2 grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
+          {formEls}
+          <input type='textarea' className='justify-self-center mt-2 mb-4 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => {setSymptoms(e.target.value)}} />
+        </div>
       </div>
       <Navbar logOut={logOut} />
     </div>
