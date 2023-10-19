@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
 import { getTodaysDate, getZodiacSign } from '@/utils';
@@ -27,6 +27,7 @@ const getCurrentUser = async () => {
 export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   const [user, setUser] = useState<PassageUserInfo | undefined>(undefined);
   // const [userInsights, setUserInsights] = useState(insights)
+  const hasUpdatedUser = useRef(false);
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -46,6 +47,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     const payload = {
       userID,
       name: user.user_metadata?.name,
+      email: user.email,
       birthday: user.user_metadata?.birthday,
       sign: getZodiacSign(user.user_metadata?.birthday),
     }
@@ -58,23 +60,30 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     }).then((res) => res.json())
   };
 
-  // right now this is not the best way to updateUser as it sends the request twice for some reason
-  // diff if statement maybe? 
+// other way to check this would be to check if the user exists in the supabase "users" table, if not, add them
+
   useEffect(() => {
-    if (user !== undefined) {
-      updateUser(user)
+    if (user) {
+      if (!hasUpdatedUser.current) {
+        updateUser(user);
+        hasUpdatedUser.current = true; // Set the flag to true once it has run
+      } else {
+        // Handle the case when a new user is received
+        // You can reset the flag or perform any other necessary actions
+        hasUpdatedUser.current = false;
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>
-        <Image className='ml-5' width={300} height={100} alt="Logo" src={logo} />
+        <Image className='ml-5' width={300} height={100} style={{ width: '100%', height: 'auto' }} alt="Logo" src={logo} />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope {user ? user.user_metadata?.name : ''}</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
-          <Image width={250} height={100} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} />
+          <Image width={250} height={100} style={{ width: '80%', height: 'auto' }} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} priority/>
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>
           </div>

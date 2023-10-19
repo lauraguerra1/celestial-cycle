@@ -19,11 +19,5 @@ export interface Insights {
 
 export type AuthProps = {
     isAuthorized: boolean;
-    // data: UserData[] | null | undefined
     userID: string | number;
-};
-
-// export type ComponentProps = AuthProps & {
-//     logOut: () => void
-// }
-  
+};  

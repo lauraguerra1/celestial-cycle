@@ -19,5 +19,4 @@ export const getServerSideProps = (async (context) => {
       userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
     },
   };
-
 }) satisfies GetServerSideProps<AuthProps>;
