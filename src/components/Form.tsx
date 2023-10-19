@@ -7,8 +7,9 @@ import { formSections } from '@/utils';
 import { useEffect } from 'react';
 import { ComponentProps } from '@/types/types';
 import Navbar from './Navbar';
-import { postEntry } from '@/utils/apiCalls';
 import { useRouter } from 'next/router';
+import { formatDateForDB } from '@/utils';
+import { getEntry, postEntry } from '@/utils/apiCalls';
 
 export type FormProps = ComponentProps & {
   entryDate: Date, 
@@ -25,6 +26,21 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
     if (!isAuthorized) {
       router.push('/');
     }
+    const getFormData = async () => {
+      //setLoading(true)
+      try {
+        const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate), data ? data[0].passage_user_id : '')
+        console.log({ entryInfo })
+        if (entryInfo.data) {
+          setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving })
+          setSymptoms(entryInfo.data.symptom ?? '')
+        }
+      } catch (error) {
+        //if (error instanceof Error) setError(error)
+      }
+      //setLoading(false)
+    }
+    getFormData()
 
     //need to set the user to data[0] or should this happen only once in dashboard and iether pass around user or use context ?? 
     // return () => setError(null)

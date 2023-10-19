@@ -1,18 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabase } from '../../../utils/supabase'
+import { getSupabase } from '../../../../utils/supabase'
 import { PostgrestError } from '@supabase/supabase-js';
 
 export type SingleEntryData = {
-  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string}
+  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string} | null
 }
 
-export default async function addEntry(
+export default async function getEntry(
   req: NextApiRequest,
   res: NextApiResponse<SingleEntryData | PostgrestError | Error>
 ) {
-  const { date, user_id } = req.body;
-  const supabase = getSupabase(user_id);
-
+  const { date, user_id } = req.query;
+  const supabase = getSupabase(user_id as string);
+  console.log('request', req.query)
   try {
     const { data, error } = await supabase
       .from("entries")
@@ -25,8 +25,7 @@ export default async function addEntry(
       }
   
       res.status(200).json({
-        message: `Entry successfully added for ${date}`,
-        data: data[0]
+        data: data[0] ? data[0] : null
       });
   
   } catch (error) {

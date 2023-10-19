@@ -14,3 +14,13 @@ export const postEntry = async (demo: boolean, endpoint: string, entry: EntryDat
   const data = await response.json()
   return data
 }
+
+export const getEntry = async (demo: boolean, date: string, userID: string): Promise<{ data: EntryData['data'] }> => {
+  const response = await fetch(`${demo ? '..' : ''}/api/entry/${userID}/${date}`) 
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} Please try again.`)
+  }
+  const data = await response.json()
+  return data
+}

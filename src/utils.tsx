@@ -43,3 +43,8 @@ export const getTodaysDate = (currentDate: any)  => {
     if(currentDate)
     return `${months[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`
   }
+
+
+export const formatDateForDB = (date: Date) => {
+  return `${new Date(date).getFullYear()}-${new Date(date).getMonth() + 1}-${new Date(date).getDate()}`
+}
