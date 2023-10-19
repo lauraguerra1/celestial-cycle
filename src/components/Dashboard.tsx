@@ -43,7 +43,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
         });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized]);
+  }, []);
 
   const checkForUser = async (userID: string | number) => {
     const res = await fetch(`/api/getUser?userID=${userID}`)
@@ -53,6 +53,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
         addNewUser(user)
       }
     })
+    .catch((error) => console.log(error))
   }
 
   const addNewUser = async (user: PassageUserInfo ) => {

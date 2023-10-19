@@ -9,7 +9,7 @@ export default async function getUser(req: NextApiRequest, res: NextApiResponse)
   if (error) {
     return res.status(500).json({ error: "Error fetching userID" });
   }
-  // console.log('RETURN DATA', data)
+  console.log('RETURN DATA', data)
 
   res.status(200).json(data);
 }
