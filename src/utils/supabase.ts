@@ -1,7 +1,7 @@
 import { createClient, SupabaseClientOptions } from "@supabase/supabase-js";
 import jwt from "jsonwebtoken";
 
-const getSupabase = (userId: string) => {
+export const getSupabase = (userId?: string) => {
   const options: SupabaseClientOptions<"public"> = {};
 
   if (userId) {
@@ -25,5 +25,3 @@ const getSupabase = (userId: string) => {
   );
   return supabase;
 };
-
-export { getSupabase };
