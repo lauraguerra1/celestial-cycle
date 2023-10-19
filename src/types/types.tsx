@@ -16,6 +16,15 @@ export interface User {
         sign: string
     }
 }
+export interface UserData {
+    id: number,
+    created_at: string,
+    name: string,
+    email: string,
+    birth_date: string,
+    passage_user_id: string,
+    zodiac_sign: string
+}
 
 export interface Insights {
     data: {
@@ -25,3 +34,13 @@ export interface Insights {
         exercise: string
     }
 }
+
+export type AuthProps = {
+    isAuthorized: boolean;
+    data: UserData[] | null | undefined
+};
+
+export type ComponentProps = AuthProps & {
+    logOut: () => void
+}
+  

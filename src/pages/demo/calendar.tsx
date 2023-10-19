@@ -1,11 +1,11 @@
-import Dashboard from '../../components/Dashboard'
+import CalendarPage from "@/components/Calendar";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
-import { getSupabase } from "../../utils/supabase";
+import { getSupabase } from "@/utils/supabase";
+import { AuthProps, ComponentProps } from "@/types/types";
 import { GetServerSideProps } from "next";
-import { UserData, AuthProps, ComponentProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, data, logOut}: ComponentProps){
-  return (<Dashboard isAuthorized={isAuthorized} data={data} logOut={logOut} />)
+export default function calendar({isAuthorized, logOut, data}: ComponentProps) {
+  return (<CalendarPage isAuthorized={isAuthorized} logOut={logOut} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {

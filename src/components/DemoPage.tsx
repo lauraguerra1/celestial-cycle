@@ -1,15 +1,10 @@
-
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
 import profilePicture from '../../public/images/demo-user.png'
 
-type DemoPageProps = {
-  logIn: (id: number) => void
-}
 
-const DemoPage = ({ logIn }: DemoPageProps) => {
+const DemoPage = () => {
   const Router = useRouter();
 
   return (
