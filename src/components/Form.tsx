@@ -10,6 +10,7 @@ import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
+import loadingGif from '../../public/images/loadingStars.gif'
 
 export type FormProps = ComponentProps & {
   entryDate: Date, 
@@ -18,6 +19,8 @@ export type FormProps = ComponentProps & {
 }
 
 const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
   const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
   const router = useRouter();
@@ -27,7 +30,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
       router.push('/');
     }
     const getFormData = async () => {
-      //setLoading(true)
+      setLoading(true)
       try {
         const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate), data ? data[0].passage_user_id : '')
         console.log({ entryInfo })
@@ -36,14 +39,13 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
           setSymptoms(entryInfo.data.symptom ?? '')
         }
       } catch (error) {
-        //if (error instanceof Error) setError(error)
+        if (error instanceof Error) setError(error)
       }
-      //setLoading(false)
+      setLoading(false)
     }
     getFormData()
 
-    //need to set the user to data[0] or should this happen only once in dashboard and iether pass around user or use context ?? 
-    // return () => setError(null)
+    return () => setError(null)
   }, [isAuthorized]);
 
   
@@ -66,10 +68,8 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
         user_id:  data ? data[0].passage_user_id : '',
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`
       })
-      console.log('postedRes', postedRes)
     } catch (error) {
-      console.log('error', error)
-      //if(error instanceof Error) setError(error)
+      if(error instanceof Error) setError(error)
     }
   }
   
@@ -100,18 +100,27 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
 
   return (
     <div className='mt-10 h-full fade-in'>
-      <div className='form-page'>   
-        <Logo />
-        <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-        <div className='flex justify-between'>
-          <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
-          <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>SAVE</button>
+      {error && <p>{error.message}</p>}
+      {loading ?
+        <div className='flex flex-col h-70vh  justify-center items-center'>
+          <Image className='opacity-60 rounded-full' width={window.innerWidth} height={window.innerHeight} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
+          <p className='thin-regular m-3'>Loading...</p>
+        </div> : 
+      <>
+        <div className='form-page'>   
+          <Logo />
+          <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
+          <div className='flex justify-between'>
+            <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
+            <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>SAVE</button>
+          </div>
+          <div className='grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
+            {formEls}
+            <input type='textarea' className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => {setSymptoms(e.target.value)}} />
+          </div>
         </div>
-        <div className='px-2 grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
-          {formEls}
-          <input type='textarea' className='justify-self-center mt-2 mb-4 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => {setSymptoms(e.target.value)}} />
-        </div>
-      </div>
+      </>
+    }
       <Navbar logOut={logOut} />
     </div>
   );

@@ -10,7 +10,8 @@ const config: Config = {
     extend: {
       height: {
         '45': '15rem',
-        '90vh': '90vh'
+        '90vh': '90vh', 
+        '70vh': '70vh'
       },
       colors: {
         'deepblue': '#1b263b',
