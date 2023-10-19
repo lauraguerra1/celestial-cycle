@@ -12,20 +12,35 @@ type DashboardProps = ComponentProps & {
 };
 
 
-export default function Dashboard({ isAuthorized, data, logOut}: DashboardProps) {
+export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps) {
   const [user, setUser] = useState<UserData | null>(null)
   // const [userInsights, setUserInsights] = useState(insights)
 
+  const getHoroscope = (date: string, sign: string) => {
+    console.log('date fe', sign[0].toUpperCase() + sign.substring(1))
+    fetch(`/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
+      .then((response) => response.json())
+      .then(data => {
+        console.log('hello', data)
+        return data;
+      })
+      .catch(err => {
+        console.log('whoo')
+        // throw new Error(err.statusText);
+      })
+
+  };
 
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
-    }      
-  
+    }
+
     if (data) setUser(data[0])
+    getHoroscope('10/18/2023', user?.zodiac_sign as string)
     //api call needs to be made to get horoscope
   }, [isAuthorized]);
-  
+
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
