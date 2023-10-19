@@ -39,6 +39,9 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormPro
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving })
           setSymptoms(entryInfo.data.symptom ?? '')
+        } else {
+          setSelections({ FLOW: null, MOOD: null, CRAVINGS: null })
+          setSymptoms('')
         }
       } catch (error) {
         if (error instanceof Error) setError(error)
@@ -57,7 +60,11 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormPro
   }
 
   const postForm = async () => {
+    const infoOptions = [...Object.values(selections), symptoms]
     try {
+      if (infoOptions.every(option => !option)) {
+        throw new Error('Please input something to save!')
+      }
       const postedRes = await postEntry(router.asPath.includes('demo'), 'addEntry', {
         flow: selections.FLOW,
         craving: selections.CRAVINGS,
@@ -66,6 +73,8 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormPro
         user_id:  data ? data[0].passage_user_id : '',
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`
       })
+      setError(null)
+      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights`)
     } catch (error) {
       if(error instanceof Error) setError(error)
     }
@@ -98,7 +107,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormPro
 
   return (
     <div className='mt-10 h-full fade-in'>
-      {error && <p>{error.message}</p>}
+      {error && <p className='thick-regular text-center'>{error.message}</p>}
       {loading ?
         <div className='flex flex-col h-70vh  justify-center items-center'>
           <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
@@ -118,7 +127,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormPro
           </div>
           <div className='grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
             {formEls}
-            <input type='textarea' className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => {setSymptoms(e.target.value)}} />
+              <input type='textarea' className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20' placeholder='Enter notes about any symptoms here...' value={symptoms} onChange={(e) => { setSymptoms(e.target.value)}} />
           </div>
         </div>
       </>
