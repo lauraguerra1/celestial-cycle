@@ -1,10 +1,13 @@
 import Navbar from '@/components/Navbar';
-import '@passageidentity/passage-elements/passage-profile';
 import { PassageUser } from '@passageidentity/passage-elements/passage-user';
 import dotenv from 'dotenv';
 import Router from "next/router";
+import { useEffect } from 'react';
 
 function Profile() {
+  useEffect(() => {
+    require("@passageidentity/passage-elements/passage-profile");
+  }, []);
 
   const signOut = async () => {
     new PassageUser().signOut();
@@ -20,7 +23,7 @@ function Profile() {
 
   return (
     <div className='flex flex-col content-center mt-10'>
-      <passage-profile app-id={passageAppId} ></passage-profile>
+      <passage-profile app-id={process.env.NEXT_PUBLIC_PASSAGE_APP_ID}></passage-profile>
       <button className='bg-white text-black opacity-90 py-2 px-10 m-10 rounded-md'onClick={signOut}>LOG OUT</button>
       <Navbar />
     </div>

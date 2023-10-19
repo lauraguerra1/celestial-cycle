@@ -24,7 +24,8 @@
     "passage": "^1.7.2",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.3",
