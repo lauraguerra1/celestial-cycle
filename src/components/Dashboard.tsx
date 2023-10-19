@@ -26,6 +26,7 @@ const getCurrentUserInfo = async () => {
 
 export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   const [user, setUser] = useState<PassageUserInfo | undefined>(undefined);
+  const [demo, setDemo] = useState(false)
   // const [userInsights, setUserInsights] = useState(insights)
 
   useEffect(() => {
@@ -41,6 +42,8 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
         .catch((error) => {
           console.error('Error fetching user:', error);
         });
+    } else {
+      setDemo(true)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -77,7 +80,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>
         <Image className='ml-5' width={300} height={100} style={{ width: '100%', height: 'auto' }} alt="Logo" src={logo} />
-        <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.user_metadata?.name : 'DEMO'}</h1>
+        <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user?.user_metadata?.name || ''} {demo && 'Demo'}</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
           <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} priority/>
