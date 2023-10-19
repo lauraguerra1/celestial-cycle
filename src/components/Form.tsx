@@ -3,14 +3,16 @@ import Image from 'next/image';
 import styles from '../styles/Form.module.css';
 import Logo from '@/components/logo';
 import { selectionType } from '@/types/types';
-import { formSections } from '@/utils';
+import { formSections, getTodaysDate } from '@/utils';
 import { useEffect } from 'react';
 import { ComponentProps } from '@/types/types';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
-import loadingGif from '../../public/images/loadingStars.gif'
+import loadingGif from '../../public/images/loadingStars.gif';
+import leftArrow from '../../public/images/leftArrow.png';
+import rightArrow from '../../public/images/rightArrow.png';
 
 export type FormProps = ComponentProps & {
   entryDate: Date, 
@@ -18,7 +20,7 @@ export type FormProps = ComponentProps & {
   logOut: () => void
 }
 
-const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
+const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate}: FormProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
@@ -46,17 +48,13 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
     getFormData()
 
     return () => setError(null)
-  }, [isAuthorized]);
+  }, [isAuthorized, entryDate]);
 
-  
-  useEffect(() => { 
-    console.log('entrydate', entryDate)
-    console.log('new date', `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth()}-${new Date(entryDate).getDate()}`)
-    console.log('isAuthorized', isAuthorized)
-    console.log('data', data)
-    
-    //need to make api call to get entry for this user and date if there already is one 
-  }, [])
+  const goToDate = (num: number) => {
+    const newDate = new Date(entryDate);
+    newDate.setDate(newDate.getDate() + num); 
+    updateEntryDate(newDate)
+  }
 
   const postForm = async () => {
     try {
@@ -103,13 +101,17 @@ const Form = ({ entryDate, logOut, isAuthorized, data}: FormProps) => {
       {error && <p>{error.message}</p>}
       {loading ?
         <div className='flex flex-col h-70vh  justify-center items-center'>
-          <Image className='opacity-60 rounded-full' width={window.innerWidth} height={window.innerHeight} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
+          <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
           <p className='thin-regular m-3'>Loading...</p>
         </div> : 
       <>
         <div className='form-page'>   
           <Logo />
-          <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
+            <div className='flex justify-between items-center mb-4'>
+              <button onClick={() => goToDate(-1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>chevron_left</button>
+              <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
+              <button onClick={() => goToDate(1)}  className='material-symbols-rounded text-mellow-yellow text-3xl'>chevron_right</button>
+            </div>
           <div className='flex justify-between'>
             <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
             <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>SAVE</button>
