@@ -20,4 +20,5 @@ export interface Insights {
 export type AuthProps = {
     isAuthorized: boolean;
     userID: string | number;
+    // data: 
 };  

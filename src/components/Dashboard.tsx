@@ -5,12 +5,12 @@ import { getTodaysDate, getZodiacSign } from '@/utils';
 import Navbar from '../components/Navbar';
 import { insights } from '@/mockdata';
 import Router from "next/router";
-import { Passage } from '@passageidentity/passage-js';
 import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user';
-import dotenv from 'dotenv';
 import { AuthProps } from '@/types/types';
+import dotenv from 'dotenv';
+import { Passage } from '@passageidentity/passage-js';
 
-const getCurrentUser = async () => {
+const getCurrentUserInfo = async () => {
   dotenv.config();
   const passageAppId = process.env.NEXT_PUBLIC_PASSAGE_APP_ID;
 
@@ -31,8 +31,9 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
-    } else {
-      getCurrentUser()
+    } 
+    else if (userID !== 'ABrrCENR3M0I6XZ7NLA7gNCY') {
+      getCurrentUserInfo()
         .then((data) => {
           setUser(data)
           checkForUser(userID)
@@ -45,10 +46,10 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   }, [isAuthorized]);
 
   const checkForUser = async (userID: string | number) => {
-    const res = await fetch('/api/getUsers')
+    const res = await fetch(`/api/getUser?userID=${userID}`)
     .then((res) => res.json())
-    .then((allIDs) => {
-      if (!allIDs.includes(userID) && user) {
+    .then((foundID) => {
+      if (!foundID.length && user) {
         addNewUser(user)
       }
     })
@@ -75,10 +76,10 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>
         <Image className='ml-5' width={300} height={100} style={{ width: '100%', height: 'auto' }} alt="Logo" src={logo} />
-        <h1 className='mt-7 text-center text-3xl'>Daily Horoscope {user ? user.user_metadata?.name : ''}</h1>
+        <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.user_metadata?.name : 'DEMO'}</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
-          <Image width={250} height={100} style={{ width: '80%', height: 'auto' }} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} priority/>
+          <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} priority/>
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>
           </div>
