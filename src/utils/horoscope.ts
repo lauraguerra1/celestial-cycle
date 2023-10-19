@@ -1,6 +1,6 @@
 import cheerio from "cheerio";
 import { getSupabase } from "./supabase";
-import { getTodaysDate } from "@/utils";
+import { getTodaysDate } from "@/utils/utils";
 
 async function getHoroscope(sign: string) {
   const signNumber = getSignNumber(sign);

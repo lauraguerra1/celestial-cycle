@@ -5,9 +5,10 @@ import Navbar from '@/components/Navbar';
 import Logo from '@/components/logo';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
-import { getTodaysDate } from '@/utils';
+import { getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
+import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -36,7 +37,7 @@ export default function CalendarPage({ isAuthorized, data, logOut }: ComponentPr
       <div className='background-text mt-5'>
         <div className='flex items-center justify-between px-5 mt-3'>
           <p className='text-xl celestial-cursive text-mellow-yellow'>{getTodaysDate(value)}</p>
-          <p className='text-lg'>Quarter Moon 🌖</p>
+          <p className='text-lg'>{getCurrentLunarPhase(value as Date).emoji} {getCurrentLunarPhase(value as Date).description}</p>
         </div>
         <div className='flex flex-col items-center mt-10'>
           <Link href='/insights'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
