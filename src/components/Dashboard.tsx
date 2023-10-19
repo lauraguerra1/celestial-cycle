@@ -36,14 +36,27 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
       getCurrentUser()
         .then((data) => {
           setUser(data)
+          checkForUser(userID)
         })
         .catch((error) => {
           console.error('Error fetching user:', error);
         });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
 
-  const updateUser = async (user: PassageUserInfo) => {
+  const checkForUser = async (userID: string | number) => {
+    const res = await fetch('/api/getUsers')
+    .then((res) => res.json())
+    .then((allIDs) => {
+      console.log(allIDs)
+      if (!allIDs.includes(userID) && user) {
+        addNewUser(user)
+      }
+    })
+  }
+
+  const addNewUser = async (user: PassageUserInfo ) => {
     const payload = {
       userID,
       name: user.user_metadata?.name,
@@ -62,19 +75,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
 
 // other way to check this would be to check if the user exists in the supabase "users" table, if not, add them
 
-  useEffect(() => {
-    if (user) {
-      if (!hasUpdatedUser.current) {
-        updateUser(user);
-        hasUpdatedUser.current = true; // Set the flag to true once it has run
-      } else {
-        // Handle the case when a new user is received
-        // You can reset the flag or perform any other necessary actions
-        hasUpdatedUser.current = false;
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+
 
   return (
     <div className='relative h-full flex flex-col'>
