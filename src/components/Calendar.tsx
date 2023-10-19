@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { AuthProps, ComponentProps } from '@/types/types';
 import Router from 'next/router';
 import Navbar from '@/components/Navbar';
-import Logo from '@/components/logo';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import { getTodaysDate } from '@/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import CelestialLogo from '@/components/CelestialLogo';
 
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 export type CalendarProps = ComponentProps & {
-  updateEntryDate: (date: Value) => void 
-}
+  updateEntryDate: (date: Value) => void;
+};
 
 export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
@@ -33,13 +33,13 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
   }, [value]);
 
   const goToEntry = () => {
-    updateEntryDate(value)
-    router.push(`${router.asPath.includes('demo') ? '/demo': ''}/form`)
-  }
+    updateEntryDate(value);
+    router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
+  };
 
   return (
     <div className='mt-10 h-full fade-in'>
-      <Logo />
+      <CelestialLogo />
       <div className='mt-5 flex justify-center'>
         <Calendar onChange={onChange} value={value} />
       </div>
@@ -52,7 +52,9 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
           <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights`}>
             <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button>
           </Link>
-          <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
+          <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
+            Add Today&#39;s Data
+          </button>
         </div>
       </div>
       <Navbar logOut={logOut} />

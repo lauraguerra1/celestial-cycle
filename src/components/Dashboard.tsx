@@ -5,7 +5,7 @@ import { getTodaysDate } from '@/utils';
 import Navbar from '../components/Navbar';
 import { insights } from '@/mockdata';
 import Router from 'next/router';
-import Logo from '@/components/logo';
+import CelestialLogo from '@/components/CelestialLogo';
 
 type DashboardProps = ComponentProps & {
   logOut: () => void;
@@ -27,7 +27,7 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
-        <Logo />
+        <CelestialLogo />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
