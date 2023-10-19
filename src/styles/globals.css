@@ -51,30 +51,21 @@ button {
   animation: fadeInOut 1.5s ease-in infinite;
 }
 
-@keyframes fadeInOut {
-  0% {
-    opacity: 0
-  }
-  50% {
-    opacity: 100%
-  }
-  100% {
-    opacity: 0
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0
-  }
-  100% {
-    opacity: 100%
-  }
-}
-
 .background-text {
   background-color: #253656bd;
   height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.insights-text {
+  height: 375px;
+  overflow-y: auto;
+}
+
+.insights {
+  background-color: #253656bd;
+  height: 600px;
   display: flex;
   flex-direction: column;
 }
@@ -106,4 +97,35 @@ button {
 
 .react-calendar__month-view__days__day--weekend {
   color: white !important;
+}
+
+.react-calendar__tile:disabled {
+  background: #1b263b !important;
+  color: #ffffff5b !important;
+}
+
+.react-calendar__navigation button:disabled {
+  background: #1b263b !important;
+  color: #ffffff5b !important;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0
+  }
+  50% {
+    opacity: 100%
+  }
+  100% {
+    opacity: 0
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0
+  }
+  100% {
+    opacity: 100%
+  }
 }

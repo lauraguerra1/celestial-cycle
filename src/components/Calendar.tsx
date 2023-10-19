@@ -33,7 +33,7 @@ export default function CalendarPage({ isAuthorized, data, logOut }: ComponentPr
     <div className='mt-10 h-full fade-in'>
       <Logo />
       <div className='mt-5 flex justify-center'>
-        <Calendar onChange={onChange} value={value} />
+        <Calendar onChange={onChange} value={value} maxDate={new Date()}/>
       </div>
       <div className='background-text mt-5'>
         <div className='flex items-center justify-between px-5 mt-3'>

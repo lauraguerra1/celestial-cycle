@@ -32,7 +32,18 @@ export const getTodaysDate = (currentDate: any)  => {
       "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ];
-
-    if(currentDate)
+    
     return `${months[currentDate.getMonth()]} ${currentDate.getDate()} ${currentDate.getFullYear()}`
-  }
+}
+
+export const convertStringToDate = (dateString: string): Date => {
+  const dateComponents = dateString.split('-');
+
+  const day = parseInt(dateComponents[1], 10);
+  const month = parseInt(dateComponents[0], 10) - 1;
+  const year = parseInt(dateComponents[2], 10);
+
+  const date = new Date(year, month, day);
+
+  return date;
+}

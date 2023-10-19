@@ -26,3 +26,10 @@ export type ComponentProps = AuthProps & {
     logOut: () => void
 }
   
+export interface Horoscope {
+    created_at: string
+    date: string
+    description: string
+    id: number
+    zodiac_sign: string
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useDebugValue, useEffect, useState } from 'react';
 import { UserData, ComponentProps, Horoscope } from '@/types/types';
 import { convertStringToDate, getTodaysDate } from '@/utils/utils';
 import Navbar from './Navbar';
@@ -17,6 +17,7 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
   const { date } = router.query;
   const [user, setUser] = useState<UserData | null>(null)
   const [error, setError] = useState<boolean>(false)
+  const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   
@@ -25,7 +26,13 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
       .then((response) => response.json())
       .then(data => {
         console.log(data)
-        setUserInsights(data[0])
+
+        if (data.length === 0) {
+          setEmptyDay(true) 
+        } else {
+          setUserInsights(data[0])
+        }
+
         return data;
       })
       .catch(err => {
@@ -54,7 +61,8 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
           <p className='p-5 insights-text text-lg'>
-            {error ? "Error loading insights, please refresh the page" : userInsights?.description}
+            {error ? "Error loading insights, please refresh the page" : 
+              emptyDay ? "No insights loaded for this date, try a later date" : userInsights?.description}
           </p>
           <div className='flex justify-center'>
             <Link href='/form'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button></Link>
