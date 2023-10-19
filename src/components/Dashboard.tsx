@@ -73,7 +73,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload),
-    }).then((res) => res.json())
+    }).catch(err => console.log(err))
   };
 
   return (
