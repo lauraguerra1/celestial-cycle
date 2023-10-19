@@ -48,7 +48,6 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     const res = await fetch('/api/getUsers')
     .then((res) => res.json())
     .then((allIDs) => {
-      console.log(allIDs)
       if (!allIDs.includes(userID) && user) {
         addNewUser(user)
       }
