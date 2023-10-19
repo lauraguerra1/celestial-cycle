@@ -73,10 +73,6 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
     }).then((res) => res.json())
   };
 
-// other way to check this would be to check if the user exists in the supabase "users" table, if not, add them
-
-
-
   return (
     <div className='relative h-full flex flex-col'>
       <div className='mt-10 h-full'>

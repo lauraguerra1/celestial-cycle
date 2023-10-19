@@ -19,8 +19,8 @@ function Profile() {
   }
 
   return (
-    <div>
-      <passage-profile app-id={passageAppId}></passage-profile>
+    <div className='flex flex-col content-center mt-10'>
+      <passage-profile app-id={passageAppId} ></passage-profile>
       <button className='bg-white text-black opacity-90 py-2 px-10 m-10 rounded-md'onClick={signOut}>LOG OUT</button>
       <Navbar />
     </div>
