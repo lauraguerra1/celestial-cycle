@@ -21,8 +21,9 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   
+  //Im getting the horoscope for now, but are we actually using chatgpt for this part?
   const getHoroscope = (date: string, sign: string) => {
-    fetch(`/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
+    fetch(`${router.asPath.includes('demo') ? '/..' : ''}/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
       .then((response) => response.json())
       .then(data => {
         console.log(data)
@@ -65,7 +66,8 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
               emptyDay ? "No insights loaded for this date, try a later date" : userInsights?.description}
           </p>
           <div className='flex justify-center'>
-            <Link href='/form'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button></Link>
+            {/* add a conditional to show todays data and change button to edit? */}
+            <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/form`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button></Link>
           </div>
         </section>
       </div>
