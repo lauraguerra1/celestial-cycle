@@ -10,9 +10,8 @@ import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
 import loadingGif from '../../public/images/loadingStars.gif';
-import leftArrow from '../../public/images/leftArrow.png';
-import rightArrow from '../../public/images/rightArrow.png';
 import CelestialLogo from '@/components/CelestialLogo';
+import { isDateInFuture } from '@/utils';
 
 export type FormProps = ComponentProps & {
   entryDate: Date;
@@ -122,9 +121,12 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
                 chevron_left
               </button>
               <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-              <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                chevron_right
-              </button>
+                {!isDateInFuture(entryDate) ?
+                  <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
+                    chevron_right
+                  </button> : 
+                  <div></div>
+              }
             </div>
             <div className='flex justify-between'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
