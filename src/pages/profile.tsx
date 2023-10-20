@@ -1,11 +1,12 @@
-import CalendarPage, {CalendarProps} from "@/components/Calendar";
+import React from 'react'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
-import { getSupabase } from "@/utils/supabase";
-import { AuthProps } from "@/types/types";
+import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
+import { AuthProps } from '@/types/types';
+import Profile, { ProfileProps } from '@/components/Profile';
 
-export default function calendar({isAuthorized, data, updateEntryDate, entryDate, selections, setSelections}: CalendarProps) {
-  return (<CalendarPage setSelections={setSelections} selections={selections} entryDate={entryDate} isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
+export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID}/>)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -15,7 +16,7 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);

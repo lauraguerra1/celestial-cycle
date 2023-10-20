@@ -17,8 +17,8 @@ export interface User {
     }
 }
 export interface UserData {
-    id: number,
-    created_at: string,
+    id: number | undefined,
+    created_at: string | undefined,
     name: string,
     email: string,
     birth_date: string,
@@ -39,12 +39,6 @@ export type AuthProps = {
     isAuthorized: boolean;
     data: UserData[] | null | undefined
 };
-
-export type ComponentProps = AuthProps & {
-    logOut: () => void
-    updateEntryDate: () => void
-    selections: selectionType
-}
   
 export interface Horoscope {
     created_at: string
@@ -52,4 +46,4 @@ export interface Horoscope {
     description: string
     id: number
     zodiac_sign: string
-}
+};  

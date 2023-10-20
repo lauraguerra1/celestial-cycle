@@ -1,5 +1,5 @@
 import React, { useDebugValue, useEffect, useState } from 'react';
-import { UserData, ComponentProps, Horoscope, selectionType } from '@/types/types';
+import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
 import { convertStringToDate, formatDateForDB, getTodaysDate } from '@/utils/utils';
 import Navbar from './Navbar';
 import Router from "next/router";
@@ -11,13 +11,12 @@ import { getEntry, getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 
-type InsightsProps = ComponentProps & {
-  logOut: () => void
+type InsightsProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
   selections: selectionType
 };
 
-export default function Insights({ isAuthorized, data, logOut, updateEntryDate, selections }: InsightsProps) {
+export default function Insights({ isAuthorized, data, updateEntryDate, selections }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
   const [user, setUser] = useState<UserData | null>(null)
@@ -94,7 +93,7 @@ export default function Insights({ isAuthorized, data, logOut, updateEntryDate, 
           </div>
         </section>
       </div>
-      <Navbar logOut={logOut} />
+      <Navbar />
     </div>
   )
 }

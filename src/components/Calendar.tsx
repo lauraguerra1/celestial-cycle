@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AuthProps, ComponentProps, selectionType } from '@/types/types'
+import { AuthProps, UserData, selectionType } from '@/types/types'
 import Router, { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
@@ -14,14 +14,14 @@ import { getEntry } from '@/utils/apiCalls';
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-export type CalendarProps = ComponentProps & {
+export type CalendarProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
   entryDate: Date
   selections: selectionType
   setSelections: React.Dispatch<React.SetStateAction<selectionType>>
 };
 
-export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate, entryDate, selections, setSelections }: CalendarProps) {
+export default function CalendarPage({ isAuthorized, data, updateEntryDate, entryDate, selections, setSelections }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const [date, setDate] = useState<string>("")
   const [error, setError] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
     if (!isAuthorized) {
       Router.push('/');
     }
-  },[]);
+  },[isAuthorized]);
 
   useEffect(() => {
     const d = value as Date
@@ -84,7 +84,7 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
           </button>
         </div>
       </div>
-      <Navbar logOut={logOut} />
+      <Navbar/>
     </div>
   );
 }

@@ -1,10 +1,11 @@
-import Dashboard, { DashboardProps } from '../../components/Dashboard'
 import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
+import Profile from '../profile';
+import { ProfileProps } from "@/components/Profile";
 
-export default function dashboard ({isAuthorized, userID, data}: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
+export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -17,7 +18,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       isAuthorized: true,
       userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
-      data
+      data,
     },
   };
 }) satisfies GetServerSideProps<AuthProps>;
