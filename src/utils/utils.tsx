@@ -11,7 +11,14 @@ const zodiacSigns = [
     { sign: "Libra", start: 923, end: 1022 },
     { sign: "Scorpio", start: 1023, end: 1121 },
     { sign: "Sagittarius", start: 1122, end: 1221 }
-  ];
+];
+  
+  
+export const formSections = [
+  { title: 'FLOW', options: ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'] },
+  { title: 'MOOD', options: ['Happy', 'Relaxed', 'Grateful', 'Confident', 'Fatigued', 'Angry', 'Anxious', 'Depressed', 'Annoyed'] },
+  { title: 'CRAVINGS', options: ['Sweet', 'Salty', 'Sour', 'Chocolate', 'Dairy', 'Fried', 'Fats', 'Carbs', 'Protein', 'Alcohol', 'Nicotine'] }
+]
 
 export const getZodiacSign = (birthday: string) => {
     const month = birthday.split('/')[0]
@@ -46,4 +53,8 @@ export const convertStringToDate = (dateString: string): Date => {
   const date = new Date(year, month, day);
 
   return date;
+}
+
+export const formatDateForDB = (date: Date) => {
+  return `${new Date(date).getFullYear()}-${new Date(date).getMonth() + 1}-${new Date(date).getDate()}`
 }

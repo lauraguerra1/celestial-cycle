@@ -3,10 +3,10 @@ import { UserData, ComponentProps, Horoscope } from '@/types/types';
 import { convertStringToDate, getTodaysDate } from '@/utils/utils';
 import Navbar from './Navbar';
 import Router from "next/router";
-import Logo from '@/components/Logo';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import Link from 'next/link';
+import CelestialLogo from './CelestialLogo';
 
 type InsightsProps = ComponentProps & {
   logOut: () => void
@@ -54,7 +54,7 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
-        <Logo />
+        <CelestialLogo />
         <h2 className='text-center text-xl mt-3'>{getTodaysDate(convertStringToDate(chosenDate))}</h2>
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
         <section className='insights mt-5'>

@@ -1,11 +1,11 @@
-import CalendarPage, {CalendarProps} from "@/components/Calendar";
+import Form, { FormProps } from "@/components/Form";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
+import { GetServerSideProps } from "next";
 import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
-import { GetServerSideProps } from "next";
 
-export default function calendar({isAuthorized, logOut, data, updateEntryDate}: CalendarProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} logOut={logOut} data={data} updateEntryDate={updateEntryDate}/>)
+export default function form({logOut, entryDate, updateEntryDate, isAuthorized, data}: FormProps) {
+  return (<Form isAuthorized={isAuthorized} data={data} logOut={logOut}  entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -35,4 +35,3 @@ export const getServerSideProps = (async (context) => {
     };
   }
 }) satisfies GetServerSideProps<AuthProps>;
-

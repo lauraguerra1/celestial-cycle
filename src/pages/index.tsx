@@ -30,7 +30,7 @@ export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps)
   },[loading]);
 
   return (
-    loading ? <HomeLoading /> : <DemoPage logIn={logIn} />
+    loading ? <HomeLoading /> : <DemoPage />
   );
 
 }

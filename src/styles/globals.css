@@ -40,6 +40,11 @@ button {
   cursor: pointer;
 }
 
+.light-opacity-bg {
+  --tw-bg-opacity: 0.06
+}
+
+
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
@@ -74,7 +79,6 @@ button {
 .react-calendar__navigation button:enabled:hover, .react-calendar__navigation button:enabled:focus {
   background-color: #778da961 !important;
   border-radius: 10px;
-  
 }
 
 .react-calendar {
@@ -104,6 +108,14 @@ button {
 .react-calendar__navigation button:disabled {
   background: #1b263b !important;
   color: #ffffff5b !important;
+}
+
+.form-page {
+  min-height: calc(100vh + 5rem);
+}
+
+.added-height {
+  min-height: calc(auto + 5rem)
 }
 
 @keyframes fadeInOut {

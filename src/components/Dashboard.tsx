@@ -4,10 +4,10 @@ import { UserData, ComponentProps, Horoscope } from '@/types/types';
 import { getTodaysDate } from '@/utils/utils';
 import Navbar from '../components/Navbar';
 import Router from "next/router";
-import Logo from '@/components/Logo';
+import CelestialLogo from '@/components/CelestialLogo';
 
 type DashboardProps = ComponentProps & {
-  logOut: () => void
+  logOut: () => void;
 };
 
 export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps) {
@@ -43,11 +43,11 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
-        <Logo />
+        <CelestialLogo />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col'>
-          <Image width={250} height={100} alt="Logo" src={`/images/${user?.zodiac_sign}.png`} />
+          <Image width={250} height={100} alt='Logo' src={`/images/${user?.zodiac_sign}.png`} />
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{error ? "Error loading horoscope, please refresh page" : userInsights?.description}</p>
           </div>
@@ -55,5 +55,5 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
       </div>
       <Navbar logOut={logOut} />
     </div>
-  )
+  );
 }

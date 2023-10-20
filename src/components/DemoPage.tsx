@@ -1,12 +1,10 @@
-import profilePicture from '../images/demo-user.png';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import React from 'react';
+import profilePicture from '../../public/images/demo-user.png'
 
-type DemoPageProps = {
-  logIn: (id: number) => void
-}
 
-const DemoPage = ({ logIn }: DemoPageProps) => {
+const DemoPage = () => {
   const Router = useRouter();
 
   return (
