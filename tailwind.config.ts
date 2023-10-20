@@ -10,7 +10,8 @@ const config: Config = {
     extend: {
       height: {
         '45': '15rem',
-        '90vh': '90vh'
+        '90vh': '90vh', 
+        '70vh': '70vh'
       },
       colors: {
         'deepblue': '#1b263b',
@@ -19,6 +20,13 @@ const config: Config = {
         'mellow-yellow': '#FFCB05',
         'grayblue': '#778DA9'
       },
+      maxWidth: {
+        '100vw': '100vw',
+        '90vw': '90vw',
+      },
+      maxHeight: { 
+        '80vh': '80vh'
+      }, 
       spacing: {
         '33': '5px' 
       }
