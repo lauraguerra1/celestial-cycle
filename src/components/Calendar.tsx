@@ -13,11 +13,10 @@ import CelestialLogo from '@/components/CelestialLogo';
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
 export type CalendarProps = AuthProps & {
-  data: UserData[] | null | undefined;
   updateEntryDate: (date: Value) => void;
 };
 
-export default function CalendarPage({ isAuthorized, updateEntryDate }: CalendarProps) {
+export default function CalendarPage({ isAuthorized, data, updateEntryDate }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const router = useRouter();
 

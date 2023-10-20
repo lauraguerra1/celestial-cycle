@@ -17,6 +17,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       isAuthorized: true,
       userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
+      data,
     },
   };
 }) satisfies GetServerSideProps<AuthProps>;

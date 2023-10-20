@@ -4,8 +4,8 @@ import { AuthProps } from '@/types/types';
 import Profile from '../profile';
 import { ProfileProps } from "@/components/Profile";
 
-export default function dashboard ({isAuthorized, userID}: ProfileProps){
-  return (<Profile isAuthorized={isAuthorized} userID={userID} />)
+export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -18,6 +18,7 @@ export const getServerSideProps = (async (context) => {
     props: {
       isAuthorized: true,
       userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
+      data,
     },
   };
 }) satisfies GetServerSideProps<AuthProps>;

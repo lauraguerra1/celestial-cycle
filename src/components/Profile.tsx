@@ -9,7 +9,7 @@ export type ProfileProps = AuthProps & {
   userID: string | number;
 };
 
-function Profile({isAuthorized, userID}: ProfileProps) {
+function Profile({isAuthorized, userID, data}: ProfileProps) {
   useEffect(() => {
     require("@passageidentity/passage-elements/passage-profile");
     if (!isAuthorized) {

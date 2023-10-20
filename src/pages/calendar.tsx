@@ -22,14 +22,16 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        userID: loginProps.userID
+        userID: loginProps.userID,
+        data
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
-        userID: ''
+        userID: '',
+        data: null
       },
     };
   }
