@@ -41,7 +41,7 @@ Celestial Cycle offers a seamless experience for users to input and track their 
 - Run the command: `npm install`
 - Run the command: `npm run dev`
 - To run Cypress e2e tests, run the command: `npm run cypress`
-Note about Cypress: There are unstubbed network requests in all result page components due to the YouTube videos being displayed- these network requests are coming directly from YouTube so we were unable to intercept them.
+
 
 ## Context:
 - All contributors are recent graduates of the Front End Engineering program at Turing School of Software and Design. This project was created for Women Who Code's Hackathon for Social Impact. 
