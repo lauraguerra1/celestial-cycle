@@ -1,9 +1,9 @@
 export const userData = {
     data: {
-        birthday: "02/19/1992",
+        birth_date: "02/19/1992",
         userID: 1,
         name: 'Saki',
-        sign: "Pisces"
+        zodiac_sign: "Pisces"
     }
 }
 

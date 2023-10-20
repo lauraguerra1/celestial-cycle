@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import Image from 'next/image'
-
 import React from "react";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import Router from "next/router";
@@ -9,13 +7,10 @@ import DemoPage from "@/components/DemoPage";
 import HomeLoading from "@/components/HomeLoading"
 
 type HomeProps = {
-  logIn: (id: number) => void
-  logOut: () => void, 
   isAuthorized: boolean;
-  userID: any;
 }
 
-export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps) {
+export default function Home({ isAuthorized }: HomeProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -26,13 +21,12 @@ export default function Home({ isAuthorized, userID, logOut, logIn }: HomeProps)
     if (isAuthorized) {
       Router.push("/dashboard"); 
     } 
- 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[loading]);
 
   return (
     loading ? <HomeLoading /> : <DemoPage />
   );
-
 }
 
 export const getServerSideProps = (async (context) => {
@@ -40,7 +34,6 @@ export const getServerSideProps = (async (context) => {
     context.req,
     context.res
   );
-  //  db queries, etc
   return {
     props: {
       isAuthorized: loginProps?.isAuthorized ?? false,

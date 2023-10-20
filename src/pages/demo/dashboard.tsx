@@ -1,11 +1,10 @@
-import Dashboard from '../../components/Dashboard'
-import { getAuthenticatedUserFromSession } from "@/utils/passage";
+import Dashboard, { DashboardProps } from '../../components/Dashboard'
 import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
-import { UserData, AuthProps, ComponentProps } from '@/types/types';
+import { AuthProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, data, logOut}: ComponentProps){
-  return (<Dashboard isAuthorized={isAuthorized} data={data} logOut={logOut} />)
+export default function dashboard ({isAuthorized, userID, data}: DashboardProps){
+  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -14,12 +13,11 @@ export const getServerSideProps = (async (context) => {
     .from("users")
     .select()
     .eq("passage_user_id", 'ABrrCENR3M0I6XZ7NLA7gNCY');
-  console.log(data);
   return {
     props: {
       isAuthorized: true,
-      data: data
+      userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
+      data
     },
   };
-
 }) satisfies GetServerSideProps<AuthProps>;

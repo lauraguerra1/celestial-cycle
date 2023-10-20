@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
-import { selectionType } from '@/types/types';
+import { AuthProps, UserData, selectionType } from '@/types/types';
 import { formSections, getTodaysDate } from '@/utils';
 import { useEffect } from 'react';
-import { ComponentProps } from '@/types/types';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
-import loadingGif from '../../public/images/loadingStars.gif';
 import CelestialLogo from '@/components/CelestialLogo';
 import { isDateInFuture } from '@/utils';
+import LoadingGif from './LoadingGif';
 
-export type FormProps = ComponentProps & {
+export type FormProps = AuthProps & {
   entryDate: Date;
   updateEntryDate: (date: Date) => void;
-  logOut: () => void;
 };
 
-const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormProps) => {
+const Form = ({ entryDate, isAuthorized, data, updateEntryDate }: FormProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
@@ -50,6 +48,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
     getFormData();
 
     return () => setError(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized, entryDate]);
 
   const goToDate = (num: number) => {
@@ -121,12 +120,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
               }
             </div>
       {error && <p className='thick-regular text-center'>{error.message}</p>}
-      {loading ? (
-        <div className='flex flex-col h-70vh  justify-center items-center'>
-          <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
-          <p className='thin-regular m-3'>Loading...</p>
-        </div>
-      ) : (
+      {loading ? <LoadingGif /> : (
         <>
             <div className='flex justify-between'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
@@ -149,7 +143,7 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
         </>
       )}
       </div>
-      <Navbar logOut={logOut} />
+      <Navbar />
     </div>
   );
 };

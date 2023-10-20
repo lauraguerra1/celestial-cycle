@@ -1,12 +1,12 @@
 import React from 'react'
-import Dashboard from '../components/Dashboard'
+import Dashboard, { DashboardProps } from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
-import { AuthProps, ComponentProps } from '@/types/types';
+import { AuthProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, data, logOut}: ComponentProps){
-  return (<Dashboard isAuthorized={isAuthorized} data={data} logOut={logOut} />)
+export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
+  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -16,21 +16,23 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
-    console.log(data);
+      console.log('FROM SUPABASE DATA', data)
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        data: data,
+        userID: loginProps.userID,
+        data: data
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
+        userID: '',
         data: null
       },
     };

@@ -1,10 +1,11 @@
-import CalendarPage, {CalendarProps} from "@/components/Calendar";
-import { getSupabase } from "@/utils/supabase";
-import { AuthProps } from "@/types/types";
+import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
+import { AuthProps } from '@/types/types';
+import Profile from '../profile';
+import { ProfileProps } from "@/components/Profile";
 
-export default function calendar({isAuthorized, data, updateEntryDate}: CalendarProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
+export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID} />)
 }
 
 export const getServerSideProps = (async (context) => {

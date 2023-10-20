@@ -17,8 +17,8 @@ export interface User {
     }
 }
 export interface UserData {
-    id: number,
-    created_at: string,
+    id: number | undefined,
+    created_at: string | undefined,
     name: string,
     email: string,
     birth_date: string,
@@ -38,9 +38,4 @@ export interface Insights {
 export type AuthProps = {
     isAuthorized: boolean;
     data: UserData[] | null | undefined
-};
-
-export type ComponentProps = AuthProps & {
-    logOut: () => void
-}
-  
+};  

@@ -4,8 +4,8 @@ import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
 import { GetServerSideProps } from "next";
 
-export default function calendar({isAuthorized, logOut, data, updateEntryDate}: CalendarProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} logOut={logOut} data={data} updateEntryDate={updateEntryDate}/>)
+export default function calendar({isAuthorized, data, updateEntryDate}: CalendarProps) {
+  return (<CalendarPage isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -19,20 +19,20 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
-    console.log(data);
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        data: data,
+        userID: loginProps.userID,
+        data
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
+        userID: '',
         data: null
       },
     };
   }
 }) satisfies GetServerSideProps<AuthProps>;
-

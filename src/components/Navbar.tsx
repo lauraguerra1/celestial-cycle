@@ -5,9 +5,8 @@ import user from '../../public/images/user.png'
 import Image from 'next/image'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
-const Navbar = ({ logOut }: { logOut: () => void }) => {
+const Navbar = () => {
     const router = useRouter();
 
     return (
@@ -16,7 +15,7 @@ const Navbar = ({ logOut }: { logOut: () => void }) => {
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
                     <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/calendar`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
-                        <Image width={45} height={45} alt='user logo' src={calendar} />
+                        <Image width={45} height={45} alt='calendar logo' src={calendar} />
                     </div>
                     <p>Calendar</p>
                     </Link>
@@ -24,17 +23,19 @@ const Navbar = ({ logOut }: { logOut: () => void }) => {
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'> 
                     <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/dashboard`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
-                        <Image width={45} height={45} alt='user logo' src={home} />
+                        <Image width={45} height={45} alt='home logo' src={home} />
                     </div>
                     <p>Home</p>
                     </Link>
                 </div>
-                <button onClick={logOut} className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
+                <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
+                    <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/profile`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
                         <Image width={45} height={45} alt='user logo' src={user} />
                     </div>
-                    <p>Logout</p>
-                </button>
+                    </Link>
+                    <p>Profile</p>
+                </div>
             </div>
         </nav>
     )

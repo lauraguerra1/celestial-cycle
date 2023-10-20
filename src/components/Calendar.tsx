@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AuthProps, ComponentProps } from '@/types/types';
+import { AuthProps, UserData } from '@/types/types';
 import Router from 'next/router';
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
@@ -12,11 +12,11 @@ import CelestialLogo from '@/components/CelestialLogo';
 
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
-export type CalendarProps = ComponentProps & {
+export type CalendarProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
 };
 
-export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate }: CalendarProps) {
+export default function CalendarPage({ isAuthorized, data, updateEntryDate }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const router = useRouter();
 
@@ -24,13 +24,7 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
     if (!isAuthorized) {
       Router.push('/');
     }
-
-    console.log(data);
-  }, []);
-
-  useEffect(() => {
-    console.log('date', getTodaysDate(value));
-  }, [value]);
+  },[isAuthorized]);
 
   const goToEntry = () => {
     updateEntryDate(value);
@@ -57,7 +51,7 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
           </button>
         </div>
       </div>
-      <Navbar logOut={logOut} />
+      <Navbar/>
     </div>
   );
 }
