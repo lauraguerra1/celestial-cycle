@@ -46,7 +46,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       const passage = new Passage(passageAppId);
       const userPass = passage.getCurrentUser();
       const userInfo = await userPass.userInfo();
-      const isUserInSupaBase = await checkForUser(userID) // What if this just returns a boolean whether user exists in Supabase already?
+      const isUserInSupaBase = await checkForUser(userID)
       if (userInfo && !isUserInSupaBase) {
         addNewUser(userInfo)
       }
@@ -94,6 +94,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       if (res.ok) {
         const data = await res.json();
         setUser(data[0])
+        // NEED TO SHOW INITIAL FORM AT THIS POINT 
         setLoading(false)
       } else {
         console.log('Error:', res.statusText);
