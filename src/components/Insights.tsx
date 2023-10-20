@@ -1,19 +1,21 @@
 import React, { useDebugValue, useEffect, useState } from 'react';
 import { UserData, ComponentProps, Horoscope } from '@/types/types';
-import { convertStringToDate, getTodaysDate } from '@/utils/utils';
+import { convertStringToDate, formatDateForDB, getTodaysDate } from '@/utils/utils';
 import Navbar from './Navbar';
 import Router from "next/router";
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import Link from 'next/link';
 import CelestialLogo from './CelestialLogo';
-import { getHoroscope } from '@/utils/apiCalls';
+import { getEntry, getHoroscope } from '@/utils/apiCalls';
+import { Value } from 'react-calendar/dist/cjs/shared/types';
 
 type InsightsProps = ComponentProps & {
   logOut: () => void
+  updateEntryDate: (date: Value) => void;
 };
 
-export default function Insights({ isAuthorized, data, logOut }: InsightsProps) {
+export default function Insights({ isAuthorized, data, logOut, updateEntryDate }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
   const [user, setUser] = useState<UserData | null>(null)
@@ -21,6 +23,7 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
+  const [contentAvailable, setContentAvailable] = useState<boolean>(false);
   
   useEffect(() => {
     if (!isAuthorized) {
@@ -43,6 +46,33 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
     
   }, [isAuthorized, user]);
 
+  useEffect(() => {
+    console.log('hidate', convertStringToDate(chosenDate))
+    getEntry(router.asPath.includes('demo'), formatDateForDB(convertStringToDate(chosenDate) as Date), data ? data[0].passage_user_id : '')
+    .then(data => {
+      console.log(data)
+      if(data.data) {
+        setContentAvailable(true)
+      }
+    })
+    .catch(err => {
+      setError(true)
+      console.log('here')
+      console.error(err)
+    })
+
+   return () => { 
+      setError(false) 
+      setContentAvailable(false)
+   }
+  }, [chosenDate])
+
+  const goToEntry = () => {
+    console.log('chosendate', convertStringToDate(chosenDate))
+    updateEntryDate(convertStringToDate(chosenDate));
+    router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
+  };
+
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
@@ -58,8 +88,9 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
               emptyDay ? "No insights loaded for this date, try a later date" : userInsights?.description}
           </p>
           <div className='flex justify-center'>
-            {/* add a conditional to show todays data and change button to edit? */}
-            <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/form`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button></Link>
+            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
+              {`${contentAvailable ? 'Edit' : 'Add'} Today's Data`}
+            </button>
           </div>
         </section>
       </div>

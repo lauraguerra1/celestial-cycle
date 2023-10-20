@@ -18,13 +18,14 @@ export type FormProps = ComponentProps & {
   entryDate: Date;
   updateEntryDate: (date: Date) => void;
   logOut: () => void;
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>
+  selections: selectionType
 };
 
-const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormProps) => {
+const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate, selections, setSelections }: FormProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
-  const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
   const router = useRouter();
 
   useEffect(() => {

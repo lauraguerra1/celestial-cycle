@@ -4,8 +4,8 @@ import { GetServerSideProps } from "next";
 import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
 
-export default function form({logOut, entryDate, updateEntryDate, isAuthorized, data}: FormProps) {
-  return (<Form isAuthorized={isAuthorized} data={data} logOut={logOut}  entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
+export default function form({logOut, entryDate, updateEntryDate, isAuthorized, data, setSelections, selections}: FormProps) {
+  return (<Form setSelections={setSelections} selections={selections} isAuthorized={isAuthorized} data={data} logOut={logOut}  entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
 }
 
 export const getServerSideProps = (async (context) => {

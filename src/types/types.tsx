@@ -42,6 +42,7 @@ export type AuthProps = {
 
 export type ComponentProps = AuthProps & {
     logOut: () => void
+    updateEntryDate: () => void
 }
   
 export interface Horoscope {
