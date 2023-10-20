@@ -11,6 +11,7 @@ import { getEntry, postEntry } from '@/utils/apiCalls';
 import CelestialLogo from '@/components/CelestialLogo';
 import { isDateInFuture } from '@/utils/utils';
 import LoadingGif from './LoadingGif';
+import DatePicker from './DatePicker';
 
 export type FormProps = AuthProps & {
   entryDate: Date;
@@ -51,12 +52,6 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     return () => setError(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized, entryDate]);
-
-  const goToDate = (num: number) => {
-    const newDate = new Date(entryDate);
-    newDate.setDate(newDate.getDate() + num);
-    updateEntryDate(newDate);
-  };
 
   const postForm = async () => {
     const infoOptions = [...Object.values(selections), symptoms];
@@ -108,18 +103,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     <div className='mt-10 h-full fade-in'>
           <div className='form-page'>
             <CelestialLogo />
-            <div className='flex justify-between items-center mb-4'>
-              <button onClick={() => goToDate(-1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                chevron_left
-              </button>
-              <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-                {!isDateInFuture(entryDate) ?
-                  <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                    chevron_right
-                  </button> : 
-                  <div className='w-5'></div>
-              }
-            </div>
+            <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
       {error && <p className='thick-regular text-center'>{error.message}</p>}
       {loading ? <LoadingGif /> : (
         <>

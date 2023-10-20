@@ -10,6 +10,7 @@ import CelestialLogo from './CelestialLogo';
 import { getEntry, getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
+import DatePicker from './DatePicker';
 
 type InsightsProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
@@ -24,6 +25,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
+  const [rerender, setReRender] = useState<boolean>(false)
   
   useEffect(() => {
     if (!isAuthorized) {
@@ -43,8 +45,8 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       setError(true)
       console.error(err)
     })
-    
-  }, [isAuthorized, user]);
+    console.log('here', chosenDate)
+  }, [isAuthorized, user, date]);
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
@@ -55,7 +57,8 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <CelestialLogo />
-        <h2 className='text-center text-xl mt-3'>{getTodaysDate(convertStringToDate(chosenDate))}</h2>
+        {/* <h2 className='text-center text-xl mt-3'>{getTodaysDate(convertStringToDate(chosenDate))}</h2> */}
+        <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate}/>
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
         <section className='insights mt-5 overflow-y-auto'>
           <div className='flex justify-end mt-3 mr-5'>

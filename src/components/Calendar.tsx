@@ -36,7 +36,6 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
   useEffect(() => {
     const d = value as Date
     setDate(`${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}`)
-    console.log('date', `${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}` )
   },[value])
 
   useEffect(() => {
