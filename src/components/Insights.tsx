@@ -1,5 +1,5 @@
 import React, { useDebugValue, useEffect, useState } from 'react';
-import { UserData, ComponentProps, Horoscope } from '@/types/types';
+import { UserData, ComponentProps, Horoscope, selectionType } from '@/types/types';
 import { convertStringToDate, formatDateForDB, getTodaysDate } from '@/utils/utils';
 import Navbar from './Navbar';
 import Router from "next/router";
@@ -13,9 +13,10 @@ import { Value } from 'react-calendar/dist/cjs/shared/types';
 type InsightsProps = ComponentProps & {
   logOut: () => void
   updateEntryDate: (date: Value) => void;
+  selections: selectionType
 };
 
-export default function Insights({ isAuthorized, data, logOut, updateEntryDate }: InsightsProps) {
+export default function Insights({ isAuthorized, data, logOut, updateEntryDate, selections }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
   const [user, setUser] = useState<UserData | null>(null)

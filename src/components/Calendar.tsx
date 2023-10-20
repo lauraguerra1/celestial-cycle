@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AuthProps, ComponentProps } from '@/types/types'
+import { AuthProps, ComponentProps, selectionType } from '@/types/types'
 import Router, { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
@@ -13,16 +13,18 @@ import { getEntry } from '@/utils/apiCalls';
 
 type ValuePiece = Date | null;
 export type Value = ValuePiece | [ValuePiece, ValuePiece];
+
 export type CalendarProps = ComponentProps & {
   updateEntryDate: (date: Value) => void;
   entryDate: Date
+  selections: selectionType
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>
 };
 
-export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate, entryDate }: CalendarProps) {
+export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDate, entryDate, selections, setSelections }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const [date, setDate] = useState<string>("")
   const [error, setError] = useState<boolean>(false);
-  const [contentAvailable, setContentAvailable] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,10 +41,12 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
 
   useEffect(() => {
     getEntry(router.asPath.includes('demo'), formatDateForDB(value as Date), data ? data[0].passage_user_id : '')
-    .then(data => {
-      console.log(data)
-      if(data.data) {
-        setContentAvailable(true)
+    .then(entryInfo => {
+      console.log(entryInfo)
+      if (entryInfo.data) {
+        setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
+      } else {
+        setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
       }
     })
     .catch(err => {
@@ -52,7 +56,6 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
 
    return () => { 
       setError(false) 
-      setContentAvailable(false)
    }
   }, [value])
 
@@ -76,7 +79,8 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
         <div className='flex flex-col items-center mt-10'>
           <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${date}`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
           <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
-            {`${contentAvailable ? 'Edit' : 'Add'} Today's Data`}
+            {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
+            "Edit" : "Add"} Today's Data`}
           </button>
         </div>
       </div>

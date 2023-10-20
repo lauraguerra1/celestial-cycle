@@ -5,8 +5,8 @@ import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps, ComponentProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, data, logOut, updateEntryDate}: ComponentProps){
-  return (<Insights updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} logOut={logOut} />)
+export default function dashboard ({isAuthorized, data, logOut, updateEntryDate, selections}: ComponentProps){
+  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} logOut={logOut} />)
 }
 
 export const getServerSideProps = (async (context) => {
