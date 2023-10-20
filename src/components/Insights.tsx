@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import Link from 'next/link';
 import CelestialLogo from './CelestialLogo';
+import { getHoroscope } from '@/utils/apiCalls';
 
 type InsightsProps = ComponentProps & {
   logOut: () => void
@@ -21,27 +22,6 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   
-  //Im getting the horoscope for now, but are we actually using chatgpt for this part?
-  const getHoroscope = (date: string, sign: string) => {
-    fetch(`${router.asPath.includes('demo') ? '/..' : ''}/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
-      .then((response) => response.json())
-      .then(data => {
-        console.log(data)
-
-        if (data.length === 0) {
-          setEmptyDay(true) 
-        } else {
-          setUserInsights(data[0])
-        }
-
-        return data;
-      })
-      .catch(err => {
-        setError(true)
-        console.error(err)
-      })
-  };
-
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
@@ -49,6 +29,18 @@ export default function Insights({ isAuthorized, data, logOut }: InsightsProps) 
 
     if (data) setUser(data[0])
     if (user) getHoroscope(chosenDate, user?.zodiac_sign as string)
+    .then((data) => {
+      if (data.length === 0) {
+        setEmptyDay(true) 
+      } else {
+        setUserInsights(data[0])
+      }
+    })
+    .catch(err => {
+      setError(true)
+      console.error(err)
+    })
+    
   }, [isAuthorized, user]);
 
   return (

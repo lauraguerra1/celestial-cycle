@@ -51,12 +51,8 @@ export default function CalendarPage({ isAuthorized, data, logOut, updateEntryDa
         </div>
         <div className='flex flex-col items-center mt-10'>
           <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${date}`}><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
-          {/* <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button> */}
-          {/* <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights`}>
-            <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button>
-          </Link> */}
           <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
-            Add Today&#39;s Data
+            {`Add Today's Data`}
           </button>
         </div>
       </div>

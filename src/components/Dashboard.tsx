@@ -5,6 +5,7 @@ import { getTodaysDate } from '@/utils/utils';
 import Navbar from '../components/Navbar';
 import Router from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
+import { getHoroscope } from '@/utils/apiCalls';
 
 type DashboardProps = ComponentProps & {
   logOut: () => void;
@@ -15,28 +16,23 @@ export default function Dashboard({ isAuthorized, data, logOut }: DashboardProps
   const [error, setError] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
 
-  const getHoroscope = (date: string, sign: string) => {
-    fetch(`/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
-      .then((response) => response.json())
-      .then(data => {
-        console.log('horoscope', data)
-        setUserInsights(data[0])
-        return data;
-      })
-      .catch(err => {
-        setError(true)
-        console.log('eroor')
-        console.error(err)
-      })
-  };
-
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
     }
 
     if (data) setUser(data[0])
-    if (user) getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
+    if (user) {
+      getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
+      .then(data => {
+        console.log('horoscope', data)
+        setUserInsights(data[0])
+      })
+      .catch(err => {
+        setError(true)
+        console.error(err)
+      })
+    }
     
   }, [isAuthorized, user]);
 
