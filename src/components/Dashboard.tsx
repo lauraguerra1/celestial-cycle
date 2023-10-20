@@ -77,12 +77,12 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   };
 
   return (
-    <div className='relative h-full flex flex-col'>
+    <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <Image className='ml-5' width={300} height={100} style={{ width: '100%', height: 'auto' }} alt="Logo" src={logo} />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user?.user_metadata?.name || ''} {demo && 'Demo'}</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
-        <div className='flex justify-center items-center flex-col'>
+        <div className='flex justify-center items-center flex-col mb-28'>
           <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? getZodiacSign(user.user_metadata?.birthday) : 'capricorn'}.png`} priority/>
           <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
             <p>{insights.data.horoscope}</p>

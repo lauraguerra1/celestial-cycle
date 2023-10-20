@@ -28,7 +28,7 @@ function Profile({isAuthorized, userID}: AuthProps) {
   }
 
   return (
-    <div className='flex flex-col content-center'>
+    <div className='flex flex-col content-center mb-20'>
       <h1 className='m-7 text-center text-3xl'>{(userID === 'ABrrCENR3M0I6XZ7NLA7gNCY') && 'Log in to enjoy our profile feature!'}</h1>
       <passage-profile app-id={process.env.NEXT_PUBLIC_PASSAGE_APP_ID}></passage-profile>
       <button className='bg-white text-black opacity-90 py-2 px-10 m-10 rounded-md'onClick={signOut}>LOG OUT</button>
