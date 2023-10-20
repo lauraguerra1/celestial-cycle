@@ -9,6 +9,7 @@ import Link from 'next/link';
 import CelestialLogo from './CelestialLogo';
 import { getEntry, getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
+import Image from 'next/image';
 
 type InsightsProps = ComponentProps & {
   logOut: () => void
@@ -24,7 +25,6 @@ export default function Insights({ isAuthorized, data, logOut, updateEntryDate, 
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
-  const [contentAvailable, setContentAvailable] = useState<boolean>(false);
   
   useEffect(() => {
     if (!isAuthorized) {
@@ -47,29 +47,7 @@ export default function Insights({ isAuthorized, data, logOut, updateEntryDate, 
     
   }, [isAuthorized, user]);
 
-  useEffect(() => {
-    console.log('hidate', convertStringToDate(chosenDate))
-    getEntry(router.asPath.includes('demo'), formatDateForDB(convertStringToDate(chosenDate) as Date), data ? data[0].passage_user_id : '')
-    .then(data => {
-      console.log(data)
-      if(data.data) {
-        setContentAvailable(true)
-      }
-    })
-    .catch(err => {
-      setError(true)
-      console.log('here')
-      console.error(err)
-    })
-
-   return () => { 
-      setError(false) 
-      setContentAvailable(false)
-   }
-  }, [chosenDate])
-
   const goToEntry = () => {
-    console.log('chosendate', convertStringToDate(chosenDate))
     updateEntryDate(convertStringToDate(chosenDate));
     router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
   };
@@ -80,7 +58,7 @@ export default function Insights({ isAuthorized, data, logOut, updateEntryDate, 
         <CelestialLogo />
         <h2 className='text-center text-xl mt-3'>{getTodaysDate(convertStringToDate(chosenDate))}</h2>
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
-        <section className='insights mt-5'>
+        <section className='insights mt-5 overflow-y-auto'>
           <div className='flex justify-end mt-3 mr-5'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
@@ -88,9 +66,30 @@ export default function Insights({ isAuthorized, data, logOut, updateEntryDate, 
             {error ? "Error loading insights, please refresh the page" : 
               emptyDay ? "No insights loaded for this date, try a later date" : userInsights?.description}
           </p>
+            <div className='flex justify-between mx-10 mt-3'>
+            {selections.FLOW && <div className='flex flex-col'>
+              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.FLOW}.png`} alt={selections.FLOW} />
+              </div>
+              <p className='min-w-max text-white thin-regular'>{selections.FLOW}</p>
+            </div>}
+            {selections.MOOD && <div className='flex flex-col'>
+              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.MOOD}.png`} alt={selections.MOOD} />
+              </div>
+              <p className='min-w-max text-white thin-regular'>{selections.MOOD}</p>
+            </div>}
+            {selections.CRAVINGS && <div className='flex flex-col'>
+              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.CRAVINGS}.png`} alt={selections.CRAVINGS} />
+              </div>
+              <p className='min-w-max text-white thin-regular'>{selections.CRAVINGS}</p>
+            </div>}
+          </div>
           <div className='flex justify-center'>
             <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
-              {`${contentAvailable ? 'Edit' : 'Add'} Today's Data`}
+            {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
+            "Edit" : "Add"} Today's Data`}
             </button>
           </div>
         </section>
