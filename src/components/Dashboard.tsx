@@ -9,9 +9,8 @@ import { AuthProps, UserData } from '@/types/types';
 import dotenv from 'dotenv';
 import { Passage } from '@passageidentity/passage-js';
 import CelestialLogo from './CelestialLogo';
+import LoadingGif from './LoadingGif';
 dotenv.config();
-
-
 
 export type DashboardProps = AuthProps & {
   userID: string | number;
@@ -20,7 +19,7 @@ export type DashboardProps = AuthProps & {
 export default function Dashboard({ isAuthorized, userID, data }: DashboardProps) {
   const [user, setUser] = useState<UserData | undefined>(undefined);
   const [loading, setLoading] = useState(true)
-  const [demo, setDemo] = useState(false)
+  const [serverError, setServerError] = useState(false)
   // const [userInsights, setUserInsights] = useState(insights)
 
   useEffect(() => {
@@ -28,16 +27,11 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       Router.push("/");
     } 
     else if (data && data.length) {
-      console.log('YES DATA', data[0], 'user found')
       setUser(data[0])
       setLoading(false)
     } 
     else if (data && !data.length) {
-      console.log('FIRST TIME USER')
       getCurrentUserInfo(userID)
-    }
-    else {
-      setDemo(true)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -54,16 +48,11 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       const userInfo = await userPass.userInfo();
       const isUserInSupaBase = await checkForUser(userID) // What if this just returns a boolean whether user exists in Supabase already?
       if (userInfo && !isUserInSupaBase) {
-        console.log('user not in database', isUserInSupaBase)
         addNewUser(userInfo)
       }
       else {
-        console.log('error: user is in database', isUserInSupaBase)
+        setServerError(true)
       }
-      // If it exists, simply set the user
-      // setUser(userInfo) // maybe set user after making the payload
-      // If not, then add the user
-      // return userInfo
     }
   }
 
@@ -71,7 +60,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     try {
       const res = await fetch(`/api/getUser?userID=${userID}`)
       const parsed = await res.json()
-      console.log('PARSED', parsed)
       if (!parsed.length) {
         return false
       }
@@ -79,6 +67,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     }
     catch (err) {
       console.error(err)
+      setServerError(true)
     }
   }
 
@@ -94,7 +83,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   const addNewUser = async (user: PassageUserInfo) => {
     const formattedUser = formatUser(user)
-    console.log('adding user', formattedUser)
     try {
       const res = await fetch('/api/addUser', {
         method: 'POST',
@@ -107,12 +95,13 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
         const data = await res.json();
         setUser(data[0])
         setLoading(false)
-        console.log('ADDED TO SUPABASE- DONE', data);
       } else {
         console.log('Error:', res.statusText);
+        setServerError(true)
       }
     } catch (err) {
       console.error(err);
+      setServerError(true)
     }
   };
 
@@ -120,7 +109,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     return (
       <div className='mt-10 h-full'>
       <CelestialLogo />
-      <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''} {demo && 'Demo'}</h1>
+      <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''}</h1>
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-28'>
         <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
@@ -134,7 +123,8 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   return (
     <div className='relative h-full flex flex-col fade-in'>
-      {loading ? <p>Loading</p> : renderDashboard()}
+      {loading ? <LoadingGif /> : renderDashboard()}
+      {serverError && <p>Sorry, there seems to be an issue with our server at the moment, try again later!</p>}
       <Navbar />
     </div>
   );

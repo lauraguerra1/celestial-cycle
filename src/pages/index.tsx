@@ -13,48 +13,20 @@ type HomeProps = {
 export default function Home({ isAuthorized }: HomeProps) {
   const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   setTimeout(() => { 
-  //     setLoading(false)
-  //   }, 1500)
-
-  //   if (isAuthorized) {
-  //     Router.push("/dashboard"); 
-  //   } 
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // },[loading]);
-
-  // return (
-  //   loading ? <HomeLoading /> : <DemoPage />
-  // );
-
-
   useEffect(() => {
-    // Check if the user is authorized before setting the loading state.
+    setTimeout(() => { 
+      setLoading(false)
+    }, 1500)
+
     if (isAuthorized) {
-      setLoading(false);
-    } else {
-      const timer = setTimeout(() => {
-        setLoading(false);
-      }, 1500);
+      Router.push("/dashboard"); 
+    } 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[loading]);
 
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [isAuthorized]);
-
-  useEffect(() => {
-    if (isAuthorized && !loading) {
-      Router.push('/dashboard');
-    }
-  }, [isAuthorized, loading]);
-
-  if (loading) {
-    return <HomeLoading />;
-  }
-
-  return <DemoPage />;
+  return (
+    loading ? <HomeLoading /> : <DemoPage />
+  );
 }
 
 export const getServerSideProps = (async (context) => {

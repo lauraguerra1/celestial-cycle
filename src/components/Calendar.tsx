@@ -27,10 +27,6 @@ export default function CalendarPage({ isAuthorized, updateEntryDate }: Calendar
     }
   },[isAuthorized]);
 
-  useEffect(() => {
-    console.log('date', getTodaysDate(value));
-  }, [value]);
-
   const goToEntry = () => {
     updateEntryDate(value);
     router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
