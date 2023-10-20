@@ -5,8 +5,8 @@ import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, userID }: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID}/>)
+export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
+  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -20,17 +20,20 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
+      console.log('FROM SUPABASE DATA', data)
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        userID: loginProps.userID
+        userID: loginProps.userID,
+        data: data
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
-        userID: ''
+        userID: '',
+        data: null
       },
     };
   }

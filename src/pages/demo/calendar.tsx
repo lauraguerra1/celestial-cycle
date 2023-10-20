@@ -1,5 +1,4 @@
 import CalendarPage, {CalendarProps} from "@/components/Calendar";
-import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
 import { GetServerSideProps } from "next";

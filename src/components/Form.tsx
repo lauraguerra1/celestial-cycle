@@ -14,7 +14,6 @@ import { isDateInFuture } from '@/utils';
 
 export type FormProps = AuthProps & {
   entryDate: Date;
-  data: UserData[] | null | undefined
   updateEntryDate: (date: Date) => void;
 };
 

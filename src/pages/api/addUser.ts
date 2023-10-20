@@ -2,19 +2,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabase } from '../../utils/supabase';
 
 export default async function addUser(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-  const { userID, name, email, birthday, sign } = req.body;
-  const supabase = getSupabase(userID);
-  const { data, error } = await supabase.from("users").insert({
-    name: name,
-    email: email,
-    birth_date: birthday,
-    passage_user_id: userID,
-    zodiac_sign: sign,
+  const { name, email, birth_date, passage_user_id, zodiac_sign, } = req.body;
+  console.log('REQ BODY', req.body)
+  const supabase = getSupabase(passage_user_id);
+  const { error } = await supabase.from("users").insert({
+    name,
+    email,
+    birth_date,
+    passage_user_id,
+    zodiac_sign,
   });
-
-  console.log('DATA', data);
-  console.log('ERROR', error);
-
+  const { data } = await supabase.from("users").select().eq("passage_user_id", passage_user_id);
+// { data, error }: { data: any | null, error: PostgrestError | null }
   if (error) {
     return res.status(400).json(error);
   }
