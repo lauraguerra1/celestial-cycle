@@ -106,14 +106,6 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
 
   return (
     <div className='mt-10 h-full fade-in'>
-      {error && <p className='thick-regular text-center'>{error.message}</p>}
-      {loading ? (
-        <div className='flex flex-col h-70vh  justify-center items-center'>
-          <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
-          <p className='thin-regular m-3'>Loading...</p>
-        </div>
-      ) : (
-        <>
           <div className='form-page'>
             <CelestialLogo />
             <div className='flex justify-between items-center mb-4'>
@@ -125,9 +117,17 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
                   <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
                     chevron_right
                   </button> : 
-                  <div></div>
+                  <div className='w-5'></div>
               }
             </div>
+      {error && <p className='thick-regular text-center'>{error.message}</p>}
+      {loading ? (
+        <div className='flex flex-col h-70vh  justify-center items-center'>
+          <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
+          <p className='thin-regular m-3'>Loading...</p>
+        </div>
+      ) : (
+        <>
             <div className='flex justify-between'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
               <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>
@@ -146,9 +146,9 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate }: FormPr
                 }}
               />
             </div>
-          </div>
         </>
       )}
+      </div>
       <Navbar logOut={logOut} />
     </div>
   );
