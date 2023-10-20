@@ -1,11 +1,10 @@
-import CalendarPage, {CalendarProps} from "@/components/Calendar";
-import { getAuthenticatedUserFromSession } from "@/utils/passage";
-import { getSupabase } from "@/utils/supabase";
+import Form, { FormProps } from "@/components/Form";
 import { AuthProps } from "@/types/types";
+import { getSupabase } from "@/utils/supabase";
 import { GetServerSideProps } from "next";
 
-export default function calendar({isAuthorized, data, updateEntryDate}: CalendarProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
+export default function form({entryDate, updateEntryDate, isAuthorized, data}: FormProps) {
+  return (<Form isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -14,10 +13,12 @@ export const getServerSideProps = (async (context) => {
     .from("users")
     .select()
     .eq("passage_user_id", 'ABrrCENR3M0I6XZ7NLA7gNCY');
+  console.log(data);
   return {
     props: {
       isAuthorized: true,
-      userID: 'ABrrCENR3M0I6XZ7NLA7gNCY',
+      data: data
     },
   };
+
 }) satisfies GetServerSideProps<AuthProps>;

@@ -1,3 +1,21 @@
+export type Indexable = {
+    [key: string]: any
+}
+
+export type selectionType = Indexable & {
+    FLOW: null | string,
+    MOOD: null | string,
+    CRAVINGS: null | string
+}
+
+export interface User {
+    data: {
+        name: string,
+        birthday: string,
+        userID: number,
+        sign: string
+    }
+}
 export interface UserData {
     id: number,
     created_at: string,
@@ -19,6 +37,4 @@ export interface Insights {
 
 export type AuthProps = {
     isAuthorized: boolean;
-    userID: string | number;
-    // data: 
 };  

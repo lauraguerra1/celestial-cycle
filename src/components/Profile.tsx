@@ -5,7 +5,11 @@ import dotenv from 'dotenv';
 import Router from "next/router";
 import { useEffect } from 'react';
 
-function Profile({isAuthorized, userID}: AuthProps) {
+export type ProfileProps = AuthProps & {
+  userID: string | number;
+};
+
+function Profile({isAuthorized, userID}: ProfileProps) {
   useEffect(() => {
     require("@passageidentity/passage-elements/passage-profile");
     if (!isAuthorized) {

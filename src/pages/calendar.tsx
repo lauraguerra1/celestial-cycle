@@ -1,11 +1,11 @@
-import CalendarPage from "@/components/Calendar";
+import CalendarPage, {CalendarProps} from "@/components/Calendar";
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
 import { GetServerSideProps } from "next";
 
-export default function calendar({isAuthorized}: AuthProps) {
-  return (<CalendarPage isAuthorized={isAuthorized} userID={""} />)
+export default function calendar({isAuthorized, data, updateEntryDate}: CalendarProps) {
+  return (<CalendarPage isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
 }
 
 export const getServerSideProps = (async (context) => {

@@ -2,8 +2,9 @@ import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 import Profile from '../profile';
+import { ProfileProps } from "@/components/Profile";
 
-export default function dashboard ({isAuthorized, userID}: AuthProps){
+export default function dashboard ({isAuthorized, userID}: ProfileProps){
   return (<Profile isAuthorized={isAuthorized} userID={userID} />)
 }
 

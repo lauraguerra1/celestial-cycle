@@ -34,7 +34,6 @@ export const getServerSideProps = (async (context) => {
     context.req,
     context.res
   );
-  //  db queries, etc
   return {
     props: {
       isAuthorized: loginProps?.isAuthorized ?? false,

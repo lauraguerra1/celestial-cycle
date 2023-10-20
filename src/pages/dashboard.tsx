@@ -1,11 +1,11 @@
 import React from 'react'
-import Dashboard from '../components/Dashboard'
+import Dashboard, { DashboardProps } from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 
-export default function dashboard ({isAuthorized, userID }: AuthProps){
+export default function dashboard ({isAuthorized, userID }: DashboardProps){
   return (<Dashboard isAuthorized={isAuthorized} userID={userID}/>)
 }
 

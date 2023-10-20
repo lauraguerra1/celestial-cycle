@@ -43,6 +43,11 @@ button {
   cursor: pointer;
 }
 
+.light-opacity-bg {
+  --tw-bg-opacity: 0.06
+}
+
+
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
@@ -106,4 +111,12 @@ button {
 
 .react-calendar__month-view__days__day--weekend {
   color: white !important;
+}
+
+.form-page {
+  min-height: calc(100vh + 5rem);
+}
+
+.added-height {
+  min-height: calc(auto + 5rem)
 }

@@ -1,29 +1,44 @@
-import React, { useEffect } from 'react'
-import { AuthProps } from '@/types/types';
-import Router from "next/router";
+import React, { useEffect } from 'react';
+import { AuthProps, UserData } from '@/types/types';
+import Router from 'next/router';
 import Navbar from '@/components/Navbar';
-import Logo from '@/components/logo';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import { getTodaysDate } from '@/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import CelestialLogo from '@/components/CelestialLogo';
 
 type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+export type Value = ValuePiece | [ValuePiece, ValuePiece];
+export type CalendarProps = AuthProps & {
+  data: UserData[] | null | undefined;
+  updateEntryDate: (date: Value) => void;
+};
 
-export default function CalendarPage({ isAuthorized }: AuthProps) {
+export default function CalendarPage({ isAuthorized, updateEntryDate }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
+  const router = useRouter();
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/"); 
+      Router.push('/');
     }
   },[isAuthorized]);
 
+  useEffect(() => {
+    console.log('date', getTodaysDate(value));
+  }, [value]);
+
+  const goToEntry = () => {
+    updateEntryDate(value);
+    router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
+  };
+
   return (
     <div className='mt-10 h-full fade-in'>
-      <Logo />
+      <CelestialLogo />
       <div className='mt-5 flex justify-center'>
         <Calendar onChange={onChange} value={value} />
       </div>
@@ -33,11 +48,15 @@ export default function CalendarPage({ isAuthorized }: AuthProps) {
           <p className='text-lg'>Quarter Moon 🌖</p>
         </div>
         <div className='flex flex-col items-center mt-10'>
-          <Link href='/insights'><button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button></Link>
-          <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>Add Today&#39;s Data</button>
+          <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights`}>
+            <button className='bg-grayblue w-60 p-3 m-3 rounded-xl'>View Today&#39;s Insights</button>
+          </Link>
+          <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
+            Add Today&#39;s Data
+          </button>
         </div>
       </div>
       <Navbar/>
     </div>
-  )
+  );
 }

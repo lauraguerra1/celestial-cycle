@@ -1,0 +1,38 @@
+.selected-option {
+ border: 1px solid #4756E2;
+ background-color: rgba(165, 174, 255, 0.35);
+}
+
+.scrolling-form {
+  scrollbar-width: thin;
+}
+
+.scrolling-form::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scrolling-form::-webkit-scrollbar-thumb {
+  background-color: rgb(84, 86, 84);
+  border-radius: 25px
+}
+
+
+@media (hover: none) {
+  .scroll-area-no-track {
+    scrollbar-width: thin;
+  }
+  .scroll-area-no-track::-webkit-scrollbar {
+    width: 1px;
+  }
+}
+
+@media (hover: hover) {
+  .scroll-area-no-track::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .scroll-area-no-track::-webkit-scrollbar-thumb {
+    background-color: rgb(84, 86, 84);
+    border-radius: 25px
+  }
+}

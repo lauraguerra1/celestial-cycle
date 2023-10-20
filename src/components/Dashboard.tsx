@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import logo from '../../public/images/logo.PNG'
 import Image from 'next/image';
 import { getTodaysDate, getZodiacSign } from '@/utils';
 import Navbar from '../components/Navbar';
@@ -9,6 +8,7 @@ import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user'
 import { AuthProps } from '@/types/types';
 import dotenv from 'dotenv';
 import { Passage } from '@passageidentity/passage-js';
+import CelestialLogo from './CelestialLogo';
 
 const getCurrentUserInfo = async () => {
   dotenv.config();
@@ -24,7 +24,11 @@ const getCurrentUserInfo = async () => {
   return userInfo
 }
 
-export default function Dashboard({ isAuthorized, userID }: AuthProps) {
+export type DashboardProps = AuthProps & {
+  userID: string | number;
+};
+
+export default function Dashboard({ isAuthorized, userID }: DashboardProps) {
   const [user, setUser] = useState<PassageUserInfo | undefined>(undefined);
   const [demo, setDemo] = useState(false)
   // const [userInsights, setUserInsights] = useState(insights)
@@ -79,7 +83,7 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
-        <Image className='ml-5' width={300} height={100} style={{ width: '100%', height: 'auto' }} alt="Logo" src={logo} />
+        <CelestialLogo />
         <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user?.user_metadata?.name || ''} {demo && 'Demo'}</h1>
         <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
         <div className='flex justify-center items-center flex-col mb-28'>
@@ -91,5 +95,5 @@ export default function Dashboard({ isAuthorized, userID }: AuthProps) {
       </div>
       <Navbar />
     </div>
-  )
+  );
 }
