@@ -10,9 +10,8 @@ import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
 import loadingGif from '../../public/images/loadingStars.gif';
-import leftArrow from '../../public/images/leftArrow.png';
-import rightArrow from '../../public/images/rightArrow.png';
 import CelestialLogo from '@/components/CelestialLogo';
+import { isDateInFuture } from '@/utils/utils';
 
 export type FormProps = ComponentProps & {
   entryDate: Date;
@@ -108,6 +107,20 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate, selectio
 
   return (
     <div className='mt-10 h-full fade-in'>
+          <div className='form-page'>
+            <CelestialLogo />
+            <div className='flex justify-between items-center mb-4'>
+              <button onClick={() => goToDate(-1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
+                chevron_left
+              </button>
+              <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
+                {!isDateInFuture(entryDate) ?
+                  <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
+                    chevron_right
+                  </button> : 
+                  <div className='w-5'></div>
+              }
+            </div>
       {error && <p className='thick-regular text-center'>{error.message}</p>}
       {loading ? (
         <div className='flex flex-col h-70vh  justify-center items-center'>
@@ -116,17 +129,6 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate, selectio
         </div>
       ) : (
         <>
-          <div className='form-page'>
-            <CelestialLogo />
-            <div className='flex justify-between items-center mb-4'>
-              <button onClick={() => goToDate(-1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                chevron_left
-              </button>
-              <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-              <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                chevron_right
-              </button>
-            </div>
             <div className='flex justify-between'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
               <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>
@@ -145,9 +147,9 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate, selectio
                 }}
               />
             </div>
-          </div>
         </>
       )}
+      </div>
       <Navbar logOut={logOut} />
     </div>
   );

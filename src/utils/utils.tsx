@@ -58,3 +58,9 @@ export const convertStringToDate = (dateString: string): Date => {
 export const formatDateForDB = (date: Date) => {
   return `${new Date(date).getFullYear()}-${new Date(date).getMonth() + 1}-${new Date(date).getDate()}`
 }
+
+export const isDateInFuture = (entryDate: Date) => {
+  const currentDate = new Date().setHours(0,0,0,0)
+  const comparisonDate = new Date(entryDate).setHours(0,0,0,0)
+  return comparisonDate >= currentDate
+}
