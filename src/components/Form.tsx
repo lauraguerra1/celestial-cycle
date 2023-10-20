@@ -129,13 +129,13 @@ const Form = ({ entryDate, logOut, isAuthorized, data, updateEntryDate, selectio
         </div>
       ) : (
         <>
-            <div className='flex justify-between'>
+            <div className='flex justify-between m-3'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
               <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>
                 SAVE
               </button>
             </div>
-            <div className='grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
+            <div className='grid added-height pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
               {formEls}
               <input
                 type='textarea'
