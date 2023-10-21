@@ -129,7 +129,8 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       <div className='flex justify-center items-center flex-col mb-28'>
         <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
         <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
-          <p>{error ? "Error loading horoscope, please refresh page" : userInsights?.description}</p>
+          <p>{error ? "Error loading horoscope, please refresh page" : 
+            !loading? userInsights?.description : <LoadingGif />}</p>
         </div>
       </div>
     </div>
