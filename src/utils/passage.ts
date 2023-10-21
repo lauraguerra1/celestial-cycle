@@ -1,5 +1,5 @@
 import Passage from "@passageidentity/passage-node";
-import { NextPageContext } from "next";
+import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 
 const passage = new Passage({
   appID: process.env.NEXT_PUBLIC_PASSAGE_APP_ID as string,
@@ -7,8 +7,8 @@ const passage = new Passage({
 });
 
 export const getAuthenticatedUserFromSession = async (
-  req: NextPageContext["req"],
-  res: NextPageContext["res"]
+  req: NextPageContext["req"] | NextApiRequest,
+  res: NextPageContext["res"] | NextApiResponse
 ) => {
   try {
     const userID = await passage.authenticateRequest(req);
