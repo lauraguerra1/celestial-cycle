@@ -1,6 +1,6 @@
 <div align="center">
 <h1> Celestial Cycle 🌙</h1>
-Empowering women through a combination of astrological insights and menstrual cycle tracking. 
+Empowering women through a combination of astrological insights and menstrual cycle tracking.  
 
 *This application is currently being developed!*
 
