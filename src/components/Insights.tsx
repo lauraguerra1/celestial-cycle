@@ -11,6 +11,7 @@ import { getEntry, getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
+import LoadingGif from './LoadingGif';
 
 type InsightsProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
@@ -25,27 +26,36 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [userInsights, setUserInsights] = useState<Horoscope>()
   const [chosenDate, setChosenDate] = useState<string>(date as string)
-  const [rerender, setReRender] = useState<boolean>(false)
+  const [loading, setloading] = useState<boolean>(false)
   
   useEffect(() => {
     if (!isAuthorized) {
       Router.push("/");
     }
+    setloading(true)
 
     if (data) setUser(data[0])
     if (user) getHoroscope(chosenDate, user?.zodiac_sign as string)
     .then((data) => {
+      
       if (data.length === 0) {
-        setEmptyDay(true) 
+        setEmptyDay(true)
+        setloading(false)
       } else {
         setUserInsights(data[0])
+        setloading(false)
       }
     })
     .catch(err => {
       setError(true)
       console.error(err)
     })
-    console.log('here', chosenDate)
+    
+    return () => {
+      setloading(false)
+      setError(false)
+      setEmptyDay(false)
+    }
   }, [isAuthorized, user, date]);
 
   const goToEntry = () => {
@@ -57,7 +67,6 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <CelestialLogo />
-        {/* <h2 className='text-center text-xl mt-3'>{getTodaysDate(convertStringToDate(chosenDate))}</h2> */}
         <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate}/>
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
         <section className='insights mt-5 overflow-y-auto'>
@@ -66,7 +75,8 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           </div>
           <p className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" : 
-              emptyDay ? "No insights loaded for this date, try a later date" : userInsights?.description}
+              emptyDay ? "No insights loaded for this date, try a later date" : 
+              loading? <LoadingGif /> : userInsights?.description}
           </p>
             <div className='flex justify-between mx-10 mt-3'>
             {selections.FLOW && <div className='flex flex-col'>
