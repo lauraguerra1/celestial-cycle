@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "lunarphase-js": "^2.0.1",
     "next": "13.5.5",
+    "openai": "^4.12.4",
     "passage": "^1.7.2",
     "react": "^18.2.0",
     "react-calendar": "^4.6.0",
