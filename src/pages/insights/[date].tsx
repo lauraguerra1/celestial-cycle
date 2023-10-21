@@ -3,10 +3,17 @@ import Insights from '../../components/Insights'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
-import { AuthProps, ComponentProps } from '@/types/types';
+import { AuthProps, selectionType } from '@/types/types';
+import { Value } from '@/components/Calendar';
 
-export default function dashboard ({isAuthorized, data, logOut, updateEntryDate, selections}: ComponentProps){
-  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} logOut={logOut} />)
+type InsightProps = AuthProps & {
+  updateEntryDate: (date: Value) => void,
+  selections: selectionType
+} 
+
+
+export default function dashboard ({isAuthorized, data, updateEntryDate, selections}: InsightProps ){
+  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {

@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
 import CelestialLogo from '@/components/CelestialLogo';
-import { isDateInFuture } from '@/utils/utils';
 import LoadingGif from './LoadingGif';
 import DatePicker from './DatePicker';
 
