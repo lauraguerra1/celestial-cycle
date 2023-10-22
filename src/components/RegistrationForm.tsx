@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-const IntitialForm = () => {
+const RegistrationForm = () => {
   const [startDate, setStartDate] = useState('');
   const [periodLength, setPeriodLength] = useState('');
 
@@ -49,4 +49,4 @@ const IntitialForm = () => {
   );
 }
 
-export default IntitialForm
+export default RegistrationForm

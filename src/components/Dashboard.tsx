@@ -94,7 +94,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       if (res.ok) {
         const data = await res.json();
         setUser(data[0])
-        // NEED TO SHOW INITIAL FORM AT THIS POINT 
+        // NEED TO SHOW INITIAL/Registration FORM AT THIS POINT ?
         setLoading(false)
       } else {
         console.log('Error:', res.statusText);
