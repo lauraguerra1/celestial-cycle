@@ -34,7 +34,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       getCurrentUserInfo(userID)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAuthorized]);
 
   const getCurrentUserInfo = async (userID: string | number) => {
     const passageAppId = process.env.NEXT_PUBLIC_PASSAGE_APP_ID;
@@ -96,6 +96,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
         setUser(data[0])
         // NEED TO SHOW INITIAL/Registration FORM AT THIS POINT ?
         setLoading(false)
+        Router.push("/registrationform");
       } else {
         console.log('Error:', res.statusText);
         setServerError(true)

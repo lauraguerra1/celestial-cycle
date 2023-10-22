@@ -4,9 +4,10 @@ import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
+import RegistrationForm from '@/components/RegistrationForm';
 
 export default function registrationform ({isAuthorized, userID, data }: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
+  return (<RegistrationForm isAuthorized={isAuthorized} userID={userID} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -20,7 +21,6 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
-      console.log('FROM SUPABASE DATA', data)
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
