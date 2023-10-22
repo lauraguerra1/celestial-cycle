@@ -106,5 +106,5 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       </div>
       <Navbar />
     </div>
-  )
+  );
 }

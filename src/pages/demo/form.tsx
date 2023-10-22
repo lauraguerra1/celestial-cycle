@@ -4,7 +4,7 @@ import { getSupabase } from "@/utils/supabase";
 import { GetServerSideProps } from "next";
 
 export default function form({entryDate, updateEntryDate, isAuthorized, data, selections, setSelections}: FormProps) {
-  return (<Form selections={selections} setSelections={setSelections} isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
+  return (<Form selections={selections} setSelections={setSelections} isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>);
 }
 
 export const getServerSideProps = (async (context) => {

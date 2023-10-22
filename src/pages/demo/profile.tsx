@@ -5,7 +5,7 @@ import Profile from '../profile';
 import { ProfileProps } from "@/components/Profile";
 
 export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
-  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID} />)
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID} />);
 }
 
 export const getServerSideProps = (async (context) => {

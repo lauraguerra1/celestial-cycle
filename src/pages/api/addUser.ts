@@ -13,7 +13,6 @@ export default async function addUser(req: NextApiRequest, res: NextApiResponse)
     zodiac_sign,
   });
   const { data } = await supabase.from("users").select().eq("passage_user_id", passage_user_id);
-// { data, error }: { data: any | null, error: PostgrestError | null }
   if (error) {
     return res.status(400).json(error);
   }

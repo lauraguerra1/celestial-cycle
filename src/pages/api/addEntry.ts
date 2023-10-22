@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabase } from '../../utils/supabase'
+import { getSupabase } from '../../utils/supabase';
 import { PostgrestError } from '@supabase/supabase-js';
 
 export type EntryData = {
   message: string, 
   data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string}
-}
+};
 
 export default async function addEntry(
   req: NextApiRequest,

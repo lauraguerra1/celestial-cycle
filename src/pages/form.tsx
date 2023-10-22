@@ -5,7 +5,7 @@ import { getSupabase } from "@/utils/supabase";
 import { AuthProps } from "@/types/types";
 
 export default function form({entryDate, updateEntryDate, isAuthorized, data, setSelections, selections}: FormProps) {
-  return (<Form setSelections={setSelections} selections={selections} isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
+  return (<Form setSelections={setSelections} selections={selections} isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>);
 }
 
 export const getServerSideProps = (async (context) => {
@@ -19,7 +19,6 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
-    console.log('FORM DATA', data);
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,

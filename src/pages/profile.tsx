@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
@@ -6,7 +6,7 @@ import { AuthProps } from '@/types/types';
 import Profile, { ProfileProps } from '@/components/Profile';
 
 export default function dashboard ({isAuthorized, data, userID}: ProfileProps){
-  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID}/>)
+  return (<Profile isAuthorized={isAuthorized} data={data} userID={userID}/>);
 }
 
 export const getServerSideProps = (async (context) => {

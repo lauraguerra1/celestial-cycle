@@ -7,7 +7,7 @@ const HomeLoading = () => {
       <Image width={200} height={200} src={woman} alt='' />
       <h1 className='text-4xl'>Celestial Cycle</h1>
     </section>
-  )
+  );
 }
 
 export default HomeLoading;

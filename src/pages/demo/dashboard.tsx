@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 
 export default function dashboard ({isAuthorized, userID, data}: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
+  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />);
 }
 
 export const getServerSideProps = (async (context) => {

@@ -9,7 +9,7 @@ export default async function getHorosopes (req: NextApiRequest, res: NextApiRes
     .from('horoscopes')
     .select()
     .eq("date", date)
-    .eq("zodiac_sign", sign) 
+    .eq("zodiac_sign", sign);
   
     if (error) {
       return res.status(500).json({ error: "Error fetching horoscope data" });
