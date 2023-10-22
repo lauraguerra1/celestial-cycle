@@ -50,7 +50,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       setError(true)
       console.error(err)
     })
-    
+
     return () => {
       setloading(false)
       setError(false)
@@ -73,11 +73,11 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='flex justify-end mt-3 mr-5'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
-          <p className='p-5 insights-text text-lg'>
+          <div className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" : 
               emptyDay ? "No insights loaded for this date, try a later date" : 
               loading? <LoadingGif /> : userInsights?.description}
-          </p>
+          </div>
             <div className='flex justify-between mx-10 mt-3'>
             {selections.FLOW && <div className='flex flex-col'>
               <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>

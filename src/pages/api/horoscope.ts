@@ -3,7 +3,7 @@ import { getSupabase } from '../../utils/supabase';
 
 export default async function getHorosopes (req: NextApiRequest, res: NextApiResponse) {
     const { date, sign } = req.query;
-    console.log('hi', date)
+  
     const supabase = getSupabase(); 
     const { data: horoscopes, error } = await supabase
     .from('horoscopes')

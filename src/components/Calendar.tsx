@@ -41,7 +41,6 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
   useEffect(() => {
     getEntry(router.asPath.includes('demo'), formatDateForDB(value as Date), data ? data[0].passage_user_id : '')
     .then(entryInfo => {
-      console.log(entryInfo)
       if (entryInfo.data) {
         setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
       } else {

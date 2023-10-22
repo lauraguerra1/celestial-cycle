@@ -44,7 +44,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     if (user) {
       getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
       .then(data => {
-        console.log('horoscope', data)
         setUserInsights(data[0])
       })
       .catch(err => {
