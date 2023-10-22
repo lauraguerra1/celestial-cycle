@@ -63,16 +63,16 @@ export default async function addEntry(
     const mostRecentCycle: string[] | undefined = entriesWithFlow
       ?.sort((a, b) => new Date(a.date).setHours(0, 0, 0, 0) - new Date(b.date).setHours(0, 0, 0, 0))
       .reduce((cycleDates: string[], currEntry) => {
-      const currEntryDateAsNum = getLastDateAsNum([currEntry.date])
-      const mostRecentCycleDateAsNum = getLastDateAsNum(cycleDates)
+        const currEntryDateAsNum = getLastDateAsNum([currEntry.date])
+        const mostRecentCycleDateAsNum = getLastDateAsNum(cycleDates)
 
-    if ((currEntryDateAsNum - mostRecentCycleDateAsNum) === 86400000) {
-      cycleDates.push(currEntry.date);
-    } else {
-      cycleDates = [currEntry.date];
-    }
-      return cycleDates
-    }, [])
+        if ((currEntryDateAsNum - mostRecentCycleDateAsNum) === 86400000) {
+          cycleDates.push(currEntry.date);
+        } else {
+          cycleDates = [currEntry.date];
+        }
+          return cycleDates
+      }, [])
     
     let { error:updateErr } = await supabase
       .from('users')
