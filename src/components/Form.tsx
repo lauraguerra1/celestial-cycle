@@ -1,37 +1,39 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
+import { formSections, getTodaysDate } from '@/utils/utils';
 import { AuthProps, UserData, selectionType } from '@/types/types';
-import { formSections, getTodaysDate } from '@/utils';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
-import { formatDateForDB } from '@/utils';
+import { formatDateForDB } from '@/utils/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
 import CelestialLogo from '@/components/CelestialLogo';
-import { isDateInFuture } from '@/utils';
 import LoadingGif from './LoadingGif';
+import DatePicker from './DatePicker';
 
 export type FormProps = AuthProps & {
   entryDate: Date;
   updateEntryDate: (date: Date) => void;
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>
+  selections: selectionType
 };
 
-const Form = ({ entryDate, isAuthorized, data, updateEntryDate }: FormProps) => {
+const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setSelections }: FormProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
-  const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
   const router = useRouter();
 
   useEffect(() => {
     if (!isAuthorized) {
       router.push('/');
     }
+    console.log('etnr', entryDate)
     const getFormData = async () => {
       setLoading(true);
       try {
-        const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate), data ? data[0].passage_user_id : '');
+        const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate as Date), data ? data[0].passage_user_id : '');
         console.log({ entryInfo });
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
@@ -50,12 +52,6 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate }: FormProps) => 
     return () => setError(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized, entryDate]);
-
-  const goToDate = (num: number) => {
-    const newDate = new Date(entryDate);
-    newDate.setDate(newDate.getDate() + num);
-    updateEntryDate(newDate);
-  };
 
   const postForm = async () => {
     const infoOptions = [...Object.values(selections), symptoms];
@@ -107,28 +103,17 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate }: FormProps) => 
     <div className='mt-10 h-full fade-in'>
           <div className='form-page'>
             <CelestialLogo />
-            <div className='flex justify-between items-center mb-4'>
-              <button onClick={() => goToDate(-1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                chevron_left
-              </button>
-              <h1 className='thin-regular text-center text-mellow-yellow text-2xl'>{entryDate.toString()}</h1>
-                {!isDateInFuture(entryDate) ?
-                  <button onClick={() => goToDate(1)} className='material-symbols-rounded text-mellow-yellow text-3xl'>
-                    chevron_right
-                  </button> : 
-                  <div className='w-5'></div>
-              }
-            </div>
+            <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
       {error && <p className='thick-regular text-center'>{error.message}</p>}
       {loading ? <LoadingGif /> : (
         <>
-            <div className='flex justify-between'>
+            <div className='flex justify-between m-3'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
               <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>
                 SAVE
               </button>
             </div>
-            <div className='grid added-height' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
+            <div className='grid added-height pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
               {formEls}
               <input
                 type='textarea'
