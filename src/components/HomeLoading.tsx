@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import woman from '../../public/images/fullWoman.png'
+import Image from 'next/image';
+import woman from '../../public/images/fullWoman.png';
 
 const HomeLoading = () => {
   return (
@@ -10,4 +10,4 @@ const HomeLoading = () => {
   )
 }
 
-export default HomeLoading
+export default HomeLoading;

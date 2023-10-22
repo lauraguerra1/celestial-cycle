@@ -10,4 +10,4 @@ const LoadingGif = () => {
   )
 }
 
-export default LoadingGif
+export default LoadingGif;

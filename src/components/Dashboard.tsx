@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { UserData, AuthProps, Horoscope } from '@/types/types';
 import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
@@ -18,12 +18,12 @@ export type DashboardProps = AuthProps & {
 };
 
 export default function Dashboard({ isAuthorized, userID, data }: DashboardProps) {
-  const [user, setUser] = useState<UserData | null>(null)
-  const [error, setError] = useState<boolean>(false)
-  const [userInsights, setUserInsights] = useState<Horoscope>()
-  const [loading, setLoading] = useState(true)
-  const [serverError, setServerError] = useState(false)
-  const [date, setDate] = useState<Date>(new Date())
+  const [user, setUser] = useState<UserData | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [userInsights, setUserInsights] = useState<Horoscope>();
+  const [loading, setLoading] = useState(true);
+  const [serverError, setServerError] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
   const router = useRouter();
 
   useEffect(() => {
@@ -31,24 +31,23 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       Router.push("/");
     } 
     else if (data && data.length) {
-      setUser(data[0])
-      setLoading(false)
+      setUser(data[0]);
+      setLoading(false);
     } 
     else if (data && !data.length) {
-      getCurrentUserInfo(userID)
+      getCurrentUserInfo(userID);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
 
   useEffect(() => {
     if (user) {
       getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
       .then(data => {
-        setUserInsights(data[0])
+        setUserInsights(data[0]);
       })
       .catch(err => {
-        setError(true)
-        console.error(err)
+        setError(true);
+        console.error(err);
       })
     }
   },[user])
@@ -65,26 +64,26 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       const userInfo = await userPass.userInfo();
       const isUserInSupaBase = await checkForUser(userID) // What if this just returns a boolean whether user exists in Supabase already?
       if (userInfo && !isUserInSupaBase) {
-        addNewUser(userInfo)
+        addNewUser(userInfo);
       }
       else {
-        setServerError(true)
+        setServerError(true);
       }
     }
   }
 
   const checkForUser = async (userID: string | number) => {
     try {
-      const res = await fetch(`/api/getUser?userID=${userID}`)
-      const parsed = await res.json()
+      const res = await fetch(`/api/getUser?userID=${userID}`);
+      const parsed = await res.json();
       if (!parsed.length) {
-        return false
+        return false;
       }
-      return true
+      return true;
     }
     catch (err) {
-      console.error(err)
-      setServerError(true)
+      console.error(err);
+      setServerError(true);
     }
   }
 
@@ -99,7 +98,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
   } 
 
   const addNewUser = async (user: PassageUserInfo) => {
-    const formattedUser = formatUser(user)
+    const formattedUser = formatUser(user);
     try {
       const res = await fetch('/api/addUser', {
         method: 'POST',
@@ -110,15 +109,15 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       });
       if (res.ok) {
         const data = await res.json();
-        setUser(data[0])
-        setLoading(false)
+        setUser(data[0]);
+        setLoading(false);
       } else {
         console.log('Error:', res.statusText);
-        setServerError(true)
+        setServerError(true);
       }
     } catch (err) {
       console.error(err);
-      setServerError(true)
+      setServerError(true);
     }
   };
 

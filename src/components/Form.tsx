@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
-import { formSections, getTodaysDate } from '@/utils/utils';
-import { AuthProps, UserData, selectionType } from '@/types/types';
+import { formSections } from '@/utils/utils';
+import { AuthProps, selectionType } from '@/types/types';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';

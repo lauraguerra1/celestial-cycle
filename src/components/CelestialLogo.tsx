@@ -1,6 +1,6 @@
-import React from 'react'
-import logoImg from '../../public/images/logo.PNG'
-import Image from 'next/image'
+import React from 'react';
+import logoImg from '../../public/images/logo.PNG';
+import Image from 'next/image';
 
 const CelestialLogo = () => {
   return (
@@ -8,4 +8,4 @@ const CelestialLogo = () => {
   )
 }
 
-export default CelestialLogo
+export default CelestialLogo;

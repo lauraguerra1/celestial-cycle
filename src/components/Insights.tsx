@@ -1,13 +1,11 @@
-import React, { useDebugValue, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
-import { convertStringToDate, formatDateForDB, getTodaysDate } from '@/utils/utils';
+import { convertStringToDate } from '@/utils/utils';
 import Navbar from './Navbar';
-import Router from "next/router";
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
-import Link from 'next/link';
 import CelestialLogo from './CelestialLogo';
-import { getEntry, getHoroscope } from '@/utils/apiCalls';
+import { getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
@@ -30,33 +28,33 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     }
-    setloading(true)
+    setloading(true);
 
-    if (data) setUser(data[0])
+    if (data) setUser(data[0]);
     if (user) getHoroscope(chosenDate, user?.zodiac_sign as string)
     .then((data) => {
       
-      if (data.length === 0) {
-        setEmptyDay(true)
-        setloading(false)
+      if (!data.length) {
+        setEmptyDay(true);
+        setloading(false);
       } else {
-        setUserInsights(data[0])
-        setloading(false)
+        setUserInsights(data[0]);
+        setloading(false);
       }
     })
     .catch(err => {
-      setError(true)
-      console.error(err)
+      setError(true);
+      console.error(err);
     })
 
     return () => {
-      setloading(false)
-      setError(false)
-      setEmptyDay(false)
+      setloading(false);
+      setError(false);
+      setEmptyDay(false);
     }
-  }, [isAuthorized, user, date]);
+  }, [isAuthorized, user, date, data, chosenDate, router]);
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
