@@ -23,7 +23,9 @@ export interface UserData {
     email: string,
     birth_date: string,
     passage_user_id: string,
-    zodiac_sign: string
+    zodiac_sign: string,
+    last_cycle_start: string,
+    last_cycle_length: number
 }
 
 export interface Insights {
