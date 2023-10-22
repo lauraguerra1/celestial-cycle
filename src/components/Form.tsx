@@ -72,7 +72,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate }: FormProps) => 
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
-      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights`);
+      // router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights`);
     } catch (error) {
       if (error instanceof Error) setError(error);
     }
