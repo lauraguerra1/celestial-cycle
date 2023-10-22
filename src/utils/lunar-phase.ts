@@ -8,3 +8,5 @@ export function getCurrentLunarPhase(date: Date) {
     description: phase,
   };
 }
+
+console.log(getCurrentLunarPhase(new Date()))

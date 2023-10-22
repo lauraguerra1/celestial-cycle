@@ -1,11 +1,19 @@
-import CalendarPage, {CalendarProps} from "@/components/Calendar";
+import React from 'react'
+import Insights from '../../components/Insights'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
-import { getSupabase } from "@/utils/supabase";
-import { AuthProps } from "@/types/types";
+import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
+import { AuthProps, selectionType } from '@/types/types';
+import { Value } from '@/components/Calendar';
 
-export default function calendar({isAuthorized, data, updateEntryDate, entryDate, selections, setSelections}: CalendarProps) {
-  return (<CalendarPage setSelections={setSelections} selections={selections} entryDate={entryDate} isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
+type InsightProps = AuthProps & {
+  updateEntryDate: (date: Value) => void,
+  selections: selectionType
+} 
+
+
+export default function dashboard ({isAuthorized, data, updateEntryDate, selections}: InsightProps ){
+  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -19,20 +27,20 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
+    console.log(data);
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        userID: loginProps.userID,
-        data
+        data: data,
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
-        userID: '',
         data: null
       },
     };
   }
 }) satisfies GetServerSideProps<AuthProps>;
+
