@@ -44,7 +44,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
       {
         data && 
         <article className='w-passage max-w-100vw text-black bg-white rounded-md p-5 mt-2'>
-          <h2 className='text-lg pb-3'>Your Last Cycle</h2>
+          <h2 className='text-lg pb-3'>Your Last Period</h2>
           <p className='pb-1'><span className='font-bold'>Start Date:</span> {`${months[parseInt(month) - 1]} ${date}, ${year}`}</p>
           <p className='pb-1'><span className='font-bold'>End Date:</span> {`${months[endDate.getMonth()]} ${endDate.getDate()}, ${endDate.getFullYear()}`}</p>
           <p className='pb-1'><span className='font-bold'>Lasted:</span> {data[0].last_cycle_length} days</p>
