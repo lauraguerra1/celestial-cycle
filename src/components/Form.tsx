@@ -29,7 +29,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     if (!isAuthorized) {
       router.push('/');
     }
-    console.log('etnr', entryDate)
+    console.log('etnr here', `${new Date(entryDate).getMonth()+1}-${new Date(entryDate).getDate()}-${new Date(entryDate).getFullYear()}`)
     const getFormData = async () => {
       setLoading(true);
       try {
@@ -68,7 +68,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
-      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights`);
+      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${new Date(entryDate).getMonth()+1}-${new Date(entryDate).getDate()}-${new Date(entryDate).getFullYear()}`);
     } catch (error) {
       if (error instanceof Error) setError(error);
     }
