@@ -82,7 +82,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" : 
               emptyDay ? "No insights loaded for this date, try a later date" : 
-              loading? <LoadingGif /> : insights?.description ?? horoscope?.description}
+              loading? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope}/>)}
           </div>
             <div className='flex justify-between mx-10 mt-3'>
             {selections.FLOW && <div className='flex flex-col'>
@@ -113,6 +113,15 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
         </section>
       </div>
       <Navbar />
+    </div>
+  );
+}
+
+function HoroscopeOnly({horoscope}: {horoscope?: Horoscope}) {
+  return (
+    <div>
+      <p>{horoscope?.description}</p>
+      <p className='mt-3 font-black'>✨ Add data for more insights ✨</p>
     </div>
   );
 }
