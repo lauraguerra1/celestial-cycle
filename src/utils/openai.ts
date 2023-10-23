@@ -67,25 +67,11 @@ export default async function getInsightsFromAI(inputs: InsightInputs) {
       Begin your answer with something like:
   
       'By the moon's gentle guidance, it appears you may be in the [phase] phase of your menstrual cycle [...]'`,
-    },
-    // {
-    //   role: "assistant",
-    //   content:
-    //     "Under the moon's gentle sway, it seems you may be in the follicular phase of your menstrual cycle, which follows menstruation. The waning gibbous moon phase aligns with this phase, representing a time of release and letting go. These cosmic energies may contribute to your happy mood and heightened social interactions. However, there might be a tendency to be more influenced by the words and opinions of others, so be cautious of gossip and misinformation. To align with your cycle and the moon's energy, it is recommended to spend some time alone in reflection and introspection today. Engage in activities that promote self-care, such as journaling, meditation, or a soothing bath. Listening to your inner voice will help you stay grounded and discern truth from fiction.",
-    // },
-    // {
-    //   role: userRole,
-    //   content: `That was a great example. Now for real, please write one paragraph (max 5 sentences) that says what my current menstrual phase is, and how my cycle and the moon will affect my mood. Also provide a suggestion for how I should spend my day.
-
-    //     Begin your answer with something like:
-
-    //     By the moon's gentle guidance, it appears you may be in the follicular phase of your menstrual cycle [...]`,
-    // },
+    }
   ];
   const chatCompletion = await openai.chat.completions.create({
     messages: chatHistory,
     model: "gpt-3.5-turbo",
   });
-  const response = chatCompletion.choices[0].message;
-  console.log(response);
+  return chatCompletion.choices[0].message;
 }

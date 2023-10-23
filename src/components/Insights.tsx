@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import CelestialLogo from './CelestialLogo';
-import { getHoroscope } from '@/utils/apiCalls';
+import { getHoroscope, getInsights } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
@@ -19,42 +19,43 @@ type InsightsProps = AuthProps & {
 export default function Insights({ isAuthorized, data, updateEntryDate, selections }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
-  const [user, setUser] = useState<UserData | null>(null)
+  const user = data?.[0] ?? null;
   const [error, setError] = useState<boolean>(false)
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
-  const [userInsights, setUserInsights] = useState<Horoscope>()
+  const [horoscope, setHoroscope] = useState<Horoscope>()
+  const [insights, setInsights] = useState('');
   const [chosenDate, setChosenDate] = useState<string>(date as string)
-  const [loading, setloading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   
   useEffect(() => {
     if (!isAuthorized) {
       router.push("/");
     }
-    setloading(true);
+  }, [isAuthorized, router]);
 
-    if (data) setUser(data[0]);
-    if (user) getHoroscope(chosenDate, user?.zodiac_sign as string)
-    .then((data) => {
-      
-      if (!data.length) {
-        setEmptyDay(true);
-        setloading(false);
-      } else {
-        setUserInsights(data[0]);
-        setloading(false);
+  // Fetch page data! (relies on `date`, only available on the client)
+  useEffect(() => {
+    async function loadPageData() {
+      setLoading(true);
+      try {
+        const response = await getInsights(chosenDate);
+        if (response.insights) {
+          setInsights(response.insights);
+        }
+        else if (response.horoscope) {
+          setHoroscope(response.horoscope);
+        }
+        else {
+          setEmptyDay(true);
+        }
+        setLoading(false);
+      } catch (err) {
+        setError(true);
+        console.error(err);
       }
-    })
-    .catch(err => {
-      setError(true);
-      console.error(err);
-    })
-
-    return () => {
-      setloading(false);
-      setError(false);
-      setEmptyDay(false);
     }
-  }, [isAuthorized, user, date, data, chosenDate, router]);
+    loadPageData();
+  }, [user, date, chosenDate]);
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
@@ -74,7 +75,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" : 
               emptyDay ? "No insights loaded for this date, try a later date" : 
-              loading? <LoadingGif /> : userInsights?.description}
+              loading? <LoadingGif /> : insights?.description ?? horoscope?.description}
           </div>
             <div className='flex justify-between mx-10 mt-3'>
             {selections.FLOW && <div className='flex flex-col'>

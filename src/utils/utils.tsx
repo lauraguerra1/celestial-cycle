@@ -1,3 +1,7 @@
+export const DEMO_USER_ID = "ABrrCENR3M0I6XZ7NLA7gNCY";
+
+export const mapUserSignToHoroscopeSign = (sign: string) => `${sign[0].toUpperCase()}${sign.substring(1)}`;
+
 const zodiacSigns = [
     { sign: "Capricorn", start: 1222, end: 119 },
     { sign: "Aquarius", start: 120, end: 218 },

@@ -1,4 +1,5 @@
 import { EntryData } from "@/pages/api/addEntry"
+import { mapUserSignToHoroscopeSign } from "./utils"
 
 export const postEntry = async (demo: boolean, endpoint: string, entry: EntryData["data"]): Promise<EntryData> => {
   const response = await fetch(`${demo ? '..' : ''}/api/${endpoint}`, {
@@ -25,7 +26,7 @@ export const getEntry = async (demo: boolean, date: string, userID: string): Pro
 }
 
 export const getHoroscope = async (date: string, sign: string) => {
-    const response = await fetch(`/api/horoscope?date=${date}&sign=${sign[0].toUpperCase()}${sign.substring(1)}`)
+    const response = await fetch(`/api/horoscope?date=${date}&sign=${mapUserSignToHoroscopeSign(sign)}`)
 
     if (!response.ok) {
         throw new Error(`Error: ${response.status} Please try again.`)
@@ -34,3 +35,15 @@ export const getHoroscope = async (date: string, sign: string) => {
     const data = await response.json()
     return data;
   };
+
+
+export const getInsights = async (date: string) => {
+  const response = await fetch(`/api/getInsight?date=${date}`);
+
+  if (!response.ok) {
+      throw new Error(`Error: ${response.status} Please try again.`)
+  }
+
+  const data = await response.json()
+  return data;
+};
