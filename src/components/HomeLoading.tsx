@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import woman from '../../public/images/fullWoman.png'
+
 const HomeLoading = () => {
   return (
     <section className='fade-in-out-continuous h-90vh flex flex-col justify-evenly items-center'>

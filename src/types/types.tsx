@@ -40,4 +40,12 @@ export interface Insights {
 export type AuthProps = {
     isAuthorized: boolean;
     data: UserData[] | null | undefined
+};
+  
+export interface Horoscope {
+    created_at: string
+    date: string
+    description: string
+    id: number
+    zodiac_sign: string
 };  

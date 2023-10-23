@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import React from 'react';
 import { useRouter } from 'next/router';
+import React from 'react';
 import profilePicture from '../../public/images/demo-user.png'
 
 const DemoPage = () => {
