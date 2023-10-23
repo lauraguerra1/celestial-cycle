@@ -9,7 +9,6 @@ export const postEntry = async (demo: boolean, endpoint: string, entry: EntryDat
     }
   })
   if (!response.ok) {
-    console.log(response)
     throw new Error(`Error: ${response.status} Please try again.`)
   }
   const data = await response.json()

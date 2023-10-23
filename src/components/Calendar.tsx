@@ -49,7 +49,6 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
     })
     .catch(err => {
       setError(true)
-      console.error(err)
     })
 
    return () => { 

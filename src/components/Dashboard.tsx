@@ -48,7 +48,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       })
       .catch(err => {
         setError(true)
-        console.error(err)
       })
     }
   },[user])
@@ -83,7 +82,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       return true
     }
     catch (err) {
-      console.error(err)
       setServerError(true)
     }
   }
@@ -113,11 +111,9 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
         setUser(data[0])
         Router.push("/registrationform");
       } else {
-        console.log('Error:', res.statusText);
         setServerError(true)
       }
     } catch (err) {
-      console.error(err);
       setServerError(true)
     }
   };

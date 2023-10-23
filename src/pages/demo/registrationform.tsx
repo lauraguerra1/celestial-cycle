@@ -1,6 +1,5 @@
 import React from 'react'
-import Dashboard, { DashboardProps } from '../../components/Dashboard'
-import { getAuthenticatedUserFromSession } from "@/utils/passage";
+import { DashboardProps } from '../../components/Dashboard'
 import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';

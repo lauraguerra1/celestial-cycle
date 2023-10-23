@@ -48,7 +48,6 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     })
     .catch(err => {
       setError(true)
-      console.error(err)
     })
 
     return () => {
@@ -56,6 +55,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       setError(false)
       setEmptyDay(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized, user, date]);
 
   const goToEntry = () => {

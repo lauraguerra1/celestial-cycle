@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
-import { formSections, getTodaysDate } from '@/utils/utils';
-import { AuthProps, UserData, selectionType } from '@/types/types';
+import { formSections } from '@/utils/utils';
+import { AuthProps, selectionType } from '@/types/types';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
@@ -29,12 +29,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     if (!isAuthorized) {
       router.push('/');
     }
-    console.log('etnr', entryDate)
     const getFormData = async () => {
       setLoading(true);
       try {
         const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate as Date), data ? data[0].passage_user_id : '');
-        console.log({ entryInfo });
+
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
           setSymptoms(entryInfo.data.symptom ?? '');

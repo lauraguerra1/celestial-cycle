@@ -12,7 +12,7 @@ export default async function getEntry(
 ) {
   const { date, user_id } = req.query;
   const supabase = getSupabase(user_id as string);
-  console.log('request', req.query)
+
   try {
     const { data, error } = await supabase
       .from("entries")
