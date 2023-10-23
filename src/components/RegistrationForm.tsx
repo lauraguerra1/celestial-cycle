@@ -32,7 +32,6 @@ const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
       }
       try {
         const result = await Promise.all(entries)
-        console.log(result)
         Router.push("/dashboard");
       }
       catch (error) {

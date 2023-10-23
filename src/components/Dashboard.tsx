@@ -110,8 +110,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
         const data = await res.json();
         setUser(data[0])
         Router.push("/registrationform");
-      } else {
-        setServerError(true)
       }
     } catch (err) {
       setServerError(true)
