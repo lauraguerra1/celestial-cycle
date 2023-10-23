@@ -13,6 +13,9 @@ const config: Config = {
         '90vh': '90vh', 
         '70vh': '70vh'
       },
+      width: {
+        'passage': '300.45px'
+      },
       colors: {
         'deepblue': '#1b263b',
         'lightgray': '#7D8897',
@@ -23,6 +26,7 @@ const config: Config = {
       maxWidth: {
         '100vw': '100vw',
         '90vw': '90vw',
+        'passage': '300.45px'
       },
       maxHeight: { 
         '80vh': '80vh'

@@ -13,7 +13,7 @@ const Navbar = () => {
         <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
             <div className='flex w-full h-20 icon-container items-center'>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-                    <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/calendar`}>
+                    <Link className='flex flex-col items-center' href={`${router.asPath.includes('demo') ? '/demo' : ''}/calendar`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
                         <Image width={45} height={45} alt='calendar logo' src={calendar} />
                     </div>
@@ -21,7 +21,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'> 
-                    <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/dashboard`}>
+                    <Link className='flex flex-col items-center' href={`${router.asPath.includes('demo') ? '/demo' : ''}/dashboard`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
                         <Image width={45} height={45} alt='home logo' src={home} />
                     </div>
