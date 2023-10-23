@@ -13,7 +13,7 @@ export default async function addEntry(
 ) {
   const { flow, mood, craving, symptom, date, user_id } = req.body;
   const supabase = getSupabase(user_id);
-
+  console.log('DATE IN ADDENTRY API:', date)
   try {
     let entries;
     let { data, error } = await supabase
