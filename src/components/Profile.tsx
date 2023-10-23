@@ -19,7 +19,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
     if (!isAuthorized) {
       router.push("/"); 
     }
-  },[isAuthorized]);
+  },[isAuthorized, router]);
 
   const signOut = async () => {
     if (userID !== 'ABrrCENR3M0I6XZ7NLA7gNCY'){

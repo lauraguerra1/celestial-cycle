@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthProps, selectionType } from '@/types/types'
 import { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
-import { useState } from 'react';
 import Calendar from 'react-calendar';
 import { formatDateForDB, getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
@@ -23,7 +22,7 @@ export type CalendarProps = AuthProps & {
 
 export default function CalendarPage({ isAuthorized, data, updateEntryDate, entryDate, selections, setSelections }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
-  const [date, setDate] = useState<string>("")
+  const [date, setDate] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
   const router = useRouter();
 
@@ -31,12 +30,12 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
     if (!isAuthorized) {
       router.push('/');
     }
-  },[isAuthorized]);
+  },[isAuthorized, router]);
 
   useEffect(() => {
-    const d = value as Date
-    setDate(`${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}`)
-  },[value])
+    const d = value as Date;
+    setDate(`${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}`);
+  },[value]);
 
   useEffect(() => {
     getEntry(router.asPath.includes('demo'), formatDateForDB(value as Date), data ? data[0].passage_user_id : '')
@@ -48,13 +47,14 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
       }
     })
     .catch(err => {
-      setError(true)
-    })
+      setError(true);
+      console.error(err);
+    });
 
    return () => { 
-      setError(false) 
+      setError(false);
    }
-  }, [value])
+  }, [value, setSelections, router, data]);
 
   const goToEntry = () => {
     updateEntryDate(value);

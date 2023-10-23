@@ -1,5 +1,5 @@
-import React from 'react'
-import Insights from '../../components/Insights'
+import React from 'react';
+import Insights from '../../components/Insights';
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../../utils/supabase";
 import { GetServerSideProps } from "next";
@@ -9,11 +9,10 @@ import { Value } from '@/components/Calendar';
 type InsightProps = AuthProps & {
   updateEntryDate: (date: Value) => void,
   selections: selectionType
-} 
-
+}
 
 export default function dashboard ({isAuthorized, data, updateEntryDate, selections}: InsightProps ){
-  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />)
+  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />);
 }
 
 export const getServerSideProps = (async (context) => {

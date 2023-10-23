@@ -4,7 +4,7 @@ import { AuthProps } from "@/types/types";
 import { GetServerSideProps } from "next";
 
 export default function calendar({isAuthorized, data, updateEntryDate, entryDate, selections, setSelections}: CalendarProps) {
-  return (<CalendarPage setSelections={setSelections} selections={selections} entryDate={entryDate} isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>)
+  return (<CalendarPage setSelections={setSelections} selections={selections} entryDate={entryDate} isAuthorized={isAuthorized} data={data} updateEntryDate={updateEntryDate}/>);
 }
 
 export const getServerSideProps = (async (context) => {

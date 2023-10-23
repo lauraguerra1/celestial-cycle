@@ -1,6 +1,6 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { useEffect, useState } from 'react';
+import '@/styles/globals.css';
+import type { AppProps } from 'next/app';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { getTodaysDate } from '@/utils/utils';
@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
 
   const updateEntryDate = (date: Value) => {
-    setEntryDate(getTodaysDate(date))
+    setEntryDate(getTodaysDate(date));
   }
   
   const logIn = (id: number) => {
@@ -30,5 +30,5 @@ export default function App({ Component, pageProps }: AppProps) {
         setSelections={setSelections}
       />
     </>
-  )
+  );
 }

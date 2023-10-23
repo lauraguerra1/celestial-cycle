@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
 import { convertStringToDate } from '@/utils/utils';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import CelestialLogo from './CelestialLogo';
-import { getHoroscope } from '@/utils/apiCalls';
+import { getHoroscope, getInsights } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
@@ -19,42 +19,50 @@ type InsightsProps = AuthProps & {
 export default function Insights({ isAuthorized, data, updateEntryDate, selections }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
-  const [user, setUser] = useState<UserData | null>(null)
+  const user = data?.[0] ?? null;
   const [error, setError] = useState<boolean>(false)
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
-  const [userInsights, setUserInsights] = useState<Horoscope>()
+  const [horoscope, setHoroscope] = useState<Horoscope>()
+  const [insights, setInsights] = useState<any>();
   const [chosenDate, setChosenDate] = useState<string>(date as string)
-  const [loading, setloading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const loadOnce = useRef<string | null>(null);
   
   useEffect(() => {
     if (!isAuthorized) {
       router.push("/");
     }
-    setloading(true)
+  }, [isAuthorized, router]);
 
-    if (data) setUser(data[0])
-    if (user) getHoroscope(chosenDate, user?.zodiac_sign as string)
-    .then((data) => {
-      
-      if (data.length === 0) {
-        setEmptyDay(true)
-        setloading(false)
-      } else {
-        setUserInsights(data[0])
-        setloading(false)
-      }
-    })
-    .catch(err => {
-      setError(true)
-    })
-
-    return () => {
-      setloading(false)
-      setError(false)
-      setEmptyDay(false)
+  // Fetch page data! (relies on `date`, only available on the client)
+  useEffect(() => {
+    // Only run the side-effect ONCE per chosenDate
+    if (loadOnce.current === chosenDate) {
+      return;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized, user, date]);
+    loadOnce.current = chosenDate;
+
+    async function loadPageData() {
+      setLoading(true);
+      try {
+        const response = await getInsights(chosenDate);
+        if (response.insights) {
+          setInsights(response.insights);
+        }
+        else if (response.horoscope) {
+          setHoroscope(response.horoscope);
+        }
+        else {
+          setEmptyDay(true);
+        }
+        setLoading(false);
+      } catch (err) {
+        setError(true);
+        console.error(err);
+      }
+    }
+    loadPageData();
+  }, [user, date, chosenDate]);
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
@@ -74,7 +82,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" : 
               emptyDay ? "No insights loaded for this date, try a later date" : 
-              loading? <LoadingGif /> : userInsights?.description}
+              loading? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope}/>)}
           </div>
             <div className='flex justify-between mx-10 mt-3'>
             {selections.FLOW && <div className='flex flex-col'>
@@ -106,5 +114,14 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       </div>
       <Navbar />
     </div>
-  )
+  );
+}
+
+function HoroscopeOnly({horoscope}: {horoscope?: Horoscope}) {
+  return (
+    <div>
+      <p>{horoscope?.description}</p>
+      <p className='mt-3 font-black'>✨ Add data for more insights ✨</p>
+    </div>
+  );
 }

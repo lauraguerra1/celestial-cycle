@@ -1,13 +1,13 @@
-import React from 'react'
-import home from '../../public/images/house.png'
-import calendar from '../../public/images/calendar.png'
-import user from '../../public/images/user.png'
-import Image from 'next/image'
+import React from 'react';
+import home from '../../public/images/house.png';
+import calendar from '../../public/images/calendar.png';
+import user from '../../public/images/user.png';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
-    const router = useRouter();
+  const router = useRouter();
 
     return (
         <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
@@ -38,7 +38,7 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
-    )
+    );
 }
 
-export default Navbar
+export default Navbar;

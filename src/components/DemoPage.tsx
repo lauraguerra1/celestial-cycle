@@ -22,7 +22,7 @@ const DemoPage = () => {
       </section>
       <button onClick={() => router.push('/authenticate')} className='text-black thick-regular rounded-full bg-white bg-opacity-60 w-3/5 py-2 max-w-3xl'>Login</button>
     </section>
-      )
+  );
 }
 
 export default DemoPage;

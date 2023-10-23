@@ -22,7 +22,7 @@ const Login = ({logIn}: LoginProps) => {
       </section>
       <button onClick={() => logIn(1)} className='thick-regular rounded-full bg-white opacity-60 w-3/5 py-2 max-w-3xl'>Login</button>
     </section>
-  )
+  );
 }
 
-export default Login
+export default Login;

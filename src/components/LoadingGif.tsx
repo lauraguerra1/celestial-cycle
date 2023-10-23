@@ -7,7 +7,7 @@ const LoadingGif = () => {
       <Image className='opacity-60 rounded-full' width={300} height={300} src={loadingGif} alt='flickering stars and sparkles as we wait for your data to load' />
       <p className='thin-regular m-3'>Loading...</p>
     </div>
-  )
+  );
 }
 
-export default LoadingGif
+export default LoadingGif;

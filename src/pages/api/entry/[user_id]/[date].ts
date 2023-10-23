@@ -4,7 +4,7 @@ import { PostgrestError } from '@supabase/supabase-js';
 
 export type SingleEntryData = {
   data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string} | null
-}
+};
 
 export default async function getEntry(
   req: NextApiRequest,
@@ -18,7 +18,7 @@ export default async function getEntry(
       .from("entries")
       .select()
       .eq("user_id", user_id)
-      .eq("date", date)
+      .eq("date", date);
     
       if (error) {
         return res.status(400).json(error);
