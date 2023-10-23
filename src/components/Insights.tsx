@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
 import { convertStringToDate } from '@/utils/utils';
 import Navbar from './Navbar';
@@ -26,6 +26,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const [insights, setInsights] = useState('');
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   const [loading, setLoading] = useState<boolean>(false)
+  const loadOnce = useRef<string>(null);
   
   useEffect(() => {
     if (!isAuthorized) {
@@ -35,6 +36,12 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
 
   // Fetch page data! (relies on `date`, only available on the client)
   useEffect(() => {
+    // Only run the side-effect ONCE per chosenDate
+    if (loadOnce.current === chosenDate) {
+      return;
+    }
+    loadOnce.current = chosenDate;
+
     async function loadPageData() {
       setLoading(true);
       try {
