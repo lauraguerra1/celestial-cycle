@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { UserData, AuthProps, Horoscope } from '@/types/types';
 import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
 import Navbar from '../components/Navbar';
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
 import { getHoroscope } from '@/utils/apiCalls';
 import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user';
@@ -28,7 +28,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     } 
     else if (data && data.length) {
       setUser(data[0]);
@@ -62,7 +62,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       const passage = new Passage(passageAppId);
       const userPass = passage.getCurrentUser();
       const userInfo = await userPass.userInfo();
-      const isUserInSupaBase = await checkForUser(userID) // What if this just returns a boolean whether user exists in Supabase already?
+      const isUserInSupaBase = await checkForUser(userID)
       if (userInfo && !isUserInSupaBase) {
         addNewUser(userInfo);
       }
@@ -109,15 +109,15 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       });
       if (res.ok) {
         const data = await res.json();
-        setUser(data[0]);
-        setLoading(false);
+        setUser(data[0])
+        router.push("/registrationform");
       } else {
         console.log('Error:', res.statusText);
         setServerError(true);
       }
     } catch (err) {
       console.error(err);
-      setServerError(true);
+      setServerError(true)
     }
   };
 
@@ -128,7 +128,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''}</h1>
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-28'>
-        <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
+        <Image width={250} height={100} style={{ width: '60%', height: 'auto', maxWidth: '300px' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
         <div className='w-2/3 h-45 mt-2 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
           <p>{error ? "Error loading horoscope, please refresh page" : 
             !loading? userInsights?.description : <LoadingGif />}</p>

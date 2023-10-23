@@ -29,12 +29,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     if (!isAuthorized) {
       router.push('/');
     }
-    console.log('etnr', entryDate)
     const getFormData = async () => {
       setLoading(true);
       try {
         const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate as Date), data ? data[0].passage_user_id : '');
-        console.log({ entryInfo });
+
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
           setSymptoms(entryInfo.data.symptom ?? '');
@@ -68,7 +67,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
-      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights`);
+      router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${new Date(entryDate).getMonth()+1}-${new Date(entryDate).getDate()}-${new Date(entryDate).getFullYear()}`);
     } catch (error) {
       if (error instanceof Error) setError(error);
     }

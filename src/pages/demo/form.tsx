@@ -13,7 +13,6 @@ export const getServerSideProps = (async (context) => {
     .from("users")
     .select()
     .eq("passage_user_id", 'ABrrCENR3M0I6XZ7NLA7gNCY');
-  console.log(data);
   return {
     props: {
       isAuthorized: true,
