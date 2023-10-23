@@ -17,9 +17,6 @@ const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('Start Date:', startDate);
-    console.log('Period Length:', periodLength);
-
     const entries = []
     for (let i=0; i < parseInt(periodLength as string); i++){
       const newDate = new Date(startDate as string);
@@ -36,6 +33,7 @@ const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
       try {
         const result = await Promise.all(entries)
         console.log(result)
+        Router.push("/dashboard");
       }
       catch (error) {
         console.log(error)
