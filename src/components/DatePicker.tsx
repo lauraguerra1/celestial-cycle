@@ -9,13 +9,7 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ updateEntryDate, entryDate, setChosenDate }: DatePickerProps) => {
-    const router = useRouter();
-
-    const goToDate = (num: number, entryDate: Date) => {
-        if (router.asPath.includes('/insights')) {
-            router.push(`${router.asPath.includes('/demo') ? "/demo" : ""}/insights/${entryDate.getMonth()+1}-${entryDate.getDate()+num}-${entryDate.getFullYear()}`)
-            if(setChosenDate) setChosenDate(`${entryDate.getMonth()+1}-${entryDate.getDate()+num}-${entryDate.getFullYear()}`)
-        } else {
+  const router = useRouter();
 
   const goToDate = (num: number, entryDate: Date) => {
     if (router.asPath.includes("/insights")) {

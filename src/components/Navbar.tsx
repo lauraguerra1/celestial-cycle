@@ -37,28 +37,8 @@ const Navbar = () => {
                     <p>Profile</p>
                 </div>
             </div>
-            <p>Calendar</p>
-          </Link>
-        </div>
-        <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'> 
-          <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/dashboard`}>
-          <div className='rounded-xl bg-darkgray p-33 icon'>
-            <Image width={45} height={45} alt='home logo' src={home} />
-          </div>
-          <p>Home</p>
-          </Link>
-        </div>
-        <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
-          <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/profile`}>
-          <div className='rounded-xl bg-darkgray p-33 icon'>
-            <Image width={45} height={45} alt='user logo' src={user} />
-          </div>
-          </Link>
-          <p>Profile</p>
-        </div>
-      </div>
-    </nav>
-  );
+        </nav>
+    );
 }
 
 export default Navbar;
