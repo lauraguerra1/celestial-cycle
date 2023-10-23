@@ -21,7 +21,6 @@ export const getServerSideProps = (async (context) => {
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
-      console.log('FROM SUPABASE DATA', data)
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,

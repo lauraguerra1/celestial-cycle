@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { UserData, AuthProps, Horoscope } from '@/types/types';
 import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
 import Navbar from '../components/Navbar';
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
 import { getHoroscope } from '@/utils/apiCalls';
 import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user';
@@ -28,7 +28,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     } 
     else if (data && data.length) {
       setUser(data[0])
@@ -48,7 +48,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       })
       .catch(err => {
         setError(true)
-        console.error(err)
       })
     }
   },[user])
@@ -63,7 +62,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       const passage = new Passage(passageAppId);
       const userPass = passage.getCurrentUser();
       const userInfo = await userPass.userInfo();
-      const isUserInSupaBase = await checkForUser(userID) // What if this just returns a boolean whether user exists in Supabase already?
+      const isUserInSupaBase = await checkForUser(userID)
       if (userInfo && !isUserInSupaBase) {
         addNewUser(userInfo)
       }
@@ -83,7 +82,6 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       return true
     }
     catch (err) {
-      console.error(err)
       setServerError(true)
     }
   }
@@ -111,13 +109,9 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       if (res.ok) {
         const data = await res.json();
         setUser(data[0])
-        setLoading(false)
-      } else {
-        console.log('Error:', res.statusText);
-        setServerError(true)
+        router.push("/registrationform");
       }
     } catch (err) {
-      console.error(err);
       setServerError(true)
     }
   };

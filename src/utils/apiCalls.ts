@@ -12,7 +12,6 @@ export const postEntry = async (demo: boolean, endpoint: string, entry: EntryDat
     throw new Error(`Error: ${response.status} Please try again.`)
   }
   const data = await response.json()
-  console.log('data from api', data)
   return data
 }
 

@@ -1,11 +1,13 @@
-import Form, { FormProps } from "@/components/Form";
+import React from 'react'
+import Dashboard, { DashboardProps } from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
+import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
-import { getSupabase } from "@/utils/supabase";
-import { AuthProps } from "@/types/types";
+import { AuthProps } from '@/types/types';
+import RegistrationForm from '@/components/RegistrationForm';
 
-export default function form({entryDate, updateEntryDate, isAuthorized, data, setSelections, selections}: FormProps) {
-  return (<Form setSelections={setSelections} selections={selections} isAuthorized={isAuthorized} data={data} entryDate={entryDate} updateEntryDate={updateEntryDate}/>)
+export default function registrationform ({isAuthorized, userID, data }: DashboardProps){
+  return (<RegistrationForm isAuthorized={isAuthorized} userID={userID} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -15,20 +17,22 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        data: data,
+        userID: loginProps.userID,
+        data: data
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
+        userID: '',
         data: null
       },
     };

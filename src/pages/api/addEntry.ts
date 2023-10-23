@@ -13,7 +13,6 @@ export default async function addEntry(
 ) {
   const { flow, mood, craving, symptom, date, user_id } = req.body;
   const supabase = getSupabase(user_id);
-
   try {
     let { data:entries, error } = await supabase
       .from("entries")
@@ -89,7 +88,6 @@ export default async function addEntry(
     });
   
   } catch (error) {
-    console.log('error', error)
     res.status(500).json(new Error('Internal Server Error'));
   }
 }
