@@ -26,6 +26,7 @@ const config: Config = {
       maxWidth: {
         '100vw': '100vw',
         '90vw': '90vw',
+        'passage': '300.45px'
       },
       maxHeight: { 
         '80vh': '80vh'
