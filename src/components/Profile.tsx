@@ -45,8 +45,15 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
       <div className='max-w-passage' >
         <passage-profile app-id={process.env.NEXT_PUBLIC_PASSAGE_APP_ID}></passage-profile>
       </div>
+      {data && 
+      <article className='w-passage max-w-100vw text-black bg-white rounded-md p-5 mt-2'>
+        <h2 className='text-lg'>Name</h2>
+        <p className='pb-3'>{`${data[0].name}`}</p>
+        <h2 className='text-lg'>Birthday</h2>
+        <p className='pb-1'>{`${data[0].birth_date}`}</p>
+      </article>}
       {
-        data &&  
+        data &&
         <article className='w-passage max-w-100vw text-black bg-white rounded-md p-5 mt-2'>
             <h2 className={`${(year && month && date) ? '' : 'text-center'}` + ' text-lg pb-3'}>Your Last Period</h2>
             {
@@ -61,11 +68,9 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
               <div className='flex flex-col items-center'>
                 <p className='text-center'>Nothing to see here yet. Add an entry to get started tracking your period!</p>
                 <Link className='bg-grayblue w-4/5 text-center py-2 my-2 rounded-md' href={`${router.asPath.includes('demo') ? '/demo' : ''}/form`} >ADD AN ENTRY</Link >
-              </div>
-              
-          }
-          </article>
-          
+              </div>  
+            }
+        </article>
       }
       <button className='w-passage bg-white text-black opacity-90 py-2 px-10 m-2 rounded-md' onClick={signOut}>LOG OUT</button>
       <Navbar />

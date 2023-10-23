@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { AuthProps, selectionType } from '@/types/types'
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
@@ -29,7 +29,7 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push('/');
+      router.push('/');
     }
   },[isAuthorized]);
 
