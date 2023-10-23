@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { DashboardProps } from "./Dashboard";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 import { postEntry } from "@/utils/apiCalls";
 
 const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
   const [startDate, setStartDate] = useState<string | number | readonly string[] | undefined>(undefined);
   const [periodLength, setPeriodLength] = useState<string | undefined>(undefined);
+  const router = useRouter();
  
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     } 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
@@ -32,7 +33,7 @@ const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
       }
       try {
         const result = await Promise.all(entries)
-        Router.push("/dashboard");
+        router.push("/dashboard");
       }
       catch (error) {
         console.log(error)
