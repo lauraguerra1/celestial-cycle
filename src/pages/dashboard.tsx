@@ -5,6 +5,7 @@ import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 
+
 export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
   return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />)
 }

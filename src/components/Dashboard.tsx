@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
-import { getTodaysDate, getZodiacSign } from '@/utils';
+import { UserData, AuthProps, Horoscope } from '@/types/types';
+import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
 import Navbar from '../components/Navbar';
-import { insights } from '@/mockdata';
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import CelestialLogo from '@/components/CelestialLogo';
+import { getHoroscope } from '@/utils/apiCalls';
 import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user';
-import { AuthProps, UserData } from '@/types/types';
 import dotenv from 'dotenv';
 import { Passage } from '@passageidentity/passage-js';
-import CelestialLogo from './CelestialLogo';
 import LoadingGif from './LoadingGif';
+import Link from 'next/link';
 dotenv.config();
 
 export type DashboardProps = AuthProps & {
@@ -17,10 +18,13 @@ export type DashboardProps = AuthProps & {
 };
 
 export default function Dashboard({ isAuthorized, userID, data }: DashboardProps) {
-  const [user, setUser] = useState<UserData | undefined>(undefined);
+  const [user, setUser] = useState<UserData | null>(null)
+  const [error, setError] = useState<boolean>(false)
+  const [userInsights, setUserInsights] = useState<Horoscope>()
   const [loading, setLoading] = useState(true)
   const [serverError, setServerError] = useState(false)
-  // const [userInsights, setUserInsights] = useState(insights)
+  const [date, setDate] = useState<Date>(new Date())
+  const router = useRouter();
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -35,6 +39,19 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
+
+  useEffect(() => {
+    if (user) {
+      getHoroscope(getTodaysDate(new Date()), user?.zodiac_sign as string)
+      .then(data => {
+        setUserInsights(data[0])
+      })
+      .catch(err => {
+        setError(true)
+        console.error(err)
+      })
+    }
+  },[user])
 
   const getCurrentUserInfo = async (userID: string | number) => {
     const passageAppId = process.env.NEXT_PUBLIC_PASSAGE_APP_ID;
@@ -113,9 +130,11 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-28'>
         <Image width={250} height={100} style={{ width: '60%', height: 'auto' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
-        <div className='w-2/3 h-45 mt-5 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
-          <p>{insights.data.horoscope}</p>
+        <div className='w-2/3 h-45 mt-2 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
+          <p>{error ? "Error loading horoscope, please refresh page" : 
+            !loading? userInsights?.description : <LoadingGif />}</p>
         </div>
+        <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`}`}><button className='bg-grayblue w-60 p-3 m-5 rounded-xl'>View Today&#39;s Insights</button></Link>
       </div>
     </div>
     )
