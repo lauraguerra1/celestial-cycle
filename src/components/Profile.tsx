@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AuthProps } from '@/types/types';
 import { PassageUser } from '@passageidentity/passage-elements/passage-user';
 import dotenv from 'dotenv';
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect } from 'react';
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -12,11 +12,12 @@ export type ProfileProps = AuthProps & {
 };
 
 function Profile({isAuthorized, userID, data}: ProfileProps) {
-  const router = useRouter()
+  const router = useRouter();
+
   useEffect(() => {
     require("@passageidentity/passage-elements/passage-profile");
     if (!isAuthorized) {
-      Router.push("/"); 
+      router.push("/"); 
     }
   },[isAuthorized]);
 
@@ -24,7 +25,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
     if (userID !== 'ABrrCENR3M0I6XZ7NLA7gNCY'){
       new PassageUser().signOut();
     }
-    Router.push("/");
+    router.push("/");
   };
 
   dotenv.config();

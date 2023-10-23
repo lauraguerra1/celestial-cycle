@@ -1,13 +1,11 @@
-import React, { useDebugValue, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
-import { convertStringToDate, formatDateForDB, getTodaysDate } from '@/utils/utils';
+import { convertStringToDate } from '@/utils/utils';
 import Navbar from './Navbar';
-import Router from "next/router";
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
-import Link from 'next/link';
 import CelestialLogo from './CelestialLogo';
-import { getEntry, getHoroscope } from '@/utils/apiCalls';
+import { getHoroscope } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
@@ -30,7 +28,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     }
     setloading(true)
 

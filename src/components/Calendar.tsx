@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AuthProps, UserData, selectionType } from '@/types/types'
+import { AuthProps, selectionType } from '@/types/types'
 import Router, { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import { useState } from 'react';

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { UserData, AuthProps, Horoscope } from '@/types/types';
 import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
 import Navbar from '../components/Navbar';
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
 import { getHoroscope } from '@/utils/apiCalls';
 import { PassageUserInfo } from '@passageidentity/passage-elements/passage-user';
@@ -28,7 +28,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   useEffect(() => {
     if (!isAuthorized) {
-      Router.push("/");
+      router.push("/");
     } 
     else if (data && data.length) {
       setUser(data[0])
@@ -109,7 +109,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
       if (res.ok) {
         const data = await res.json();
         setUser(data[0])
-        Router.push("/registrationform");
+        router.push("/registrationform");
       }
     } catch (err) {
       setServerError(true)
