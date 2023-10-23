@@ -21,7 +21,7 @@ export default function Home({ isAuthorized }: HomeProps) {
     if (isAuthorized) {
       router.push("/dashboard"); 
     } 
-  },[loading, router]);
+  },[loading, router, isAuthorized]);
 
   return (
     loading ? <HomeLoading /> : <DemoPage />

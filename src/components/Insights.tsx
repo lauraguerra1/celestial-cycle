@@ -23,10 +23,10 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const [error, setError] = useState<boolean>(false)
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
   const [horoscope, setHoroscope] = useState<Horoscope>()
-  const [insights, setInsights] = useState('');
+  const [insights, setInsights] = useState<any>();
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   const [loading, setLoading] = useState<boolean>(false)
-  const loadOnce = useRef<string>(null);
+  const loadOnce = useRef<string | null>(null);
   
   useEffect(() => {
     if (!isAuthorized) {
