@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import CelestialLogo from './CelestialLogo';
-import { getHoroscope, getInsights } from '@/utils/apiCalls';
+import { getInsights } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';

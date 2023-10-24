@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabase } from '../../utils/supabase';
 
-export default async function getHorosopes (req: NextApiRequest, res: NextApiResponse) {
+export default async function getHorosopesRoute (req: NextApiRequest, res: NextApiResponse) {
     const { date, sign } = req.query;
   
     const supabase = getSupabase(); 
