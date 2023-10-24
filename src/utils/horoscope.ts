@@ -4,7 +4,7 @@ import { getTodaysDate } from "@/utils/utils";
 
 async function getHoroscope(sign: string) {
   const signNumber = getSignNumber(sign);
-  const hURL = `https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign=${signNumber}`;
+  const hURL = `https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-tomorrow.aspx?sign=${signNumber}`;
 
   try {
     const response = await fetch(hURL);
@@ -41,8 +41,11 @@ function getSignNumber(sign: string) {
 }
 
 export default async function processDailyHoroscopes(date = new Date()) {
+  const tomorrow = new Date(date);
+  tomorrow.setDate(date.getDate() + 1);
+  const formattedDate = getTodaysDate(tomorrow);
+  
   const supabase = getSupabase();
-  const formattedDate = getTodaysDate(date);
   const checkExisting = await supabase
     .from("horoscopes")
     .select()
