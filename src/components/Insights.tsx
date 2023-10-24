@@ -23,7 +23,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const user = data?.[0] ?? null;
   const [error, setError] = useState<boolean>(false)
   const [emptyDay, setEmptyDay] = useState<boolean>(false)
-  const [horoscope, setHoroscope] = useState<Horoscope>()
+  const [horoscope, setHoroscope] = useState<Horoscope | null>(null)
   const [insights, setInsights] = useState<any>();
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   const [loading, setLoading] = useState<boolean>(false)
@@ -51,19 +51,24 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
 
   }, [user, date, chosenDate, setSelections, router, data]);
 
+  type Insight = {
+    created_at: string
+    date: string
+    description: string
+    id: number
+    user_id: string
+  }
+  const updateDayInfo = (empty: boolean, horoscope: Horoscope | null, insights: Insight | null) => {
+    setEmptyDay(empty)
+    setInsights(insights)
+    setHoroscope(horoscope)
+  }
   async function loadPageData() {
     setLoading(true);
     try {
       const response = await getInsights(chosenDate);
-      if (response.insights) {
-        setInsights(response.insights);
-      }
-      else if (response.horoscope) {
-        setHoroscope(response.horoscope);
-      }
-      else {
-        setEmptyDay(true);
-      }
+      console.log({response})
+      updateDayInfo(!response.insights  && !response.horoscope, response.horoscope ?? null, response.insights ?? null)
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -134,7 +139,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   );
 }
 
-function HoroscopeOnly({horoscope}: {horoscope?: Horoscope}) {
+function HoroscopeOnly({horoscope}: {horoscope?: Horoscope | null}) {
   return (
     <div>
       <p>{horoscope?.description}</p>
