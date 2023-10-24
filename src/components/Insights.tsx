@@ -35,58 +35,57 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     }
   }, [isAuthorized, router]);
 
-  // Fetch page data! (relies on `date`, only available on the client)
   useEffect(() => {
-    // Only run the side-effect ONCE per chosenDate
     if (loadOnce.current === chosenDate) {
       return;
     }
+
     loadOnce.current = chosenDate;
 
-    async function loadPageData() {
-      setLoading(true);
-      try {
-        const response = await getInsights(chosenDate);
-        if (response.insights) {
-          setInsights(response.insights);
-        }
-        else if (response.horoscope) {
-          setHoroscope(response.horoscope);
-        }
-        else {
-          setEmptyDay(true);
-        }
-        setLoading(false);
-      } catch (err) {
-        setError(true);
-        console.error(err);
-      }
-    }
     loadPageData();
-  }, [user, date, chosenDate]);
-
-  useEffect(() => {
-    const getFormData = async () => {
-      setLoading(true);
-      try {
-        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
-
-        if (entryInfo.data) {
-          setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
-        } else {
-          setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
-        }
-      } catch (err) {
-        if (err instanceof Error) setError(true);
-      }
-      setLoading(false);
-    };
     getFormData();
 
-   return () => { 
+    return () => { 
       setError(false);
    }
-  }, [chosenDate, setSelections, router, data]);
+
+  }, [user, date, chosenDate, setSelections, router, data]);
+
+  async function loadPageData() {
+    setLoading(true);
+    try {
+      const response = await getInsights(chosenDate);
+      if (response.insights) {
+        setInsights(response.insights);
+      }
+      else if (response.horoscope) {
+        setHoroscope(response.horoscope);
+      }
+      else {
+        setEmptyDay(true);
+      }
+      setLoading(false);
+    } catch (err) {
+      setError(true);
+      console.error(err);
+    }
+  }
+
+  const getFormData = async () => {
+    setLoading(true);
+    try {
+      const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
+
+      if (entryInfo.data) {
+        setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
+      } else {
+        setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
+      }
+    } catch (err) {
+      if (err instanceof Error) setError(true);
+    }
+    setLoading(false);
+  };
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));

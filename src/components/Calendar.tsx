@@ -3,7 +3,7 @@ import { AuthProps, selectionType } from '@/types/types'
 import { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import Calendar from 'react-calendar';
-import { formatDateForDB, getTodaysDate } from '@/utils/utils';
+import { formatDateForDB, formateDateQuery, getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
@@ -30,12 +30,9 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
     if (!isAuthorized) {
       router.push('/');
     }
-  },[isAuthorized, router]);
 
-  useEffect(() => {
-    const d = value as Date;
-    setDate(`${d.getMonth()+1}-${d.getDate()}-${d.getFullYear()}`);
-  },[value]);
+    setDate(formateDateQuery(value as Date, 0));
+  },[isAuthorized, router, value]);
 
   useEffect(() => {
     getEntry(router.asPath.includes('demo'), formatDateForDB(value as Date), data ? data[0].passage_user_id : '')
