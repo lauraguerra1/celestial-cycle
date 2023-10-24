@@ -69,6 +69,17 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
   };
 
+  const userEmojis = (selections: selectionType) => {
+    return Object.keys(selections).map(type => {
+      return selections[type] && <div className='flex flex-col'>
+      <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
+      </div>
+      <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
+    </div>
+    })
+  }
+
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
@@ -85,24 +96,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
               loading? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope}/>)}
           </div>
             <div className='flex justify-between mx-10 mt-3'>
-            {selections.FLOW && <div className='flex flex-col'>
-              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.FLOW}.png`} alt={selections.FLOW} />
-              </div>
-              <p className='min-w-max text-white thin-regular'>{selections.FLOW}</p>
-            </div>}
-            {selections.MOOD && <div className='flex flex-col'>
-              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.MOOD}.png`} alt={selections.MOOD} />
-              </div>
-              <p className='min-w-max text-white thin-regular'>{selections.MOOD}</p>
-            </div>}
-            {selections.CRAVINGS && <div className='flex flex-col'>
-              <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-                <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections.CRAVINGS}.png`} alt={selections.CRAVINGS} />
-              </div>
-              <p className='min-w-max text-white thin-regular'>{selections.CRAVINGS}</p>
-            </div>}
+            {userEmojis(selections)}
           </div>
           <div className='flex justify-center'>
             <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
