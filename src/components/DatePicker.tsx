@@ -12,10 +12,9 @@ const DatePicker = ({ updateEntryDate, entryDate, setChosenDate }: DatePickerPro
   const router = useRouter();
 
   const goToDate = (num: number, entryDate: Date) => {
-    if (router.asPath.includes("/insights")) {
+    if (router.asPath.includes("/insights") && setChosenDate) {
       router.push(`${router.asPath.includes("/demo") ? "/demo" : ""}/insights/${formateDateQuery(entryDate, num)}`);
-      if (setChosenDate)
-        setChosenDate(formateDateQuery(entryDate, num));
+      setChosenDate(formateDateQuery(entryDate, num));
     } else {
       const newDate = new Date(entryDate);
       newDate.setDate(newDate.getDate() + num);
