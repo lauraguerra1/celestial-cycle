@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { UserData, Horoscope, selectionType, AuthProps } from '@/types/types';
-import { convertStringToDate } from '@/utils/utils';
+import { convertStringToDate, formatDateForDB } from '@/utils/utils';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import CelestialLogo from './CelestialLogo';
-import { getHoroscope, getInsights } from '@/utils/apiCalls';
+import { getEntry, getHoroscope, getInsights } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
 import DatePicker from './DatePicker';
@@ -13,10 +13,11 @@ import LoadingGif from './LoadingGif';
 
 type InsightsProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
-  selections: selectionType
+  selections: selectionType;
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>;
 };
 
-export default function Insights({ isAuthorized, data, updateEntryDate, selections }: InsightsProps) {
+export default function Insights({ isAuthorized, data, updateEntryDate, selections, setSelections }: InsightsProps) {
   const router = useRouter();
   const { date } = router.query;
   const user = data?.[0] ?? null;
@@ -64,6 +65,29 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     loadPageData();
   }, [user, date, chosenDate]);
 
+  useEffect(() => {
+    const getFormData = async () => {
+      setLoading(true);
+      try {
+        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
+
+        if (entryInfo.data) {
+          setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
+        } else {
+          setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
+        }
+      } catch (err) {
+        if (err instanceof Error) setError(true);
+      }
+      setLoading(false);
+    };
+    getFormData();
+
+   return () => { 
+      setError(false);
+   }
+  }, [chosenDate, setSelections, router, data]);
+
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
     router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
@@ -71,7 +95,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
 
   const userEmojis = (selections: selectionType) => {
     return Object.keys(selections).map(type => {
-      return selections[type] && <div className='flex flex-col'>
+      return selections[type] && <div className='flex flex-col' key={type}>
       <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
         <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
       </div>

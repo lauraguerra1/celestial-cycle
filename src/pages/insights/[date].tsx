@@ -8,11 +8,12 @@ import { Value } from '@/components/Calendar';
 
 type InsightProps = AuthProps & {
   updateEntryDate: (date: Value) => void,
-  selections: selectionType
+  selections: selectionType;
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>;
 }
 
-export default function dashboard ({isAuthorized, data, updateEntryDate, selections}: InsightProps ){
-  return (<Insights selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />);
+export default function dashboard ({isAuthorized, data, updateEntryDate, selections, setSelections}: InsightProps ){
+  return (<Insights setSelections={setSelections} selections={selections} updateEntryDate={updateEntryDate} isAuthorized={isAuthorized} data={data} />);
 }
 
 export const getServerSideProps = (async (context) => {
