@@ -1,4 +1,4 @@
-import { getTodaysDate, isDateInFuture } from '@/utils/utils';
+import { formatDateQuery, getTodaysDate, isDateInFuture } from '@/utils/utils';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 
@@ -12,10 +12,9 @@ const DatePicker = ({ updateEntryDate, entryDate, setChosenDate }: DatePickerPro
   const router = useRouter();
 
   const goToDate = (num: number, entryDate: Date) => {
-    if (router.asPath.includes("/insights")) {
-      router.push(`${router.asPath.includes("/demo") ? "/demo" : ""}/insights/${entryDate.getMonth() + 1}-${entryDate.getDate() + num}-${entryDate.getFullYear()}`);
-      if (setChosenDate)
-        setChosenDate(`${entryDate.getMonth() + 1}-${entryDate.getDate() + num}-${entryDate.getFullYear()}`);
+    if (router.asPath.includes("/insights") && setChosenDate) {
+      router.push(`${router.asPath.includes("/demo") ? "/demo" : ""}/insights/${formatDateQuery(entryDate, num)}`);
+      setChosenDate(formatDateQuery(entryDate, num));
     } else {
       const newDate = new Date(entryDate);
       newDate.setDate(newDate.getDate() + num);
