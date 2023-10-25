@@ -51,29 +51,17 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
 
   }, [user, date, chosenDate, setSelections, router, data]);
 
-  type Insight = {
-    created_at: string
-    date: string
-    description: string
-    id: number
-    user_id: string
-  }
-  const updateDayInfo = (empty: boolean, horoscope: Horoscope | null, insights: Insight | null) => {
-    setEmptyDay(empty)
-    setInsights(insights)
-    setHoroscope(horoscope)
-  }
   async function loadPageData() {
     setLoading(true);
     try {
       const response = await getInsights(chosenDate);
-      console.log({response})
-      updateDayInfo(!response.insights  && !response.horoscope, response.horoscope ?? null, response.insights ?? null)
-      setLoading(false);
+      setEmptyDay(!response.insights && !response.horoscope)
+      setInsights(response.insights ?? null)
+      setHoroscope(response.horoscope ?? null)
     } catch (err) {
       setError(true);
-      console.error(err);
     }
+    setLoading(false);
   }
 
   const getFormData = async () => {
