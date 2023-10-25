@@ -3,7 +3,7 @@ import { AuthProps, selectionType } from '@/types/types'
 import { useRouter } from "next/router";
 import Navbar from '@/components/Navbar';
 import Calendar from 'react-calendar';
-import { formatDateForDB, formateDateQuery, getTodaysDate } from '@/utils/utils';
+import { formatDateForDB, formatDateQuery, getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
@@ -31,7 +31,7 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, entr
       router.push('/');
     }
 
-    setDate(formateDateQuery(value as Date, 0));
+    setDate(formatDateQuery(value as Date, 0));
   },[isAuthorized, router, value]);
 
   useEffect(() => {

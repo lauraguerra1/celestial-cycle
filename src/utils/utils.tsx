@@ -70,6 +70,6 @@ export const isDateInFuture = (entryDate: Date) => {
   return comparisonDate >= currentDate
 }
 
-export const formateDateQuery = (date: Date, num: number) => {
+export const formatDateQuery = (date: Date, num: number) => {
   return `${date.getMonth()+1}-${date.getDate()+num}-${date.getFullYear()}`
 }
