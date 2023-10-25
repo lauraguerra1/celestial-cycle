@@ -28,7 +28,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const [chosenDate, setChosenDate] = useState<string>(date as string)
   const [loading, setLoading] = useState<boolean>(false)
   const loadOnce = useRef<string | null>(null);
-  
+
   useEffect(() => {
     if (!isAuthorized) {
       router.push("/");
@@ -42,43 +42,43 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
 
     loadOnce.current = chosenDate;
 
+    async function loadPageData() {
+      setLoading(true);
+      try {
+        const response = await getInsights(chosenDate);
+        setEmptyDay(!response.insights && !response.horoscope)
+        setInsights(response.insights ?? null)
+        setHoroscope(response.horoscope ?? null)
+      } catch (err) {
+        setError(true);
+      }
+      setLoading(false);
+    }
+
+    const getFormData = async () => {
+      setLoading(true);
+      try {
+        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
+
+        if (entryInfo.data) {
+          setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
+        } else {
+          setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
+        }
+      } catch (err) {
+        if (err instanceof Error) setError(true);
+      }
+      setLoading(false);
+    };
+
     loadPageData();
     getFormData();
 
-    return () => { 
+    return () => {
       setError(false);
-   }
+    }
 
   }, [user, date, chosenDate, setSelections, router, data]);
-
-  async function loadPageData() {
-    setLoading(true);
-    try {
-      const response = await getInsights(chosenDate);
-      setEmptyDay(!response.insights && !response.horoscope)
-      setInsights(response.insights ?? null)
-      setHoroscope(response.horoscope ?? null)
-    } catch (err) {
-      setError(true);
-    }
-    setLoading(false);
-  }
-
-  const getFormData = async () => {
-    setLoading(true);
-    try {
-      const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
-
-      if (entryInfo.data) {
-        setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
-      } else {
-        setSelections({ FLOW: null, MOOD: null, CRAVINGS: null });
-      }
-    } catch (err) {
-      if (err instanceof Error) setError(true);
-    }
-    setLoading(false);
-  };
 
   const goToEntry = () => {
     updateEntryDate(convertStringToDate(chosenDate));
@@ -88,11 +88,11 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   const userEmojis = (selections: selectionType) => {
     return Object.keys(selections).map(type => {
       return selections[type] && <div className='flex flex-col' key={type}>
-      <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-        <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
+        <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+          <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
+        </div>
+        <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
       </div>
-      <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
-    </div>
     })
   }
 
@@ -100,24 +100,24 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <CelestialLogo />
-        <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate}/>
+        <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
         <section className='insights mt-5 overflow-y-auto'>
           <div className='flex justify-end mt-3 mr-5'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
           <div className='p-5 insights-text text-lg'>
-            {error ? "Error loading insights, please refresh the page" : 
-              emptyDay ? "No insights loaded for this date, try a later date" : 
-              loading? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope}/>)}
+            {error ? "Error loading insights, please refresh the page" :
+              emptyDay ? "No insights loaded for this date, try a later date" :
+                loading ? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
           </div>
-            <div className='flex justify-between mx-10 mt-3'>
+          <div className='flex justify-between mx-10 mt-3'>
             {userEmojis(selections)}
           </div>
           <div className='flex justify-center'>
             <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
-            {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
-            "Edit" : "Add"} Today's Data`}
+              {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
+                "Edit" : "Add"} Today's Data`}
             </button>
           </div>
         </section>
@@ -127,7 +127,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   );
 }
 
-function HoroscopeOnly({horoscope}: {horoscope?: Horoscope | null}) {
+function HoroscopeOnly({ horoscope }: { horoscope?: Horoscope | null }) {
   return (
     <div>
       <p>{horoscope?.description}</p>
