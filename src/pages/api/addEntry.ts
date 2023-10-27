@@ -1,23 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabase } from '../../utils/supabase';
 import { PostgrestError } from '@supabase/supabase-js';
+import { getAuthenticatedUserFromSession } from '@/utils/passage';
+import { DEMO_USER_ID } from '@/utils/utils';
 
 export type EntryData = {
   message: string, 
-  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string}
+  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, date: string}
 };
 
 export default async function addEntry(
   req: NextApiRequest,
   res: NextApiResponse<EntryData | PostgrestError | Error>
 ) {
-  const { flow, mood, craving, symptom, date, user_id } = req.body;
-  const supabase = getSupabase(user_id);
+  const { flow, mood, craving, symptom, date } = req.body;
+  const loginProps = await getAuthenticatedUserFromSession(req, res);
+  const userID = loginProps?.userID || DEMO_USER_ID;
+
+  const supabase = getSupabase(userID);
   try {
     let { data:entries, error } = await supabase
       .from("entries")
       .select()
-      .eq("user_id", user_id)
+      .eq("user_id", userID)
       .eq("date", date)
     
     if (error) {
@@ -26,7 +31,7 @@ export default async function addEntry(
     
     const command = !entries?.length ? 'insert' : 'update'
     const firstEq = !entries?.length ? 'user_id' : 'date'
-    const secondEq = !entries?.length ? user_id : date 
+    const secondEq = !entries?.length ? userID : date 
 
     let { error: upsertErr } = await supabase
       .from("entries")
@@ -36,9 +41,9 @@ export default async function addEntry(
         mood,
         craving,
         symptom,
-        user_id,
+        user_id: userID,
       })
-      .eq("user_id", user_id)
+      .eq("user_id", userID)
       .eq(firstEq, secondEq)
   
     if (upsertErr) {
@@ -48,7 +53,7 @@ export default async function addEntry(
     let { data:entriesWithFlow, error:selectionError } = await supabase
         .from('entries')
         .select()
-        .eq('user_id', user_id)
+        .eq('user_id', userID)
         .in('flow', ['Spotting', 'Light', 'Medium', 'Heavy', 'Super'])
 
     if (selectionError) {
@@ -76,7 +81,7 @@ export default async function addEntry(
     let { error:updateErr } = await supabase
       .from('users')
       .update({ 'last_cycle_start': mostRecentCycle ? mostRecentCycle[0] : null, 'last_cycle_length': mostRecentCycle?.length ?? null})
-      .eq('passage_user_id', user_id)
+      .eq('passage_user_id', userID)
     
     if (updateErr) {
       return res.status(400).json(updateErr);

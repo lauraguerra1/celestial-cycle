@@ -49,8 +49,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     getFormData();
 
     return () => setError(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized, entryDate]);
+  }, [isAuthorized, entryDate, data, router, setSelections]);
 
   const postForm = async () => {
     const infoOptions = [...Object.values(selections), symptoms];
@@ -58,12 +57,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
       if (infoOptions.every((option) => !option)) {
         throw new Error('Please input something to save!');
       }
-      const postedRes = await postEntry(router.asPath.includes('demo'), 'addEntry', {
+      await postEntry(router.asPath.includes('demo'), {
         flow: selections.FLOW,
         craving: selections.CRAVINGS,
         mood: selections.MOOD,
         symptom: symptoms,
-        user_id: data ? data[0].passage_user_id : '',
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
