@@ -28,7 +28,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
 
   useEffect(() => {
     const addNewUser = async (user: PassageUserInfo) => {
-      const formattedUser = formatUser(user, userID);
+      const formattedUser = formatUser(user);
       try {
         const res = await fetch('/api/addUser', {
           method: 'POST',
@@ -138,12 +138,11 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
   );
 }
 
-function formatUser(user: PassageUserInfo, userID: string | number) {
+function formatUser(user: PassageUserInfo) {
   return {
     name: user.user_metadata?.name,
     email: user.email,
     birth_date: user.user_metadata?.birthday,
-    passage_user_id: userID,
     zodiac_sign: getZodiacSign(user.user_metadata?.birthday),
   }
 } 
