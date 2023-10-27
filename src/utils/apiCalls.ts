@@ -1,8 +1,8 @@
 import { EntryData } from "@/pages/api/addEntry"
 import { mapUserSignToHoroscopeSign } from "./utils"
 
-export const postEntry = async (demo: boolean, endpoint: string, entry: EntryData["data"]): Promise<EntryData> => {
-  const response = await fetch(`${demo ? '..' : ''}/api/${endpoint}`, {
+export const postEntry = async (demo: boolean, entry: EntryData["data"]): Promise<EntryData> => {
+  const response = await fetch(`${demo ? '..' : ''}/api/addEntry`, {
     method: 'POST', 
     body: JSON.stringify(entry), 
     headers: {
@@ -16,8 +16,8 @@ export const postEntry = async (demo: boolean, endpoint: string, entry: EntryDat
   return data
 }
 
-export const getEntry = async (demo: boolean, date: string, userID: string): Promise<{ data: EntryData['data'] }> => {
-  const response = await fetch(`${demo ? '..' : ''}/api/entry/${userID}/${date}`)
+export const getEntry = async (demo: boolean, date: string): Promise<{ data: EntryData['data'] }> => {
+  const response = await fetch(`${demo ? '..' : ''}/api/entry/${date}`)
   if (!response.ok) {
     throw new Error(`Error: ${response.status} Please try again.`)
   }
