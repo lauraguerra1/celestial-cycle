@@ -18,9 +18,9 @@ const RegistrationForm = ({isAuthorized, data }: DashboardProps) => {
     e.preventDefault();
 
     const entries = []
-    for (let i=0; i < parseInt(periodLength as string); i++){
+    for (let i = 0; i < parseInt(periodLength as string); i++){
       const newDate = new Date(startDate as string);
-      newDate.setDate(newDate.getDate() + (i+1));
+      newDate.setDate(newDate.getDate() + (i + 1));
       entries.push(postEntry(Router.asPath.includes('demo'), {
         flow: "Medium",
         craving: null,
@@ -30,11 +30,11 @@ const RegistrationForm = ({isAuthorized, data }: DashboardProps) => {
       }))
       }
       try {
-        const result = await Promise.all(entries)
+        await Promise.all(entries);
         router.push("/dashboard");
       }
       catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
@@ -74,4 +74,4 @@ const RegistrationForm = ({isAuthorized, data }: DashboardProps) => {
   );
 }
 
-export default RegistrationForm
+export default RegistrationForm;

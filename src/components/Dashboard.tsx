@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { UserData, AuthProps, Horoscope } from '@/types/types';
-import { getTodaysDate, getZodiacSign  } from '@/utils/utils';
+import { formatUser, getTodaysDate, getZodiacSign  } from '@/utils/utils';
 import Navbar from '../components/Navbar';
 import { useRouter } from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
@@ -23,7 +23,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
   const [userInsights, setUserInsights] = useState<Horoscope>();
   const [loading, setLoading] = useState(true);
   const [serverError, setServerError] = useState(false);
-  const [date, setDate] = useState<Date>(new Date());
+  const [date] = useState<Date>(new Date());
   const router = useRouter();
 
   useEffect(() => {
@@ -137,12 +137,3 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     </div>
   );
 }
-
-function formatUser(user: PassageUserInfo) {
-  return {
-    name: user.user_metadata?.name,
-    email: user.email,
-    birth_date: user.user_metadata?.birthday,
-    zodiac_sign: getZodiacSign(user.user_metadata?.birthday),
-  }
-} 
