@@ -61,7 +61,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
         const passage = new Passage(passageAppId);
         const userPass = passage.getCurrentUser();
         const userInfo = await userPass.userInfo();
-        const isUserInSupaBase = await checkForUser(userID)
+        const isUserInSupaBase = await checkForUser()
         if (userInfo && !isUserInSupaBase) {
           addNewUser(userInfo);
         }
@@ -96,9 +96,9 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     }
   },[user])
 
-  const checkForUser = async (userID: string | number) => {
+  const checkForUser = async () => {
     try {
-      const res = await fetch(`/api/getUser?userID=${userID}`);
+      const res = await fetch(`/api/getUser`);
       const parsed = await res.json();
       if (!parsed.length) {
         return false;
