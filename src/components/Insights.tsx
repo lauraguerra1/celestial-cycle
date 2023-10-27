@@ -58,7 +58,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     const getFormData = async () => {
       setLoading(true);
       try {
-        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
+        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)));
 
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
