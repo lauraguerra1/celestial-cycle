@@ -1,6 +1,5 @@
 import { EntryData } from "@/pages/api/addEntry";
 import { mapUserSignToHoroscopeSign } from "./utils";
-import { PassageUserInfo } from "@passageidentity/passage-elements/passage-user";
 
 export const postEntry = async (demo: boolean, entry: EntryData["data"]): Promise<EntryData> => {
   const response = await fetch(`${demo ? '..' : ''}/api/addEntry`, {

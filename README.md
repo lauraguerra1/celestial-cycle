@@ -61,8 +61,11 @@ Each time starting the app:
 
 After running `supabase start`, a local version of the "Supabase Studio" is available at http://localhost:54323/, which can be used to create or update database tables. It is possible to sync changes made locally with our production instance. For more details, see [Supabase docs](https://supabase.com/docs/guides/cli/local-development).
 
+If you are totally offline, you'll need to update `getAuthenticatedUserFromSession()` in `src/utils/passage` to return a fake/static response (return `{ isAuthorized: true, userID: "whatever your test userID is" }`).
+
 Remaining TODO:
-- Use `supabase/seed.sql` to seed some records in the database (i.e for the demo user)
+
+-> Use `supabase/seed.sql` to seed some records in the database (i.e for the demo user)
 
 
 ## Context:
