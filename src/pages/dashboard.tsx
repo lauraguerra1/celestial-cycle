@@ -4,7 +4,9 @@ import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
+import { getZodiacSign } from '@/utils/utils';
 
+type UserMetaData = {name: string; birthday: string} | undefined | null
 
 export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
   return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />);
@@ -17,10 +19,12 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
+    const metaData = loginProps.passageUser?.user_metadata as UserMetaData;
     const { data } = await supabase
       .from("users")
-      .select()
-      .eq("passage_user_id", loginProps.userID);
+      .upsert({ name: metaData?.name, zodiac_sign: getZodiacSign(metaData?.birthday), email: loginProps.passageUser?.email, birth_date: metaData?.birthday, "passage_user_id": loginProps.userID }, { onConflict: "passage_user_id" })
+      .select();
+
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,

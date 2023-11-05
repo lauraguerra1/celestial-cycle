@@ -4,8 +4,8 @@ import Router, { useRouter } from "next/router";
 import { postEntry } from "@/utils/apiCalls";
 
 const RegistrationForm = ({isAuthorized, data }: DashboardProps) => {
-  const [startDate, setStartDate] = useState<string | number | readonly string[] | undefined>(undefined);
-  const [periodLength, setPeriodLength] = useState<string | undefined>(undefined);
+  const [startDate, setStartDate] = useState<string | number | readonly string[]>("");
+  const [periodLength, setPeriodLength] = useState<string>("");
   const router = useRouter();
  
   useEffect(() => {

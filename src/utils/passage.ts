@@ -10,17 +10,19 @@ export const getAuthenticatedUserFromSession = async (
   req: NextPageContext["req"] | NextApiRequest,
   res: NextPageContext["res"] | NextApiResponse
 ) => {
+  // For local dev:
+  // return { isAuthorized: true, userID: "your ID" };
+
   try {
     const userID = await passage.authenticateRequest(req);
     if (userID) {
-      console.info(`Got userID ${userID}`);
+      let passageUser;
       try {
-        let passageUser = await passage.user.get(userID);
-        console.log('Got user', passageUser)
+        passageUser = await passage.user.get(userID);
       } catch (error: any) {
         console.error('Failed to get user', error?.message, error?.statusCode)
       }
-      return { isAuthorized: true, userID: userID };
+      return { isAuthorized: true, userID: userID, passageUser };
     }
   } catch (error) {
     // authentication failed

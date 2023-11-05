@@ -1,5 +1,6 @@
-import { EntryData } from "@/pages/api/addEntry"
-import { mapUserSignToHoroscopeSign } from "./utils"
+import { EntryData } from "@/pages/api/addEntry";
+import { mapUserSignToHoroscopeSign } from "./utils";
+import { PassageUserInfo } from "@passageidentity/passage-elements/passage-user";
 
 export const postEntry = async (demo: boolean, entry: EntryData["data"]): Promise<EntryData> => {
   const response = await fetch(`${demo ? '..' : ''}/api/addEntry`, {
@@ -29,7 +30,7 @@ export const getHoroscope = async (date: string, sign: string) => {
     const response = await fetch(`/api/horoscope?date=${date}&sign=${mapUserSignToHoroscopeSign(sign)}`)
 
     if (!response.ok) {
-        throw new Error(`Error: ${response.status} Please try again.`)
+      throw new Error(`Error: ${response.status} Please try again.`)
     }
 
     const data = await response.json()
@@ -41,7 +42,7 @@ export const getInsights = async (date: string) => {
   const response = await fetch(`/api/getInsight?date=${date}`);
 
   if (!response.ok) {
-      throw new Error(`Error: ${response.status} Please try again.`)
+    throw new Error(`Error: ${response.status} Please try again.`)
   }
 
   const data = await response.json()
