@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { DashboardProps } from "./Dashboard";
 import Router, { useRouter } from "next/router";
 import { postEntry } from "@/utils/apiCalls";
+import { AuthProps } from "@/types/types";
 
-const RegistrationForm = ({isAuthorized, data }: DashboardProps) => {
+const RegistrationForm = ({isAuthorized, data }: AuthProps) => {
   const [startDate, setStartDate] = useState<string | number | readonly string[]>("");
   const [periodLength, setPeriodLength] = useState<string>("");
   const router = useRouter();

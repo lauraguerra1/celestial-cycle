@@ -6,16 +6,10 @@ import Navbar from '../components/Navbar';
 import { useRouter } from "next/router";
 import CelestialLogo from '@/components/CelestialLogo';
 import { getHoroscope } from '@/utils/apiCalls';
-import dotenv from 'dotenv';
 import LoadingGif from './LoadingGif';
 import Link from 'next/link';
-dotenv.config();
 
-export type DashboardProps = AuthProps & {
-  userID: string | number;
-};
-
-export default function Dashboard({ isAuthorized, userID, data }: DashboardProps) {
+export default function Dashboard({ isAuthorized, data }: AuthProps) {
   const [user, setUser] = useState<UserData | null>(null);
   const [error, setError] = useState<boolean>(false);
   const [userInsights, setUserInsights] = useState<Horoscope>();
@@ -27,7 +21,7 @@ export default function Dashboard({ isAuthorized, userID, data }: DashboardProps
     if (!isAuthorized) {
       router.push("/");
     } 
-    else if (data && data.length) {
+    else if (data?.length) {
       setUser(data[0]);
       setLoading(false);
     } 

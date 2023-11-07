@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard, { DashboardProps } from '../components/Dashboard'
+import Dashboard from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
@@ -8,8 +8,8 @@ import { getZodiacSign } from '@/utils/utils';
 
 type UserMetaData = {name: string; birthday: string} | undefined | null
 
-export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />);
+export default function dashboard ({isAuthorized, data }: AuthProps){
+  return (<Dashboard isAuthorized={isAuthorized} data={data} />);
 }
 
 export const getServerSideProps = (async (context) => {
