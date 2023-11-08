@@ -34,7 +34,7 @@ const RegistrationForm = ({isAuthorized, data }: AuthProps) => {
         router.push("/dashboard");
       }
       catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
 

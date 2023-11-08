@@ -20,8 +20,7 @@ export const getServerSideProps = (async (context) => {
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
     const metaData = loginProps.passageUser?.user_metadata as UserMetaData;
-    //metaData = { birthday: '', name: '' }
-    console.log(metaData, 'metadata')
+    
     const userInfo = await supabase
       .from("users")
       .upsert({ name: metaData?.name, zodiac_sign: getZodiacSign(metaData?.birthday), email: loginProps.passageUser?.email, birth_date: metaData?.birthday, "passage_user_id": loginProps.userID }, { onConflict: "passage_user_id" })
