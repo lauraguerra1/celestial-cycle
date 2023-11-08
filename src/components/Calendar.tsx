@@ -15,12 +15,11 @@ export type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export type CalendarProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
-  entryDate: Date
   selections: selectionType
   setSelections: React.Dispatch<React.SetStateAction<selectionType>>
 };
 
-export default function CalendarPage({ isAuthorized, data, updateEntryDate, entryDate, selections, setSelections }: CalendarProps) {
+export default function CalendarPage({ isAuthorized, data, updateEntryDate, selections, setSelections }: CalendarProps) {
   const [value, onChange] = useState<Value>(new Date());
   const [date, setDate] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
