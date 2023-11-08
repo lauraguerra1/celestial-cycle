@@ -49,7 +49,6 @@ export const getServerSideProps = (async (context) => {
     return {
       props: {
         isAuthorized: false,
-        userID: '',
         data: null
       },
     };
