@@ -4,9 +4,11 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { getAuthenticatedUserFromSession } from '@/utils/passage';
 import { DEMO_USER_ID } from '@/utils/utils';
 
+type StringOrNullData = string | null
+
 export type EntryData = {
   message: string, 
-  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, date: string}
+  data: { flow: StringOrNullData, mood: StringOrNullData, craving: StringOrNullData, symptom: StringOrNullData, date: string}
 };
 
 export default async function addEntry(

@@ -39,7 +39,7 @@ export interface Insights {
 
 export type AuthProps = {
     isAuthorized: boolean;
-    data: UserData[] | null | undefined
+    data?: UserData[] | null | undefined
 };
   
 export interface Horoscope {

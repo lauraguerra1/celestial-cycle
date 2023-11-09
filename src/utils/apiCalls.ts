@@ -47,3 +47,27 @@ export const getInsights = async (date: string) => {
   const data = await response.json()
   return data;
 };
+
+type FirstTimeUser = {
+  name: string;
+  birth_date: string;
+  last_cycle_start: string;
+  last_cycle_length: number;
+}
+
+export const addUserAndEntries = async (userInformation: FirstTimeUser) => {
+  const response = await fetch('/api/firstTimeUserAndEntries', {
+    method: 'POST', 
+    body: JSON.stringify(userInformation), 
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} Please try again.`)
+  }
+
+  const data = await response.json();
+  return data;
+}
