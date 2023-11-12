@@ -6,8 +6,7 @@ import { getZodiacSign } from '@/utils/utils';
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 	const { name, birth_date, last_cycle_start, last_cycle_length } = req.body;
 	const loginProps = await getAuthenticatedUserFromSession(req, res);
-	const userID = loginProps?.userID
-	console.log("userid", userID)
+	const userID = loginProps?.userID;
 	const supabase = getSupabase(userID);
 	const userInfo = await supabase
 	    .from("users")
@@ -41,7 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	  	.from("entries")
 	    .insert(cycleEntries)
 	    .select();
-	    console.log('entries', entries)
 	if (userInfo.error || entries.error) {
 		return res.status(400).json(userInfo.error || entries.error);
 	}
