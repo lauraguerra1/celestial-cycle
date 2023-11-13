@@ -5,10 +5,11 @@ import { PassageUser } from '@passageidentity/passage-elements/passage-user';
 import dotenv from 'dotenv';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
+import { DEMO_USER_ID } from '@/utils/utils';
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export type ProfileProps = AuthProps & {
-  userID: string | number;
+  userID: string;
 };
 
 function Profile({isAuthorized, userID, data}: ProfileProps) {
@@ -22,7 +23,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
   },[isAuthorized, router]);
 
   const signOut = async () => {
-    if (userID !== 'ABrrCENR3M0I6XZ7NLA7gNCY'){
+    if (userID !== DEMO_USER_ID){
       new PassageUser().signOut();
     }
     router.push("/");
@@ -41,7 +42,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
 
   return (
     <div className='flex flex-col items-center content-center mb-20'>
-      <h1 className='m-7 text-center text-3xl'>{(userID === 'ABrrCENR3M0I6XZ7NLA7gNCY') && 'Log in to enjoy our profile feature!'}</h1>
+      <h1 className='m-7 text-center text-3xl'>{(userID === DEMO_USER_ID) && 'Log in to enjoy our profile feature!'}</h1>
       <div className='max-w-passage' >
         <passage-profile app-id={process.env.NEXT_PUBLIC_PASSAGE_APP_ID}></passage-profile>
       </div>

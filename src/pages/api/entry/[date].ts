@@ -1,23 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getSupabase } from '../../../../utils/supabase'
+import { getSupabase } from '../../../utils/supabase'
 import { PostgrestError } from '@supabase/supabase-js';
+import { DEMO_USER_ID } from '@/utils/utils';
+import { getAuthenticatedUserFromSession } from '@/utils/passage';
 
 export type SingleEntryData = {
-  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, user_id: string | null, date: string} | null
+  data: { flow: string | null, mood: string | null, craving: string | null, symptom: string | null, date: string} | null
 };
 
 export default async function getEntry(
   req: NextApiRequest,
   res: NextApiResponse<SingleEntryData | PostgrestError | Error>
 ) {
-  const { date, user_id } = req.query;
-  const supabase = getSupabase(user_id as string);
+  const { date } = req.query;
+  const loginProps = await getAuthenticatedUserFromSession(req, res);
+  const userID = loginProps?.userID || DEMO_USER_ID;
+
+  const supabase = getSupabase(userID);
 
   try {
     const { data, error } = await supabase
       .from("entries")
       .select()
-      .eq("user_id", user_id)
+      .eq("user_id", userID)
       .eq("date", date);
     
       if (error) {

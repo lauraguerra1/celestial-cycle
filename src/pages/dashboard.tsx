@@ -1,13 +1,15 @@
 import React from 'react'
-import Dashboard, { DashboardProps } from '../components/Dashboard'
+import Dashboard from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
+import { getZodiacSign } from '@/utils/utils';
 
+type UserMetaData = {name: string; birthday: string} | undefined | null
 
-export default function dashboard ({isAuthorized, userID, data }: DashboardProps){
-  return (<Dashboard isAuthorized={isAuthorized} userID={userID} data={data} />);
+export default function dashboard ({isAuthorized, data }: AuthProps){
+  return (<Dashboard isAuthorized={isAuthorized} data={data} />);
 }
 
 export const getServerSideProps = (async (context) => {
@@ -17,22 +19,36 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data, error } = await supabase
+    const metaData = loginProps.passageUser?.user_metadata as UserMetaData;
+    
+    const userInfo = await supabase
       .from("users")
+      .upsert({ name: metaData?.name, zodiac_sign: getZodiacSign(metaData?.birthday), email: loginProps.passageUser?.email, birth_date: metaData?.birthday, "passage_user_id": loginProps.userID }, { onConflict: "passage_user_id" })
+      .select();
+
+    const entries = await supabase
+      .from("entries")
       .select()
-      .eq("passage_user_id", loginProps.userID);
+      .eq("user_id", loginProps.userID);
+
+    if (!entries.data?.length) {
+      return {
+      redirect: {
+        destination: '/registrationform',
+        permanent: false,
+      },
+    }
+    }
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        userID: loginProps.userID,
-        data: data
+        data: userInfo.data,
       },
     };
   } else {
     return {
       props: {
         isAuthorized: false,
-        userID: '',
         data: null
       },
     };

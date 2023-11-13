@@ -32,7 +32,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     const getFormData = async () => {
       setLoading(true);
       try {
-        const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate as Date), data ? data[0].passage_user_id : '');
+        const entryInfo = await getEntry(router.asPath.includes('demo'), formatDateForDB(entryDate as Date));
 
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
@@ -49,8 +49,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     getFormData();
 
     return () => setError(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized, entryDate]);
+  }, [isAuthorized, entryDate, data, router, setSelections]);
 
   const postForm = async () => {
     const infoOptions = [...Object.values(selections), symptoms];
@@ -58,12 +57,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
       if (infoOptions.every((option) => !option)) {
         throw new Error('Please input something to save!');
       }
-      const postedRes = await postEntry(router.asPath.includes('demo'), 'addEntry', {
+      await postEntry(router.asPath.includes('demo'), {
         flow: selections.FLOW,
         craving: selections.CRAVINGS,
         mood: selections.MOOD,
         symptom: symptoms,
-        user_id: data ? data[0].passage_user_id : '',
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);

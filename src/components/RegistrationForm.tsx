@@ -1,42 +1,40 @@
 import { useEffect, useState } from "react";
-import { DashboardProps } from "./Dashboard";
 import Router, { useRouter } from "next/router";
 import { postEntry } from "@/utils/apiCalls";
+import { AuthProps } from "@/types/types";
 
-const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
-  const [startDate, setStartDate] = useState<string | number | readonly string[] | undefined>(undefined);
-  const [periodLength, setPeriodLength] = useState<string | undefined>(undefined);
+const RegistrationForm = ({isAuthorized, data }: AuthProps) => {
+  const [startDate, setStartDate] = useState<string | number | readonly string[]>("");
+  const [periodLength, setPeriodLength] = useState<string>("");
   const router = useRouter();
  
   useEffect(() => {
     if (!isAuthorized) {
       router.push("/");
     } 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthorized]);
+  }, [isAuthorized, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const entries = []
-    for (let i=0; i < parseInt(periodLength as string); i++){
+    for (let i = 0; i < parseInt(periodLength as string); i++){
       const newDate = new Date(startDate as string);
-      newDate.setDate(newDate.getDate() + (i+1));
-      entries.push(postEntry(Router.asPath.includes('demo'), 'addEntry', {
+      newDate.setDate(newDate.getDate() + (i + 1));
+      entries.push(postEntry(Router.asPath.includes('demo'), {
         flow: "Medium",
         craving: null,
         mood: null,
         symptom: null,
-        user_id: data ? data[0].passage_user_id : '',
         date: `${new Date(newDate).getFullYear()}-${new Date(newDate).getMonth() + 1}-${new Date(newDate).getDate()}`
       }))
       }
       try {
-        const result = await Promise.all(entries)
+        await Promise.all(entries);
         router.push("/dashboard");
       }
       catch (error) {
-        console.log(error)
+        console.error(error);
       }
     }
 
@@ -76,4 +74,4 @@ const RegistrationForm = ({isAuthorized, userID, data }: DashboardProps) => {
   );
 }
 
-export default RegistrationForm
+export default RegistrationForm;

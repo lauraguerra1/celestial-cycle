@@ -1,13 +1,12 @@
 import React from 'react'
-import Dashboard, { DashboardProps } from '../components/Dashboard'
 import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
 import RegistrationForm from '@/components/RegistrationForm';
 
-export default function registrationform ({isAuthorized, userID, data }: DashboardProps){
-  return (<RegistrationForm isAuthorized={isAuthorized} userID={userID} data={data} />)
+export default function registrationform ({isAuthorized, data }: AuthProps){
+  return (<RegistrationForm isAuthorized={isAuthorized} data={data} />)
 }
 
 export const getServerSideProps = (async (context) => {
@@ -17,14 +16,14 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);
+      
     return {
       props: {
         isAuthorized: loginProps.isAuthorized,
-        userID: loginProps.userID,
         data: data
       },
     };

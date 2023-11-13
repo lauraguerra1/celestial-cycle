@@ -44,6 +44,29 @@ Celestial Cycle offers a seamless experience for users to input and track their 
 - Run the command: `npm run dev`
 - To run Cypress e2e tests, run the command: `npm run cypress`
 
+## Local development
+
+
+
+Initial setup:
+- Install Docker Desktop
+- Run the command: `npx supabase login` and follow the instructions
+- ~Run the command: `npx supabase init`~ -- only needed to be done once for this project I think?
+- Run the command: `npx supabase link --project-ref vlgtrtvllgcifxunrcvw` using the Reference ID from the Project Settings page in Supabase.
+
+Each time starting the app:
+- Run the command: `npx supabase start` to start the local Supabase Postgres server
+- Update `NEXT_PUBLIC_SUPABASE_URL` (API URL), `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_JWT_SECRET` in your `.env.local` using the output from the previous command
+- Start the dev server: `npm run dev`
+
+After running `supabase start`, a local version of the "Supabase Studio" is available at http://localhost:54323/, which can be used to create or update database tables. It is possible to sync changes made locally with our production instance. For more details, see [Supabase docs](https://supabase.com/docs/guides/cli/local-development).
+
+If you are totally offline, you'll need to update `getAuthenticatedUserFromSession()` in `src/utils/passage` to return a fake/static response (return `{ isAuthorized: true, userID: "whatever your test userID is" }`).
+
+Remaining TODO:
+
+-> Use `supabase/seed.sql` to seed some records in the database (i.e for the demo user)
+
 
 ## Context:
 - All contributors are recent graduates of the Front End Engineering program at Turing School of Software and Design. This project was created for Women Who Code's Hackathon for Social Impact. 

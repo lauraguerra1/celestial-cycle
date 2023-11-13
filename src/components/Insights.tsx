@@ -36,6 +36,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   }, [isAuthorized, router]);
 
   useEffect(() => {
+    console.log(loadOnce.current, chosenDate)
     if (loadOnce.current === chosenDate) {
       return;
     }
@@ -58,7 +59,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     const getFormData = async () => {
       setLoading(true);
       try {
-        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)), data ? data[0].passage_user_id : '');
+        const entryInfo = await getEntry(false, formatDateForDB(convertStringToDate(chosenDate)));
 
         if (entryInfo.data) {
           setSelections({ FLOW: entryInfo.data.flow, MOOD: entryInfo.data.mood, CRAVINGS: entryInfo.data.craving });
@@ -71,8 +72,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       setLoading(false);
     };
 
-    loadPageData();
-    getFormData();
+    getFormData().then(loadPageData);
 
     return () => {
       setError(false);
@@ -109,7 +109,8 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='p-5 insights-text text-lg'>
             {error ? "Error loading insights, please refresh the page" :
               emptyDay ? "No insights loaded for this date, try a later date" :
-                loading ? <LoadingGif /> : insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
+                loading ? <LoadingGif /> : 
+                  insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
           </div>
           <div className='flex justify-between mx-10 mt-3'>
             {userEmojis(selections)}
