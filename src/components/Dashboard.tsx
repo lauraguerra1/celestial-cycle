@@ -48,8 +48,8 @@ export default function Dashboard({ isAuthorized, data }: AuthProps) {
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-28'>
         <Image width={250} height={100} style={{ width: '60%', height: 'auto', maxWidth: '300px' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
-        <div className='w-2/3 h-45 mt-2 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
-          <p>{error ? "Error loading horoscope, please refresh page" : 
+        <div className='w-3/4 h-fit lg:w-1/2 mt-2 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
+          <p className='md:text-xl'>{error ? "Error loading horoscope, please refresh page" : 
             !loading? userInsights?.description : <LoadingGif />}</p>
         </div>
         <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`}`}><button className='bg-grayblue w-60 p-3 m-5 rounded-xl'>View Today&#39;s Insights</button></Link>
