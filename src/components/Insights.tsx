@@ -36,7 +36,6 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   }, [isAuthorized, router]);
 
   useEffect(() => {
-    console.log(loadOnce.current, chosenDate)
     if (loadOnce.current === chosenDate) {
       return;
     }
