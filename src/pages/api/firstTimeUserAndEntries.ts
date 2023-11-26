@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 	    .select();
 
 	const cycleEntries = [];
-    for (let i = 0; i < parseInt(last_cycle_length); i++){
+    for (let i = 0; i < last_cycle_length; i++){
 		const newDate = new Date(last_cycle_start as string);
 		newDate.setDate(newDate.getDate() + (i + 1));
 
