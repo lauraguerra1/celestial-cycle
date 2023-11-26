@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSupabase } from '../../utils/supabase';
 import { getAuthenticatedUserFromSession } from '@/utils/passage';
 import { getZodiacSign } from '@/utils/utils';
+import { FirstTimeUser } from '@/utils/apiCalls';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
 	const { name, birth_date, last_cycle_start, last_cycle_length }: FirstTimeUser = req.body;

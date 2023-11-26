@@ -48,7 +48,7 @@ export const getInsights = async (date: string) => {
   return data;
 };
 
-type FirstTimeUser = {
+export type FirstTimeUser = {
   name: string;
   birth_date: string;
   last_cycle_start: string;
