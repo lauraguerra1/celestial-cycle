@@ -4,9 +4,6 @@ import { getAuthenticatedUserFromSession } from "@/utils/passage";
 import { getSupabase } from "../utils/supabase";
 import { GetServerSideProps } from "next";
 import { AuthProps } from '@/types/types';
-import { getZodiacSign } from '@/utils/utils';
-
-type UserMetaData = {name: string; birthday: string} | undefined | null
 
 export default function dashboard ({isAuthorized, data }: AuthProps){
   return (<Dashboard isAuthorized={isAuthorized} data={data} />);
@@ -19,25 +16,19 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const metaData = loginProps.passageUser?.user_metadata as UserMetaData;
     
     const userInfo = await supabase
       .from("users")
-      .upsert({ name: metaData?.name, zodiac_sign: getZodiacSign(metaData?.birthday), email: loginProps.passageUser?.email, birth_date: metaData?.birthday, "passage_user_id": loginProps.userID }, { onConflict: "passage_user_id" })
-      .select();
-
-    const entries = await supabase
-      .from("entries")
       .select()
-      .eq("user_id", loginProps.userID);
+      .eq("passage_user_id", loginProps?.userID);
 
-    if (!entries.data?.length) {
+    if (!userInfo.data?.length) {
       return {
-      redirect: {
-        destination: '/registrationform',
-        permanent: false,
-      },
-    }
+        redirect: {
+          destination: '/registrationform',
+          permanent: false,
+        },
+      }
     }
     return {
       props: {

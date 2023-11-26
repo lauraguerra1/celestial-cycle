@@ -16,7 +16,7 @@ export const getServerSideProps = (async (context) => {
   );
   if (loginProps?.isAuthorized) {
     const supabase = getSupabase(loginProps.userID);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("users")
       .select()
       .eq("passage_user_id", loginProps.userID);

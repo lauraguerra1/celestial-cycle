@@ -1,5 +1,3 @@
-import { PassageUserInfo } from "@passageidentity/passage-elements/passage-user";
-
 export const DEMO_USER_ID = "ABrrCENR3M0I6XZ7NLA7gNCY";
 
 export const mapUserSignToHoroscopeSign = (sign: string) => `${sign[0].toUpperCase()}${sign.substring(1)}`;
@@ -75,12 +73,3 @@ export const isDateInFuture = (entryDate: Date) => {
 export const formatDateQuery = (date: Date, num: number) => {
   return `${date.getMonth()+1}-${date.getDate()+num}-${date.getFullYear()}`
 }
-
-export const formatUser = (user: PassageUserInfo) => {
-  return {
-    name: user.user_metadata?.name,
-    email: user.email,
-    birth_date: user.user_metadata?.birthday,
-    zodiac_sign: getZodiacSign(user.user_metadata?.birthday),
-  }
-} 
