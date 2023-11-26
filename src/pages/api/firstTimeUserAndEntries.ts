@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			craving: null,
 			mood: null,
 			symptom: null,
-			date: `${new Date(newDate).getFullYear()}-${new Date(newDate).getMonth() + 1}-${new Date(newDate).getDate()}`,
+			date: newDate.toISOString(),
 			user_id: userID,
 		});
 	}
