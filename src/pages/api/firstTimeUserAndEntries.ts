@@ -4,7 +4,7 @@ import { getAuthenticatedUserFromSession } from '@/utils/passage';
 import { getZodiacSign } from '@/utils/utils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
-	const { name, birth_date, last_cycle_start, last_cycle_length } = req.body;
+	const { name, birth_date, last_cycle_start, last_cycle_length }: FirstTimeUser = req.body;
 	const loginProps = await getAuthenticatedUserFromSession(req, res);
 	const userID = loginProps?.userID;
 	const supabase = getSupabase(userID);
