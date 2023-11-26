@@ -28,7 +28,11 @@ const RegistrationForm = ({ isAuthorized }: AuthProps) => {
     e.preventDefault();
     setError('');
     setSubmissionLoading(true);
-    await addUserAndEntries({name, birth_date: birthday, last_cycle_start: startDate, last_cycle_length: periodLength});
+    try { 
+      await addUserAndEntries({name, birth_date: birthday, last_cycle_start: startDate, last_cycle_length: periodLength});
+    } catch (error: any) {
+      setError(`${error}`);
+   }
     router.push('/dashboard');
   }
 
