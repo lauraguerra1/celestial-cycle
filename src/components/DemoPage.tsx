@@ -20,7 +20,7 @@ const DemoPage = () => {
           <p className='text-2xl celestial-cursive text-mellow-yellow mx-3'>Or</p>
         <div className="border-t-2 border-mellow-yellow w-1/3"></div>
       </section>
-      <button onClick={() => router.push('/authenticate')} className='text-black thick-regular rounded-full bg-white bg-opacity-60 w-3/5 py-2 max-w-3xl'>Login</button>
+      <button onClick={() => router.push('/authenticate')} className='text-black thick-regular rounded-full bg-white bg-opacity-60 w-60 py-2 max-w-3xl'>Login</button>
     </section>
   );
 }

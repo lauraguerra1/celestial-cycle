@@ -51,18 +51,18 @@ function RenderDashboard({user, date}: {user: UserData | null, date: Date}) {
   }
 },[user]);
 
-    return (
-      <div className='pt-10 h-full'>
+  return (
+    <div className='pt-10 h-full'>
       <CelestialLogo />
       <h1 className='mt-7 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''}</h1>
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-20'>
-        <Image width={250} height={100} style={{ width: '60%', height: 'auto', maxWidth: '300px' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
+        <Image width={250} height={100} style={{ width: '45%', height: 'auto', maxWidth: '250px' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
         <div className='w-3/4 h-fit lg:w-1/2 mt-2 border border-white border-1 overflow-scroll rounded-lg px-5 py-1'>
           <p className='md:text-xl'>{error ? "Error loading horoscope, please refresh page" : userInsights?.description}</p>
         </div>
         <Link href={`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${`${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}`}`}><button className='bg-grayblue w-60 p-3 m-5 rounded-xl'>View Today&#39;s Insights</button></Link>
       </div>
     </div>
-    )
-  }
+  );
+};
