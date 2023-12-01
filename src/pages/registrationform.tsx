@@ -20,7 +20,7 @@ export const getServerSideProps = (async (context) => {
     .select()
     .eq("passage_user_id", loginProps?.userID);
 
-  if (data) {
+  if (data?.length) {
     return {
       redirect: {
         destination: '/dashboard',
