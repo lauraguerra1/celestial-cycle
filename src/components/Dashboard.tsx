@@ -32,9 +32,8 @@ export default function Dashboard({ isAuthorized, data }: AuthProps) {
     </div>
   );
 }
-//add prop types
-// on insight page, button is too low to add data
-function RenderDashboard({user, date}: any) {
+
+function RenderDashboard({user, date}: {user: UserData | null, date: Date}) {
   const [error, setError] = useState<boolean>(false);
   const [userInsights, setUserInsights] = useState<Horoscope>();
   const router = useRouter();
