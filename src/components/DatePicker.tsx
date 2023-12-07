@@ -1,6 +1,6 @@
 import { formatDateQuery, getTodaysDate, isDateInFuture } from '@/utils/utils';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react'
+import React from 'react'
 
 interface DatePickerProps {
   entryDate: Date;
