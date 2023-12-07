@@ -10,8 +10,8 @@ const Navbar = () => {
   const router = useRouter();
 
     return (
-        <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray'>
-            <div className='flex w-full h-20 icon-container items-center'>
+        <nav className='flex fixed bottom-0 h-20 w-full bg-lightgray justify-center'>
+            <div className='flex w-full lg:w-2/3 h-20 icon-container items-center'>
                 <div className='h-5/6 w-20 flex p-5 justify-center flex-col items-center'>
                     <Link className='flex flex-col items-center' href={`${router.asPath.includes('demo') ? '/demo' : ''}/calendar`}>
                     <div className='rounded-xl bg-darkgray p-33 icon'>
