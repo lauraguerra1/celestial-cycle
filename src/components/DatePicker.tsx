@@ -23,7 +23,8 @@ const DatePicker = ({ updateEntryDate, entryDate, setChosenDate }: DatePickerPro
   };
 
   return (
-    <div className="flex justify-between items-center mb-4">
+    <div className='text-center w-full flex justify-center'>
+    <div className="flex justify-between items-center mb-4 md:w-5/12">
       <button
         onClick={() => goToDate(-1, entryDate)}
         className="material-symbols-rounded text-mellow-yellow text-3xl"
@@ -44,6 +45,7 @@ const DatePicker = ({ updateEntryDate, entryDate, setChosenDate }: DatePickerPro
         <div className="w-5"></div>
       )}
     </div>
+     </div>
   );
 };
 
