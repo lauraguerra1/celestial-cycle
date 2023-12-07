@@ -101,11 +101,11 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
         <CelestialLogo />
         <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
         <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
-        <section className='insights mt-5 overflow-y-auto'>
-          <div className='flex justify-end mt-3 mr-5'>
+        <section className='insights mt-5 overflow-y-auto flex items-center'>
+          <div className='flex justify-end w-full mt-3 pr-7 md:pr-28 lg:pr-48'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
-          <div className='p-5 insights-text text-lg'>
+          <div className='p-5 insights-text text-lg w-4/5 md:w-2/3 flex justify-items-center'>
             {error ? "Error loading insights, please refresh the page" :
               emptyDay ? "No insights loaded for this date, try a later date" :
                 loading ? <LoadingGif /> : 
@@ -115,9 +115,9 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
             {userEmojis(selections)}
           </div>
           <div className='flex justify-center'>
-            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 m-3 rounded-xl'>
+            <button onClick={goToEntry} className={`bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 ${loading ? 'mt-0' : 'mt-16'}`}>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
-                "Edit" : "Add"} Today's Data`}
+                "Edit" : "Add"} Data`}
             </button>
           </div>
         </section>
