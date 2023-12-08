@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
-import { formSections } from '@/utils/utils';
 import { AuthProps, selectionType } from '@/types/types';
 import { useEffect } from 'react';
 import Navbar from './Navbar';
@@ -12,17 +11,27 @@ import CelestialLogo from '@/components/CelestialLogo';
 import LoadingGif from './LoadingGif';
 import DatePicker from './DatePicker';
 
+// add arrows so user knows to scroll
+// fix weird width and left align options
+// save button elsewhere for more intuitive UI
+
 export type FormProps = AuthProps & {
   entryDate: Date;
   updateEntryDate: (date: Date) => void;
-  setSelections: React.Dispatch<React.SetStateAction<selectionType>>
-  selections: selectionType
+  setSelections: React.Dispatch<React.SetStateAction<selectionType>>;
+  selections: selectionType;
 };
 
 const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setSelections }: FormProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
+
+  const updateSelections = (title: string, option: string): void => {
+    const newOption = title === option ? null : option;
+    setSelections((prev) => ({ ...prev, [title]: newOption }));
+  };
+
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +60,8 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     return () => setError(null);
   }, [isAuthorized, entryDate, data, router, setSelections]);
 
-  const postForm = async () => {
+  const postForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const infoOptions = [...Object.values(selections), symptoms];
     try {
       if (infoOptions.every((option) => !option)) {
@@ -65,36 +75,13 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
+      console.log('before router')
       router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${new Date(entryDate).getMonth()+1}-${new Date(entryDate).getDate()}-${new Date(entryDate).getFullYear()}`);
+      console.log('after router')
     } catch (error) {
       if (error instanceof Error) setError(error);
     }
   };
-
-  const updateSelections = (title: string, option: string) => {
-    const newOption = selections[title] === option ? null : option;
-    setSelections((prev) => ({ ...prev, [title]: newOption }));
-  };
-
-  const formEls = formSections.map((section) => {
-    let allOptions = section.options.map((option) => {
-      return (
-        <button key={option} onClick={() => updateSelections(section.title, option)} className='m-5 w-14 flex justify-content flex-col items-center'>
-          <div className={`${selections[section.title] === option ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-            <Image width={64} height={64} className={`${option === 'Confident' ? 'rounded-bl-xl' : ''}` + ' w-5/6 h-5/6'} src={`/images/FormIcons/${option}.png`} alt={option} />
-          </div>
-          <p className='min-w-max text-white thin-regular'>{option}</p>
-        </button>
-      );
-    });
-
-    return (
-      <div key={section.title}>
-        <h3 className='ml-2 text-white thick-regular'>{section.title}</h3>
-        <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>{allOptions}</div>
-      </div>
-    );
-  });
 
   return (
     <div className='mt-10 h-full fade-in'>
@@ -103,31 +90,90 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
             <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
       {error && <p className='thick-regular text-center'>{error.message}</p>}
       {loading ? <LoadingGif /> : (
-        <>
+        <form onSubmit={e => postForm(e)}>
             <div className='flex justify-between m-3'>
-              <h2 className='celestial-cursive text-mellow-yellow text-xl'>Your Data</h2>
-              <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' onClick={postForm}>
+              <h2 className='celestial-cursive text-mellow-yellow text-xl'>Add Data</h2>
+              <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
                 SAVE
               </button>
             </div>
             <div className='grid added-height pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
-              {formEls}
-              <input
-                type='textarea'
-                className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 text-center text-white h-24 w-10/12 p-2 rounded-xl mb-20'
+              <div>
+                <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
+                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                  <FlowOptions selections={selections} updateSelections={updateSelections}/>
+                </div>
+              </div>
+              <div>
+                <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
+                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                  <MoodOptions selections={selections} updateSelections={updateSelections}/>
+                </div>
+              </div>
+              <div>
+                <h3 className='ml-2 text-white thick-regular'>CRAVINGS</h3>
+                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                  <CravingsOptions selections={selections} updateSelections={updateSelections}/>
+                </div>
+              </div>
+              <textarea
+                className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-10/12 md:w-1/3 p-2 rounded-xl mb-24'
                 placeholder='Enter notes about any symptoms here...'
                 value={symptoms}
-                onChange={(e) => {
-                  setSymptoms(e.target.value);
-                }}
-              />
+                onChange={(e) => setSymptoms(e.target.value)}/>
             </div>
-        </>
+        </form>
       )}
       </div>
       <Navbar />
     </div>
   );
 };
+
+
+function FlowOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+  const flows = ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'];
+
+  return flows.map(flow => {
+    return(
+      <button type="button" key={flow} onClick={() => updateSelections("FLOW", flow)} className='m-5 w-14 flex justify-content flex-col items-center'>
+        <div className={`${selections.FLOW === flow ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+          <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${flow}.png`} alt={flow} />
+        </div>
+        <p className='min-w-max text-white thin-regular'>{flow}</p>
+      </button>
+    );
+  });
+}
+
+function MoodOptions({ selections, updateSelections }: { selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+  const moods = ['Angry', 'Annoyed', 'Anxious', 'Confident', 'Depressed', 'Fatigued', 'Grateful', 'Happy', 'Relaxed'];
+
+  return moods.map(mood => {
+    return(
+      <button type="button" key={mood} onClick={() => updateSelections("MOOD", mood)} className='m-5 w-14 flex justify-content flex-col items-center'>
+        <div className={`${selections.MOOD === mood ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+          <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${mood}.png`} alt={mood} />
+        </div>
+        <p className='min-w-max text-white thin-regular'>{mood}</p>
+      </button>
+    );
+  });
+}
+
+function CravingsOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+  const cravings = ['Alcohol', 'Carbs', 'Chocolate', 'Dairy', 'Fats', 'Fried', 'Nicotine', 'Protein', 'Salty', 'Sour', 'Sweet'];
+
+  return cravings.map(craving => {
+    return(
+      <button type="button" key={craving} onClick={() => updateSelections("CRAVINGS", craving)} className='m-5 w-14 flex justify-content flex-col items-center'>
+        <div className={`${selections.CRAVINGS === craving ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+          <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${craving}.png`} alt={craving} />
+        </div>
+        <p className='min-w-max text-white thin-regular'>{craving}</p>
+      </button>
+    );
+  });
+}
 
 export default Form;
