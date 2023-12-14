@@ -104,7 +104,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
             <UserEmojis selections={selections}/>
           </div>
           <div className='flex justify-center'>
-          {!loading && <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6'>
+          {!loading && <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 mb-20'>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
                 "Edit" : "Add"} Data`}
             </button>}
