@@ -11,6 +11,8 @@ import Image from 'next/image';
 import DatePicker from './DatePicker';
 import LoadingGif from './LoadingGif';
 
+//
+
 type InsightsProps = AuthProps & {
   updateEntryDate: (date: Value) => void;
   selections: selectionType;
@@ -84,23 +86,12 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
     router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/form`);
   };
 
-  const userEmojis = (selections: selectionType) => {
-    return Object.keys(selections).map(type => {
-      return selections[type] && <div className='flex flex-col' key={type}>
-        <div className={`${'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-          <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
-        </div>
-        <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
-      </div>
-    })
-  }
-
   return (
     <div className='relative h-full flex flex-col fade-in'>
       <div className='mt-10 h-full'>
         <CelestialLogo />
         <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
-        <h2 className='text-center celestial-cursive text-xl mt-10'>Today&#39;s Insights</h2>
+        <h2 className='text-center celestial-cursive text-xl'>Today&#39;s Insights</h2>
         <section className='insights mt-5 overflow-y-auto flex items-center'>
           <div className='flex justify-end w-full mt-3 pr-7 md:pr-28 lg:pr-48'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
@@ -112,13 +103,13 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
                   insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
           </div>
           <div className='flex justify-between mx-10 mt-3'>
-            {userEmojis(selections)}
+            <UserEmojis selections={selections}/>
           </div>
           <div className='flex justify-center'>
-            <button onClick={goToEntry} className={`bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 ${loading ? 'mt-0' : 'mt-16'}`}>
+          {!loading && <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6'>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
                 "Edit" : "Add"} Data`}
-            </button>
+            </button>}
           </div>
         </section>
       </div>
@@ -135,3 +126,16 @@ function HoroscopeOnly({ horoscope }: { horoscope?: Horoscope | null }) {
     </div>
   );
 }
+
+function UserEmojis({selections}: {selections: selectionType}) {
+    return Object.keys(selections).map(type => {
+      return selections[type] && (
+        <div className='flex flex-col items-center' key={type}>
+          <div className='bg-white light-opacity-bg rounded-full h-14 w-14 m-4 flex justify-center items-center'>
+            <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
+          </div>
+          <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
+        </div>
+      );
+    });
+};

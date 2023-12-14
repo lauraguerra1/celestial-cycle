@@ -14,6 +14,7 @@ import DatePicker from './DatePicker';
 // add arrows so user knows to scroll
 // fix weird width and left align options
 // save button elsewhere for more intuitive UI
+// for all pages, kep celestial logo and header fixed on scrolling
 
 export type FormProps = AuthProps & {
   entryDate: Date;
