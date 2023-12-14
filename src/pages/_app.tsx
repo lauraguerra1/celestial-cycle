@@ -6,6 +6,7 @@ import React from 'react';
 import { getTodaysDate } from '@/utils/utils';
 import { Value } from '@/components/Calendar';
 import { selectionType } from '@/types/types';
+import CelestialLogo from '@/components/CelestialLogo';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -21,7 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <>
+    <main>
+      <CelestialLogo />
       <Component {...pageProps}
         logIn={logIn}
         entryDate={entryDate}
@@ -29,6 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
         selections={selections}
         setSelections={setSelections}
       />
-    </>
+    </main>
   );
 }

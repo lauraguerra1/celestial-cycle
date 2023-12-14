@@ -58,8 +58,7 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, sele
   };
 
   return (
-    <div className='mt-10 h-full fade-in'>
-      <CelestialLogo />
+    <div className='mt-6 max-sm:mt-20 h-full fade-in'>
       {error && 'There was an error getting todays data, please refresh'}
       <div className='mt-5 flex justify-center'>
         <Calendar onChange={onChange} value={value} maxDate={new Date()}/>

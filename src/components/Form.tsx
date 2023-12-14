@@ -14,7 +14,6 @@ import DatePicker from './DatePicker';
 // add arrows so user knows to scroll
 // fix weird width and left align options
 // save button elsewhere for more intuitive UI
-// for all pages, kep celestial logo and header fixed on scrolling
 
 export type FormProps = AuthProps & {
   entryDate: Date;
@@ -76,9 +75,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         date: `${new Date(entryDate).getFullYear()}-${new Date(entryDate).getMonth() + 1}-${new Date(entryDate).getDate()}`,
       });
       setError(null);
-      console.log('before router')
       router.push(`${router.asPath.includes('demo') ? '/demo' : ''}/insights/${new Date(entryDate).getMonth()+1}-${new Date(entryDate).getDate()}-${new Date(entryDate).getFullYear()}`);
-      console.log('after router')
     } catch (error) {
       if (error instanceof Error) setError(error);
     }
@@ -86,12 +83,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 
   return (
     <div className='mt-10 h-full fade-in'>
-          <div className='form-page'>
-            <CelestialLogo />
-            <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
-      {error && <p className='thick-regular text-center'>{error.message}</p>}
-      {loading ? <LoadingGif /> : (
-        <form onSubmit={e => postForm(e)}>
+      <div className='form-page'>
+        <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
+        {error && <p className='thick-regular text-center'>{error.message}</p>}
+        {loading ? <LoadingGif /> : (
+          <form onSubmit={e => postForm(e)}>
             <div className='flex justify-between m-3'>
               <h2 className='celestial-cursive text-mellow-yellow text-xl'>Add Data</h2>
               <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
