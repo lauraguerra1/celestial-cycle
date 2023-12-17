@@ -82,9 +82,11 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
   };
 
   return (
-    <div className='mt-10 h-full fade-in'>
-      <div className='form-page'>
-        <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
+    <div className='fade-in'>
+      <div className='flex flex-col items-center'>
+        <div className={`w-full fixed top-10 z-10 lg:top-0 ${scrolling ? 'bg-deepblue' : ''}`}>
+          <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
+        </div>
         {error && <p className='thick-regular text-center'>{error.message}</p>}
         {loading ? <LoadingGif /> : (
           <form onSubmit={e => postForm(e)}>

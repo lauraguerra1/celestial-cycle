@@ -44,31 +44,12 @@ button {
   --tw-bg-opacity: 0.06
 }
 
-
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
 
 .fade-in-out-continuous {
   animation: fadeInOut 1.5s ease-in infinite;
-}
-
-.background-text {
-  background-color: #253656bd;
-  height: 350px;
-  display: flex;
-  flex-direction: column;
-}
-
-.insights-text {
-  overflow-y: auto;
-}
-
-.insights {
-  background-color: #253656bd;
-  height: 600px;
-  display: flex;
-  flex-direction: column;
 }
 
 .react-calendar__navigation {
@@ -107,14 +88,6 @@ button {
 .react-calendar__navigation button:disabled {
   background: #1b263b !important;
   color: #ffffff5b !important;
-}
-
-.form-page {
-  min-height: calc(100vh + 5rem);
-}
-
-.added-height {
-  min-height: calc(auto + 5rem)
 }
 
 @keyframes fadeInOut {

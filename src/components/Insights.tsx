@@ -89,13 +89,13 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
       <div className='mt-10 h-full'>
         <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
         <h2 className='text-center celestial-cursive text-xl'>Today&#39;s Insights</h2>
-        <section className='insights mt-5 overflow-y-auto flex items-center'>
+        <section className='bg-medblue h-full flex flex-col mt-5 h-full overflow-y-auto flex items-center'>
           <div className='flex justify-end w-full mt-3 pr-7 md:pr-28 lg:pr-48'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).description}</p>
           </div>
-          <div className='p-5 insights-text h-1/2 text-lg w-4/5 md:w-2/3 flex justify-items-center'>
-            {error ? "Error loading insights, please refresh the page" :
-              emptyDay ? "No insights loaded for this date, try a later date" :
+          <div className='p-5 pt-0 mt-4 overflow-y-auto h-80 md:h-2/3 text-lg w-4/5 md:w-2/3 flex justify-items-center'>
+            {error ? <p>Error loading insights, please refresh the page</p> :
+              emptyDay ? <p>No insights loaded for this date, try a later date</p> :
                 loading ? <LoadingGif /> : 
                   insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
           </div>
