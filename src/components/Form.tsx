@@ -11,8 +11,6 @@ import CelestialLogo from '@/components/CelestialLogo';
 import LoadingGif from './LoadingGif';
 import DatePicker from './DatePicker';
 
-// add arrows so user knows to scroll
-
 export type FormProps = AuthProps & {
   entryDate: Date;
   updateEntryDate: (date: Date) => void;
@@ -127,17 +125,17 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
                 <div className='flex items-center'>
-                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(flowSliderRef)}>{`<`}</button>
-                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={flowSliderRef}>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideLeft(flowSliderRef)}>{`<`}</button>
+                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start scrolling-form`} ref={flowSliderRef}>
                     <FlowOptions selections={selections} updateSelections={updateSelections}/>
                   </div>
-                  <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
+                  <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
                 </div>
               </div>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
                 <div className='flex items-center'>
-                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(moodSliderRef)}>{`<`}</button>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl scrolling-form" onClick={() => slideLeft(moodSliderRef)}>{`<`}</button>
                   <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={moodSliderRef}>
                     <MoodOptions selections={selections} updateSelections={updateSelections}/>
                   </div>
