@@ -39,13 +39,21 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 
   const slideLeft = (slider) => {
     if (slider.current) {
-      slider.current.scrollLeft -= 50;
+      const target = slider.current.scrollLeft - 100;
+      slider.current.scrollTo({
+        left: target,
+        behavior: 'smooth',
+      });
     }
   };
 
   const slideRight = (slider) => {
     if (slider.current) {
-      slider.current.scrollLeft += 50;
+      const target = slider.current.scrollLeft + 100;
+      slider.current.scrollTo({
+        left: target,
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -124,7 +132,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
                     <FlowOptions selections={selections} updateSelections={updateSelections}/>
                   </div>
                   <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
-                  </div>
+                </div>
               </div>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
