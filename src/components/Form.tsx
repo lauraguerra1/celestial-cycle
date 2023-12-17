@@ -32,6 +32,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     setSelections((prev) => ({ ...prev, [title]: newOption }));
   };
 
+  const [scrolling, setScrolling] = useState<Boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -59,6 +60,16 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 
     return () => setError(null);
   }, [isAuthorized, entryDate, data, router, setSelections]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolling(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const postForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
