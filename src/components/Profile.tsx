@@ -71,7 +71,6 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
         </article>
       }
       <button className='w-passage bg-white text-black opacity-90 py-2 px-10 m-2 rounded-md' onClick={signOut}>LOG OUT</button>
-      <Navbar />
     </div>
   );
 }

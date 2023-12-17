@@ -28,7 +28,6 @@ export default function Dashboard({ isAuthorized, data }: AuthProps) {
   return (
     <div className='relative h-full flex flex-col fade-in'>
       {loading ? <LoadingGif /> : <RenderDashboard user={user} date={date}/>}
-      <Navbar />
     </div>
   );
 }

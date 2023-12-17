@@ -4,7 +4,6 @@ import { convertStringToDate, formatDateForDB } from '@/utils/utils';
 import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
-import CelestialLogo from './CelestialLogo';
 import { getInsights, getEntry } from '@/utils/apiCalls';
 import { Value } from 'react-calendar/dist/cjs/shared/types';
 import Image from 'next/image';
@@ -110,7 +109,6 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           </div>
         </section>
       </div>
-      <Navbar />
     </div>
   );
 }

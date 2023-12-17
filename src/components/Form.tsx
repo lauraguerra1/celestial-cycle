@@ -124,7 +124,6 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         </form>
       )}
       </div>
-      <Navbar />
     </div>
   );
 };
