@@ -88,38 +88,37 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
           <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
         </div>
         {error && <p className='thick-regular text-center'>{error.message}</p>}
-        {loading ? <LoadingGif /> : (
-          <form onSubmit={e => postForm(e)}>
-            <div className='flex justify-between m-3'>
-              <h2 className='celestial-cursive text-mellow-yellow text-xl'>Add Data</h2>
-              <button className='rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
-                SAVE
-              </button>
-            </div>
-            <div className='grid added-height pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
-              <div>
+        {loading ? <div className='mt-28'><LoadingGif /></div> : (
+          <form onSubmit={e => postForm(e)}  className='w-3/4 max-sm:w-11/12 lg:w-1/2 mt-28 lg:mt-20'>
+            <div className='grid pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
+              <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
-                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
                   <FlowOptions selections={selections} updateSelections={updateSelections}/>
                 </div>
               </div>
-              <div>
+              <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
-                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
                   <MoodOptions selections={selections} updateSelections={updateSelections}/>
                 </div>
               </div>
-              <div>
+              <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>CRAVINGS</h3>
-                <div className={`${styles['scroll-area-no-track']}` + ' flex max-w-100vw overflow-x-auto justify-between'}>
+                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
                   <CravingsOptions selections={selections} updateSelections={updateSelections}/>
                 </div>
               </div>
               <textarea
-                className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-10/12 md:w-1/3 p-2 rounded-xl mb-24'
+                className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-10/12 md:w-1/3 p-2 rounded-xl mb-4'
                 placeholder='Enter notes about any symptoms here...'
                 value={symptoms}
                 onChange={(e) => setSymptoms(e.target.value)}/>
+              <div className='fixed bottom-24 flex content-center w-full'>
+                <button className='h-8 rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
+                  SAVE
+                </button>
+              </div>
             </div>
         </form>
       )}

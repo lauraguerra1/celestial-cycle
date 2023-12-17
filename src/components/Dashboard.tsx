@@ -52,7 +52,7 @@ function RenderDashboard({user, date}: {user: UserData | null, date: Date}) {
 
   return (
     <div className='h-full'>
-      <h1 className='mt-6 max-sm:mt-20 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''}</h1>
+      <h1 className='lg:mt-6 mt-20 text-center text-3xl'>Daily Horoscope for {user ? user.name : ''}</h1>
       <h2 className='text-center text-lg'>{getTodaysDate(new Date())}</h2>
       <div className='flex justify-center items-center flex-col mb-20'>
         <Image width={250} height={100} style={{ width: '45%', height: 'auto', maxWidth: '250px' }} alt="Logo" src={`/images/${user ? user.zodiac_sign : 'capricorn'}.png`} priority/>
