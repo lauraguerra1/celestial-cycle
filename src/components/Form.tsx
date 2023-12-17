@@ -12,8 +12,6 @@ import LoadingGif from './LoadingGif';
 import DatePicker from './DatePicker';
 
 // add arrows so user knows to scroll
-// fix weird width and left align options
-// save button elsewhere for more intuitive UI
 
 export type FormProps = AuthProps & {
   entryDate: Date;

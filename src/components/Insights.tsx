@@ -103,7 +103,8 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
             <UserEmojis selections={selections}/>
           </div>
           <div className='flex justify-center'>
-          {!loading && <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 mb-20'>
+          {!loading && 
+            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 mb-40'>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
                 "Edit" : "Add"} Data`}
             </button>}
@@ -126,7 +127,7 @@ function HoroscopeOnly({ horoscope }: { horoscope?: Horoscope | null }) {
 function UserEmojis({selections}: {selections: selectionType}) {
     return Object.keys(selections).map(type => {
       return selections[type] && (
-        <div className='flex flex-col items-center' key={type}>
+        <div className='flex flex-col items-center mb-8' key={type}>
           <div className='bg-white light-opacity-bg rounded-full h-14 w-14 m-4 flex justify-center items-center'>
             <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
           </div>
