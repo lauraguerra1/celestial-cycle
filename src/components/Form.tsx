@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import styles from '../styles/Form.module.css';
 import { AuthProps, selectionType } from '@/types/types';
@@ -32,6 +32,22 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 
   const [scrolling, setScrolling] = useState<Boolean>(false);
   const router = useRouter();
+
+  const flowSliderRef = useRef(null);
+  const moodSliderRef = useRef(null);
+  const cravingsSliderRef = useRef(null);
+
+  const slideLeft = (slider) => {
+    if (slider.current) {
+      slider.current.scrollLeft -= 50;
+    }
+  };
+
+  const slideRight = (slider) => {
+    if (slider.current) {
+      slider.current.scrollLeft += 50;
+    }
+  };
 
   useEffect(() => {
     if (!isAuthorized) {
@@ -102,21 +118,33 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
             <div className='grid pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
-                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
-                  <FlowOptions selections={selections} updateSelections={updateSelections}/>
-                </div>
+                <div className='flex items-center'>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(flowSliderRef)}>{`<`}</button>
+                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={flowSliderRef}>
+                    <FlowOptions selections={selections} updateSelections={updateSelections}/>
+                  </div>
+                  <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
+                  </div>
               </div>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
-                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
-                  <MoodOptions selections={selections} updateSelections={updateSelections}/>
+                <div className='flex items-center'>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(moodSliderRef)}>{`<`}</button>
+                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={moodSliderRef}>
+                    <MoodOptions selections={selections} updateSelections={updateSelections}/>
+                  </div>
+                  <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(moodSliderRef)}>{`>`}</button>
                 </div>
               </div>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>CRAVINGS</h3>
-                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`}>
+                <div className='flex items-center'>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(cravingsSliderRef)}>{`<`}</button>
+                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={cravingsSliderRef}>
                   <CravingsOptions selections={selections} updateSelections={updateSelections}/>
                 </div>
+                <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(cravingsSliderRef)}>{`>`}</button>
+              </div>
               </div>
               <textarea
                 className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-10/12 md:w-1/3 p-2 rounded-xl mb-4'
@@ -137,7 +165,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 };
 
 
-function FlowOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+function FlowOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void }) {
   const flows = ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'];
 
   return flows.map(flow => {
@@ -152,7 +180,7 @@ function FlowOptions({ selections, updateSelections }: {selections: selectionTyp
   });
 }
 
-function MoodOptions({ selections, updateSelections }: { selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+function MoodOptions({ selections, updateSelections }: { selections: selectionType, updateSelections: (title: string, option: string)=> void }) {
   const moods = ['Angry', 'Annoyed', 'Anxious', 'Confident', 'Depressed', 'Fatigued', 'Grateful', 'Happy', 'Relaxed'];
 
   return moods.map(mood => {
@@ -167,7 +195,7 @@ function MoodOptions({ selections, updateSelections }: { selections: selectionTy
   });
 }
 
-function CravingsOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void}) {
+function CravingsOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void }) {
   const cravings = ['Alcohol', 'Carbs', 'Chocolate', 'Dairy', 'Fats', 'Fried', 'Nicotine', 'Protein', 'Salty', 'Sour', 'Sweet'];
 
   return cravings.map(craving => {
