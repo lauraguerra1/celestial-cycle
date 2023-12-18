@@ -22,11 +22,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const logIn = () => {
     router.push('./');
   }
-  
-  if(asPath === "/registrationform") {
+
+  if(asPath === '/registrationform' || asPath === '/') {
     return (
       <main>
-        <CelestialLogo />
         <Component {...pageProps}
           logIn={logIn}
           entryDate={entryDate}
