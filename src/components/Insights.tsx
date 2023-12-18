@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Horoscope, selectionType, AuthProps } from '@/types/types';
 import { convertStringToDate, formatDateForDB } from '@/utils/utils';
-import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
 import { getInsights, getEntry } from '@/utils/apiCalls';

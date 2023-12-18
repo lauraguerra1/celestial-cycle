@@ -110,3 +110,8 @@ button {
     opacity: 100%
   }
 }
+
+.selected-option {
+  border: 1px solid #4756E2;
+  background-color: rgba(165, 174, 255, 0.35);
+}

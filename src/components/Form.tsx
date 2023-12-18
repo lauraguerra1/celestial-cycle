@@ -1,13 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, RefObject } from 'react';
 import Image from 'next/image';
-import styles from '../styles/Form.module.css';
 import { AuthProps, selectionType } from '@/types/types';
 import { useEffect } from 'react';
-import Navbar from './Navbar';
 import { useRouter } from 'next/router';
 import { formatDateForDB } from '@/utils/utils';
 import { getEntry, postEntry } from '@/utils/apiCalls';
-import CelestialLogo from '@/components/CelestialLogo';
 import LoadingGif from './LoadingGif';
 import DatePicker from './DatePicker';
 
@@ -35,7 +32,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
   const moodSliderRef = useRef(null);
   const cravingsSliderRef = useRef(null);
 
-  const slideLeft = (slider) => {
+  const slideLeft = (slider: RefObject<HTMLDivElement>) => {
     if (slider.current) {
       const target = slider.current.scrollLeft - 100;
       slider.current.scrollTo({
@@ -45,7 +42,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
     }
   };
 
-  const slideRight = (slider) => {
+  const slideRight = (slider: RefObject<HTMLDivElement>) => {
     if (slider.current) {
       const target = slider.current.scrollLeft + 100;
       slider.current.scrollTo({
