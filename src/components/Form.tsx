@@ -123,7 +123,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
                 <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
                 <div className='flex items-center'>
                   <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideLeft(flowSliderRef)}>{`<`}</button>
-                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start scrolling-form`} ref={flowSliderRef}>
+                  <div className='flex max-w-100vw justify-start' ref={flowSliderRef} style={{ overflow: 'hidden' }}>
                     <FlowOptions selections={selections} updateSelections={updateSelections}/>
                   </div>
                   <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
@@ -132,8 +132,8 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>MOOD</h3>
                 <div className='flex items-center'>
-                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl scrolling-form" onClick={() => slideLeft(moodSliderRef)}>{`<`}</button>
-                  <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={moodSliderRef}>
+                  <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(moodSliderRef)}>{`<`}</button>
+                  <div className='flex max-w-100vw justify-start' style={{ overflow: 'hidden' }} ref={moodSliderRef}>
                     <MoodOptions selections={selections} updateSelections={updateSelections}/>
                   </div>
                   <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(moodSliderRef)}>{`>`}</button>
@@ -143,7 +143,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
                 <h3 className='ml-2 text-white thick-regular'>CRAVINGS</h3>
                 <div className='flex items-center'>
                   <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideLeft(cravingsSliderRef)}>{`<`}</button>
-                <div className={`${styles['scroll-area-no-track']} flex max-w-100vw overflow-x-auto justify-start`} ref={cravingsSliderRef}>
+                <div className='flex max-w-100vw justify-start' ref={cravingsSliderRef} style={{ overflow: 'hidden' }}>
                   <CravingsOptions selections={selections} updateSelections={updateSelections}/>
                 </div>
                 <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(cravingsSliderRef)}>{`>`}</button>
@@ -174,7 +174,7 @@ function FlowOptions({ selections, updateSelections }: {selections: selectionTyp
   return flows.map(flow => {
     return(
       <button type="button" key={flow} onClick={() => updateSelections("FLOW", flow)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.FLOW === flow ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <div className={`${selections.FLOW === flow ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
           <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${flow}.png`} alt={flow} />
         </div>
         <p className='min-w-max text-white thin-regular'>{flow}</p>
@@ -189,7 +189,7 @@ function MoodOptions({ selections, updateSelections }: { selections: selectionTy
   return moods.map(mood => {
     return(
       <button type="button" key={mood} onClick={() => updateSelections("MOOD", mood)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.MOOD === mood ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <div className={`${selections.MOOD === mood ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
           <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${mood}.png`} alt={mood} />
         </div>
         <p className='min-w-max text-white thin-regular'>{mood}</p>
@@ -204,7 +204,7 @@ function CravingsOptions({ selections, updateSelections }: {selections: selectio
   return cravings.map(craving => {
     return(
       <button type="button" key={craving} onClick={() => updateSelections("CRAVINGS", craving)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.CRAVINGS === craving ? `${styles['selected-option']}` : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <div className={`${selections.CRAVINGS === craving ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
           <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${craving}.png`} alt={craving} />
         </div>
         <p className='min-w-max text-white thin-regular'>{craving}</p>
