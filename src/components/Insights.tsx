@@ -94,7 +94,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           <div className='flex justify-end w-full mt-3 pr-7 md:pr-28 lg:pr-48'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {currentLunarPhase === "New" || currentLunarPhase === "Full"? `${currentLunarPhase} Moon` : currentLunarPhase}</p>
           </div>
-          <div className='p-5 pt-0 mt-4 overflow-y-auto h-48 text-lg w-4/5 md:w-2/3 flex justify-items-center'>
+          <div className={`${loading ? 'h-64' : ''} p-5 pt-0 mt-4 overflow-y-auto h-48 text-lg w-4/5 md:w-2/3 flex justify-items-center`}>
             {error ? <p>Error loading insights, please refresh the page</p> :
               emptyDay ? <p>No insights loaded for this date, try a later date</p> :
                 loading ? <LoadingGif /> : 
@@ -105,7 +105,7 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
           </div>
           <div className='flex justify-center'>
           {!loading && 
-            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl mb-40 lg:mb-8'>
+            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl mb-40 lg:mb-8gggit'>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
                 "Edit" : "Add"} Data`}
             </button>}

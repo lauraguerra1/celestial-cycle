@@ -110,14 +110,14 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
   };
 
   return (
-    <div className='fade-in'>
+    <section className='fade-in overflow-y-scroll mb-24'>
       <div className='flex flex-col items-center'>
-        <div className={`w-full fixed top-10 z-10 lg:top-0 ${scrolling ? 'bg-deepblue' : ''}`}>
+        <div className={`w-full fixed top-10 z-11 lg:top-0 ${scrolling ? 'bg-deepblue' : ''}`}>
           <DatePicker updateEntryDate={updateEntryDate} entryDate={entryDate} />
         </div>
         {error && <p className='thick-regular text-center'>{error.message}</p>}
         {loading ? <div className='mt-28'><LoadingGif /></div> : (
-          <form onSubmit={e => postForm(e)}  className='w-3/4 max-sm:w-11/12 lg:w-1/2 mt-28 lg:mt-20'>
+          <form onSubmit={e => postForm(e)}  className='w-3/4 max-sm:w-11/12 lg:w-1/2 mt-28 lg:mt-20 h-1/2'>
             <div className='grid pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
               <div className='overflow-x-auto'>
                 <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
@@ -165,7 +165,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         </form>
       )}
       </div>
-    </div>
+    </section>
   );
 };
 
