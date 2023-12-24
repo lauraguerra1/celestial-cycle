@@ -86,24 +86,26 @@ export default function Insights({ isAuthorized, data, updateEntryDate, selectio
   return (
     <div className='h-full relative flex flex-col fade-in'>
       <div className='mt-10'>
-        <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
-        <h2 className='text-center celestial-cursive text-xl'>Today&#39;s Insights</h2>
-        <section className='bg-medblue h-full flex flex-col mt-5 h-full overflow-y-auto flex items-center'>
+        <div className='fixed lg:top-0 w-full'>
+          <DatePicker setChosenDate={setChosenDate} entryDate={convertStringToDate(date as string) as Date} updateEntryDate={updateEntryDate} />
+          <h2 className='text-center celestial-cursive text-xl'>Today&#39;s Insights</h2>
+        </div>
+        <section className='bg-medblue h-full flex flex-col mt-32 lg:mt-24 h-full overflow-y-auto flex items-center'>
           <div className='flex justify-end w-full mt-3 pr-7 md:pr-28 lg:pr-48'>
             <p className='text-lg'>{getCurrentLunarPhase(convertStringToDate(chosenDate) as Date).emoji} {currentLunarPhase === "New" || currentLunarPhase === "Full"? `${currentLunarPhase} Moon` : currentLunarPhase}</p>
           </div>
-          <div className='p-5 pt-0 mt-4 overflow-y-auto h-80 md:h-2/3 text-lg w-4/5 md:w-2/3 flex justify-items-center'>
+          <div className='p-5 pt-0 mt-4 overflow-y-auto h-48 text-lg w-4/5 md:w-2/3 flex justify-items-center'>
             {error ? <p>Error loading insights, please refresh the page</p> :
               emptyDay ? <p>No insights loaded for this date, try a later date</p> :
                 loading ? <LoadingGif /> : 
                   insights?.description ?? (<HoroscopeOnly horoscope={horoscope} />)}
           </div>
-          <div className='flex justify-between mx-10 mt-3'>
+          <div className='flex justify-between mx-10 mt-3 xl:mt-1'>
             <UserEmojis selections={selections}/>
           </div>
           <div className='flex justify-center'>
           {!loading && 
-            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl max-sm:mt-6 mb-40'>
+            <button onClick={goToEntry} className='bg-grayblue w-60 p-3 rounded-xl mb-40 lg:mb-8'>
               {`${selections.FLOW || selections.CRAVINGS || selections.MOOD ?
                 "Edit" : "Add"} Data`}
             </button>}
@@ -126,9 +128,9 @@ function HoroscopeOnly({ horoscope }: { horoscope?: Horoscope | null }) {
 function UserEmojis({selections}: {selections: selectionType}) {
     return Object.keys(selections).map(type => {
       return selections[type] && (
-        <div className='flex flex-col items-center mb-8' key={type}>
+        <div className='flex flex-col items-center mb-2 md:mb-8' key={type}>
           <div className='bg-white light-opacity-bg rounded-full h-14 w-14 m-4 flex justify-center items-center'>
-            <Image width={64} height={64} className={'rounded-bl-xl w-5/6 h-5/6'} src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
+            <Image width={64} height={64} className='rounded-bl-xl w-5/6 h-5/6' src={`/images/FormIcons/${selections[type]}.png`} alt={selections[type] || ""} />
           </div>
           <p className='min-w-max text-white thin-regular'>{selections[type]}</p>
         </div>
