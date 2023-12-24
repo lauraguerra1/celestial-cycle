@@ -149,15 +149,17 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
                 <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl" onClick={() => slideRight(cravingsSliderRef)}>{`>`}</button>
               </div>
               </div>
-              <textarea
-                className='justify-self-center mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-10/12 md:w-1/3 p-2 rounded-xl mb-4'
-                placeholder='Enter notes about any symptoms here...'
-                value={symptoms}
-                onChange={(e) => setSymptoms(e.target.value)}/>
-              <div className='fixed bottom-24 flex content-center w-full'>
-                <button className='h-8 rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
-                  SAVE
-                </button>
+              <div className='flex flex-col justify-around md:items-end md:flex-row'>
+                <textarea
+                  className='mt-2 bg-opacity-20 bg-gray-400 w-2/3 text-white w-3/4 md:w-1/2 md:ml-0 ml-8 p-2 rounded-xl mb-4'
+                  placeholder='Enter notes about any symptoms here...'
+                  value={symptoms}
+                  onChange={(e) => setSymptoms(e.target.value)}/>
+                <div className='flex content-center mb-4 ml-8'>
+                  <button className='h-8 rounded-lg bg-opacity-6 bg-grayblue w-40' type="submit">
+                    SAVE
+                  </button>
+                </div>  
               </div>
             </div>
         </form>
