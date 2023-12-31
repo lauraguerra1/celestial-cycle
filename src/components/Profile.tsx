@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { AuthProps } from '@/types/types';
 import { PassageUser } from '@passageidentity/passage-elements/passage-user';
@@ -6,7 +5,6 @@ import dotenv from 'dotenv';
 import { useRouter } from "next/router";
 import { useEffect } from 'react';
 import { DEMO_USER_ID } from '@/utils/utils';
-import CelestialLogo from './CelestialLogo';
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export type ProfileProps = AuthProps & {

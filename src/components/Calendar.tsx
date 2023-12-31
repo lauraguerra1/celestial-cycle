@@ -7,7 +7,6 @@ import { formatDateForDB, formatDateQuery, getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
-import CelestialLogo from '@/components/CelestialLogo';
 import { getEntry } from '@/utils/apiCalls';
 
 type ValuePiece = Date | null;

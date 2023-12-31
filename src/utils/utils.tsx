@@ -17,7 +17,7 @@ const zodiacSigns = [
     { sign: "Sagittarius", start: 1122, end: 1221 }
 ];
 
-export const getZodiacSign = (birthday: string | number | boolean | undefined) => {
+export const getZodiacSign = (birthday: string) => {
     const birthdayString = birthday?.toString();
     const month = birthdayString?.split('-')[1];
     const day = birthdayString?.split('-')[2];

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import logoImg from '../../public/images/logo.PNG';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 const CelestialLogo = () => {
   const [scrolling, setScrolling] = useState<Boolean>(false);
   const router = useRouter();
-  const { asPath } = router;
 
   useEffect(() => {
     const handleScroll = () => {
