@@ -16,15 +16,8 @@ const zodiacSigns = [
     { sign: "Scorpio", start: 1023, end: 1121 },
     { sign: "Sagittarius", start: 1122, end: 1221 }
 ];
-  
-  
-export const formSections = [
-  { title: 'FLOW', options: ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'] },
-  { title: 'MOOD', options: ['Happy', 'Relaxed', 'Grateful', 'Confident', 'Fatigued', 'Angry', 'Anxious', 'Depressed', 'Annoyed'] },
-  { title: 'CRAVINGS', options: ['Sweet', 'Salty', 'Sour', 'Chocolate', 'Dairy', 'Fried', 'Fats', 'Carbs', 'Protein', 'Alcohol', 'Nicotine'] }
-]
 
-export const getZodiacSign = (birthday: string | number | boolean | undefined) => {
+export const getZodiacSign = (birthday: string) => {
     const birthdayString = birthday?.toString();
     const month = birthdayString?.split('-')[1];
     const day = birthdayString?.split('-')[2];

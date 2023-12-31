@@ -21,7 +21,8 @@ const config: Config = {
         'lightgray': '#7D8897',
         'darkgray': '#5B6E8781',
         'mellow-yellow': '#FFCB05',
-        'grayblue': '#778DA9'
+        'grayblue': '#778DA9',
+        'medblue': '#253656',
       },
       maxWidth: {
         '100vw': '100vw',

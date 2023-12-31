@@ -36,10 +36,8 @@ export const getServerSideProps = (async (context) => {
   return {
     props: {
       isAuthorized: loginProps?.isAuthorized ?? false,
-      userID: loginProps?.userID ?? "",
     },
   };
 }) satisfies GetServerSideProps<{
   isAuthorized: boolean;
-  userID: any;
 }>;
