@@ -1,4 +1,3 @@
-import Navbar from '@/components/Navbar';
 import Link from 'next/link';
 import { AuthProps } from '@/types/types';
 import { PassageUser } from '@passageidentity/passage-elements/passage-user';
@@ -43,7 +42,7 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
   return (
     <div className='flex flex-col items-center content-center mb-20'>
       <h1 className='m-7 text-center text-3xl'>{(userID === DEMO_USER_ID) && 'Log in to enjoy our profile feature!'}</h1>
-      <div className='max-w-passage' >
+      <div className='max-w-passage mt-6 max-sm:mt-8'>
         <passage-profile app-id={process.env.NEXT_PUBLIC_PASSAGE_APP_ID}></passage-profile>
       </div>
       {data &&
@@ -70,7 +69,6 @@ function Profile({isAuthorized, userID, data}: ProfileProps) {
         </article>
       }
       <button className='w-passage bg-white text-black opacity-90 py-2 px-10 m-2 rounded-md' onClick={signOut}>LOG OUT</button>
-      <Navbar />
     </div>
   );
 }

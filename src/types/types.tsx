@@ -17,8 +17,8 @@ export interface User {
     }
 }
 export interface UserData {
-    id: number | undefined,
-    created_at: string | undefined,
+    id: number,
+    created_at: string,
     name: string,
     email: string,
     birth_date: string,

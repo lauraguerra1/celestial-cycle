@@ -6,9 +6,12 @@ import React from 'react';
 import { getTodaysDate } from '@/utils/utils';
 import { Value } from '@/components/Calendar';
 import { selectionType } from '@/types/types';
+import CelestialLogo from '@/components/CelestialLogo';
+import Navbar from '@/components/Navbar';
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const { asPath } = router;
   const [entryDate, setEntryDate] = useState(getTodaysDate(new Date()))
   const [selections, setSelections] = useState<selectionType>({ FLOW: null, MOOD: null, CRAVINGS: null });
 
@@ -16,19 +19,36 @@ export default function App({ Component, pageProps }: AppProps) {
     setEntryDate(getTodaysDate(date));
   }
   
-  const logIn = (id: number) => {
+  const logIn = () => {
     router.push('./');
   }
 
-  return (
-    <>
-      <Component {...pageProps}
-        logIn={logIn}
-        entryDate={entryDate}
-        updateEntryDate={updateEntryDate}
-        selections={selections}
-        setSelections={setSelections}
-      />
-    </>
-  );
+  if(asPath === '/registrationform' || asPath === '/') {
+    return (
+      <main>
+        <Component {...pageProps}
+          logIn={logIn}
+          entryDate={entryDate}
+          updateEntryDate={updateEntryDate}
+          selections={selections}
+          setSelections={setSelections}
+        />
+      </main> 
+    );
+
+  } else {
+    return (
+      <main>
+        <CelestialLogo />
+        <Component {...pageProps}
+          logIn={logIn}
+          entryDate={entryDate}
+          updateEntryDate={updateEntryDate}
+          selections={selections}
+          setSelections={setSelections}
+        />
+        <Navbar/>
+      </main>
+    );
+  }
 }

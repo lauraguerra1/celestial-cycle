@@ -37,7 +37,7 @@ const RegistrationForm = ({ isAuthorized }: AuthProps) => {
   }
 
   return (
-    <div className="w-96 mx-auto mt-10 p-10 bg-white rounded-lg text-black">
+    <section className="w-96 mx-auto mt-24 lg:mt-10 p-10 bg-white rounded-lg text-black">
       <h1 className="text-2xl font-semibold mb-4">Welcome to Celestial Cycle!</h1>
       <h2>Since this is your first time registering with us, please answer the following questions so we can personalize your experience:</h2>
       <form onSubmit={handleSubmit}>
@@ -90,7 +90,7 @@ const RegistrationForm = ({ isAuthorized }: AuthProps) => {
           Submit
         </button>
       </form>
-    </div>
+    </section>
   );
 }
 

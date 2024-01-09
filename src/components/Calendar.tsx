@@ -7,7 +7,6 @@ import { formatDateForDB, formatDateQuery, getTodaysDate } from '@/utils/utils';
 import 'react-calendar/dist/Calendar.css';
 import Link from 'next/link';
 import { getCurrentLunarPhase } from '@/utils/lunar-phase';
-import CelestialLogo from '@/components/CelestialLogo';
 import { getEntry } from '@/utils/apiCalls';
 
 type ValuePiece = Date | null;
@@ -58,14 +57,13 @@ export default function CalendarPage({ isAuthorized, data, updateEntryDate, sele
   };
 
   return (
-    <div className='mt-10 h-full fade-in'>
-      <CelestialLogo />
+    <div className='mt-20 lg:mt-6 h-full fade-in flex items-center flex-col'>
       {error && 'There was an error getting todays data, please refresh'}
       <div className='mt-5 flex justify-center'>
         <Calendar onChange={onChange} value={value} maxDate={new Date()}/>
       </div>
-      <div className='background-text mt-5'>
-        <div className='flex items-center justify-between px-5 mt-3'>
+      <div className='h-96 bg-medblue flex flex-col mt-5 w-full'>
+        <div className='flex items-center justify-around px-5 flex-col lg:flex-row mt-10'>
           <p className='text-xl celestial-cursive text-mellow-yellow'>{getTodaysDate(value)}</p>
           <p className='text-lg'>{getCurrentLunarPhase(value as Date).emoji} {getCurrentLunarPhase(value as Date).description}</p>
         </div>
