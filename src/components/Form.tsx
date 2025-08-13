@@ -19,6 +19,7 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [symptoms, setSymptoms] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const updateSelections = (title: string, option: string): void => {
     const newOption = title === option ? null : option;
@@ -90,6 +91,13 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
 
   const postForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormSubmitted(true);
+    
+    if (!selections.FLOW) {
+      setError(new Error('Flow selection is required!'));
+      return;
+    }
+    
     const infoOptions = [...Object.values(selections), symptoms];
     try {
       if (infoOptions.every((option) => !option)) {
@@ -117,14 +125,24 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
         </div>
         {error && <p className='thick-regular text-center'>{error.message}</p>}
         {loading ? <div className='mt-28'><LoadingGif /></div> : (
-          <form onSubmit={e => postForm(e)}  className='w-3/4 max-sm:w-11/12 lg:w-1/2 mt-28 lg:mt-20 h-1/2'>
+          <form onSubmit={e => postForm(e)} className='w-3/4 max-sm:w-11/12 lg:w-1/2 mt-28 lg:mt-20 h-1/2'>
             <div className='grid pt-2' style={{ background: 'rgba(37, 54, 86, 0.73)' }}>
               <div className='overflow-x-auto'>
-                <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
+                <div className="flex items-center">
+                  <h3 className='ml-2 text-white thick-regular'>FLOW</h3>
+                  <span className="text-red-500 ml-1">*</span>
+                  {formSubmitted && !selections.FLOW && (
+                    <span className="text-red-500 text-sm ml-2">(required)</span>
+                  )}
+                </div>
                 <div className='flex items-center'>
                   <button type='button' className="p-1 ml-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideLeft(flowSliderRef)}>{`<`}</button>
                   <div className='flex max-w-100vw justify-start' ref={flowSliderRef} style={{ overflow: 'hidden' }}>
-                    <FlowOptions selections={selections} updateSelections={updateSelections}/>
+                    <FlowOptions 
+                      selections={selections} 
+                      updateSelections={updateSelections}
+                      isInvalid={formSubmitted && !selections.FLOW}
+                    />
                   </div>
                   <button type='button' className="p-1 mr-1 mb-10 material-symbols-rounded text-mellow-yellow text-3xl md:hidden" onClick={() => slideRight(flowSliderRef)}>{`>`}</button>
                 </div>
@@ -162,22 +180,40 @@ const Form = ({ entryDate, isAuthorized, data, updateEntryDate, selections, setS
                 </div>  
               </div>
             </div>
-        </form>
-      )}
+          </form>
+        )}
       </div>
     </section>
   );
 };
 
-
-function FlowOptions({ selections, updateSelections }: {selections: selectionType, updateSelections: (title: string, option: string)=> void }) {
+function FlowOptions({ selections, updateSelections, isInvalid }: {
+  selections: selectionType, 
+  updateSelections: (title: string, option: string)=> void,
+  isInvalid: boolean
+}) {
   const flows = ['No Flow', 'Spotting', 'Light', 'Medium', 'Heavy', 'Super'];
 
   return flows.map(flow => {
     return(
-      <button type="button" key={flow} onClick={() => updateSelections("FLOW", flow)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.FLOW === flow ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
-          <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${flow}.png`} alt={flow} />
+      <button 
+        type="button" 
+        key={flow} 
+        onClick={() => updateSelections("FLOW", flow)} 
+        className='m-5 w-14 flex justify-content flex-col items-center'
+      >
+        <div 
+          className={`${selections.FLOW === flow ? 'selected-option' : 'bg-white light-opacity-bg'} 
+          ${isInvalid ? 'border-2 border-red-500' : ''}
+          rounded-full h-14 w-14 flex justify-center items-center`}
+        >
+          <Image 
+            width={64} 
+            height={64} 
+            className='w-5/6 h-5/6' 
+            src={`/images/FormIcons/${flow}.png`} 
+            alt={flow} 
+          />
         </div>
         <p className='min-w-max text-white thin-regular'>{flow}</p>
       </button>
@@ -191,7 +227,7 @@ function MoodOptions({ selections, updateSelections }: { selections: selectionTy
   return moods.map(mood => {
     return(
       <button type="button" key={mood} onClick={() => updateSelections("MOOD", mood)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.MOOD === mood ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <div className={`${selections.MOOD === mood ? 'selected-option' : 'bg-white light-opacity-bg'} rounded-full h-14 w-14 flex justify-center items-center`}>
           <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${mood}.png`} alt={mood} />
         </div>
         <p className='min-w-max text-white thin-regular'>{mood}</p>
@@ -206,7 +242,7 @@ function CravingsOptions({ selections, updateSelections }: {selections: selectio
   return cravings.map(craving => {
     return(
       <button type="button" key={craving} onClick={() => updateSelections("CRAVINGS", craving)} className='m-5 w-14 flex justify-content flex-col items-center'>
-        <div className={`${selections.CRAVINGS === craving ? 'selected-option' : 'bg-white light-opacity-bg'}` + ' rounded-full h-14 w-14 flex justify-center items-center'}>
+        <div className={`${selections.CRAVINGS === craving ? 'selected-option' : 'bg-white light-opacity-bg'} rounded-full h-14 w-14 flex justify-center items-center`}>
           <Image width={64} height={64} className='w-5/6 h-5/6' src={`/images/FormIcons/${craving}.png`} alt={craving} />
         </div>
         <p className='min-w-max text-white thin-regular'>{craving}</p>
